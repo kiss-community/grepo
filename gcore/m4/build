@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+# m4 cannot install for supported glibc version without this
+patch -p1 < m4-glibc.patch
+
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install

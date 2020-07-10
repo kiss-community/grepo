@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+# glibc wont build in main directory
+mkdir build
+cd build
+
+../configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
+
+rm "$1/var/db/Makefile"

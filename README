@@ -1,0 +1,3 @@
+The official glibc repository for kiss.
+
+GKISS Linux still requires the normal KISS Linux repository, however GKISS repos should always take priority in KISS_PATH.
