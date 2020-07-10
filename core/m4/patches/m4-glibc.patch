@@ -1,14 +1,7 @@
-update for glibc libio.h removal in 2.28+
-
-see
-https://src.fedoraproject.org/rpms/m4/c/814d592134fad36df757f9a61422d164ea2c6c9b?branch=master
-
-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/gnulib.git/commit/?id=4af4a4a718]
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-
-Index: m4-1.4.18/lib/fflush.c
-===================================================================--- m4-1.4.18.orig/lib/fflush.c
-+++ m4-1.4.18/lib/fflush.c
+diff --git a/../m4-1.4.18.orig/lib/fflush.c b/./lib/fflush.c
+index ef2a7f1..787790d 100644
+--- a/../m4-1.4.18.orig/lib/fflush.c
++++ b/./lib/fflush.c
 @@ -33,7 +33,7 @@
  #undef fflush
  
@@ -36,10 +29,10 @@ Index: m4-1.4.18/lib/fflush.c
  
    clear_ungetc_buffer_preserving_position (stream);
  
-Index: m4-1.4.18/lib/fpending.c
-===================================================================
---- m4-1.4.18.orig/lib/fpending.c
-+++ m4-1.4.18/lib/fpending.c
+diff --git a/../m4-1.4.18.orig/lib/fpending.c b/./lib/fpending.c
+index ce93604..9fe7ffb 100644
+--- a/../m4-1.4.18.orig/lib/fpending.c
++++ b/./lib/fpending.c
 @@ -32,7 +32,7 @@ __fpending (FILE *fp)
    /* Most systems provide FILE as a struct and the necessary bitmask in
       <stdio.h>, because they need it for implementing getc() and putc() as
@@ -49,10 +42,10 @@ Index: m4-1.4.18/lib/fpending.c
    return fp->_IO_write_ptr - fp->_IO_write_base;
  #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
    /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Android */
-Index: m4-1.4.18/lib/fpurge.c
-===================================================================
---- m4-1.4.18.orig/lib/fpurge.c
-+++ m4-1.4.18/lib/fpurge.c
+diff --git a/../m4-1.4.18.orig/lib/fpurge.c b/./lib/fpurge.c
+index 53ee68c..7cba3a3 100644
+--- a/../m4-1.4.18.orig/lib/fpurge.c
++++ b/./lib/fpurge.c
 @@ -62,7 +62,7 @@ fpurge (FILE *fp)
    /* Most systems provide FILE as a struct and the necessary bitmask in
       <stdio.h>, because they need it for implementing getc() and putc() as
@@ -62,10 +55,10 @@ Index: m4-1.4.18/lib/fpurge.c
    fp->_IO_read_end = fp->_IO_read_ptr;
    fp->_IO_write_ptr = fp->_IO_write_base;
    /* Avoid memory leak when there is an active ungetc buffer.  */
-Index: m4-1.4.18/lib/freadahead.c
-===================================================================
---- m4-1.4.18.orig/lib/freadahead.c
-+++ m4-1.4.18/lib/freadahead.c
+diff --git a/../m4-1.4.18.orig/lib/freadahead.c b/./lib/freadahead.c
+index cfc969b..5e43e13 100644
+--- a/../m4-1.4.18.orig/lib/freadahead.c
++++ b/./lib/freadahead.c
 @@ -25,7 +25,7 @@
  size_t
  freadahead (FILE *fp)
@@ -75,10 +68,10 @@ Index: m4-1.4.18/lib/freadahead.c
    if (fp->_IO_write_ptr > fp->_IO_write_base)
      return 0;
    return (fp->_IO_read_end - fp->_IO_read_ptr)
-Index: m4-1.4.18/lib/freading.c
-===================================================================
---- m4-1.4.18.orig/lib/freading.c
-+++ m4-1.4.18/lib/freading.c
+diff --git a/../m4-1.4.18.orig/lib/freading.c b/./lib/freading.c
+index 05cb0b8..f1da5b9 100644
+--- a/../m4-1.4.18.orig/lib/freading.c
++++ b/./lib/freading.c
 @@ -31,7 +31,7 @@ freading (FILE *fp)
    /* Most systems provide FILE as a struct and the necessary bitmask in
       <stdio.h>, because they need it for implementing getc() and putc() as
@@ -88,11 +81,11 @@ Index: m4-1.4.18/lib/freading.c
    return ((fp->_flags & _IO_NO_WRITES) != 0
            || ((fp->_flags & (_IO_NO_READS | _IO_CURRENTLY_PUTTING)) == 0
                && fp->_IO_read_base != NULL));
-Index: m4-1.4.18/lib/fseeko.c
-===================================================================
---- m4-1.4.18.orig/lib/fseeko.c
-+++ m4-1.4.18/lib/fseeko.c
-@@ -47,7 +47,7 @@ fseeko (FILE *fp, off_t offset, int when
+diff --git a/../m4-1.4.18.orig/lib/fseeko.c b/./lib/fseeko.c
+index 0c01c4f..0601619 100644
+--- a/../m4-1.4.18.orig/lib/fseeko.c
++++ b/./lib/fseeko.c
+@@ -47,7 +47,7 @@ fseeko (FILE *fp, off_t offset, int whence)
  #endif
  
    /* These tests are based on fpurge.c.  */
@@ -101,7 +94,7 @@ Index: m4-1.4.18/lib/fseeko.c
    if (fp->_IO_read_end == fp->_IO_read_ptr
        && fp->_IO_write_ptr == fp->_IO_write_base
        && fp->_IO_save_base == NULL)
-@@ -123,7 +123,7 @@ fseeko (FILE *fp, off_t offset, int when
+@@ -123,7 +123,7 @@ fseeko (FILE *fp, off_t offset, int whence)
            return -1;
          }
  
@@ -110,17 +103,16 @@ Index: m4-1.4.18/lib/fseeko.c
        fp->_flags &= ~_IO_EOF_SEEN;
        fp->_offset = pos;
  #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
-Index: m4-1.4.18/lib/stdio-impl.h
-===================================================================
---- m4-1.4.18.orig/lib/stdio-impl.h
-+++ m4-1.4.18/lib/stdio-impl.h
-@@ -18,6 +18,12 @@
+diff --git a/../m4-1.4.18.orig/lib/stdio-impl.h b/./lib/stdio-impl.h
+index 766d693..09d4051 100644
+--- a/../m4-1.4.18.orig/lib/stdio-impl.h
++++ b/./lib/stdio-impl.h
+@@ -18,6 +18,8 @@
     the same implementation of stdio extension API, except that some fields
     have different naming conventions, or their access requires some casts.  */
  
-+/* Glibc 2.28 made _IO_IN_BACKUP private.  For now, work around this
-+   problem by defining it ourselves.  FIXME: Do not rely on glibc
-+   internals.  */
-+#if !defined _IO_IN_BACKUP && defined _IO_EOF_SEEN
-+# define _IO_IN_BACKUP 0x100
-+#endif
++/* Fix needed for latest glibc versions */
++#define _IO_IN_BACKUP 0x100
+ 
+ /* BSD stdio derived implementations.  */
+ 
