@@ -1,3 +1,5 @@
 The official repository for GKISS Linux.
 
+For more information visit https://depsterr.com/gkiss
+
 GKISS Linux still requires the normal KISS Linux repository, however GKISS repos should always take priority in KISS_PATH.
