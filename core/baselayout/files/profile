@@ -1,0 +1,16 @@
+# /etc/profile
+#
+# System wide environment and startup programs.
+
+# Set default path (/usr/sbin:/sbin:/bin included for non-KISS Linux chroots).
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin
+
+# Set default umask.
+umask 022
+
+# Load profiles from /etc/profile.d
+for file in /etc/profile.d/*.sh; do
+    [ -r "$file" ] && . "$file"
+done
+
+unset file

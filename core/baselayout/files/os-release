@@ -1,0 +1,8 @@
+NAME="GNU KISS Linux"
+PRETTY_NAME="GNU KISS Linux"
+ID=gkiss
+BUILD_ID=rolling
+HOME_URL="https://depsterr.com/gkiss"
+DOCUMENTATION_URL="https://depsterr.com/gkiss"
+SUPPORT_URL="https://github.com/gkiss-linux"
+BUG_REPORT_URL="https://github.com/gkiss-linux"

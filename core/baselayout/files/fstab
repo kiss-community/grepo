@@ -1,0 +1,6 @@
+# Static information about the filesystems.
+# See fstab(5) for details.
+
+# <file system> <dir> <type> <options> <dump> <pass>
+
+tmpfs /tmp tmpfs defaults,nosuid,nodev 0 0
