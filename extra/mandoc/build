@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+patch -p1 < mandoc-no-warn.patch
+
+sed -i '/int dummy/d'         compat_err.c
+sed -i '/int dummy/d'         compat_getline.c
+sed -i 's,"more -s","less",g' main.c
+sed -i "s/CC=.*/CC='$CC'/"    configure
+
+cat > configure.local <<EOF
+PREFIX=/usr
+MANDIR=/usr/share/man
+LIBDIR=/usr/lib
+SBINDIR=/usr/bin
+CC="${CC:-cc}"
+CFLAGS="$CFLAGS"
+LN="ln -sf"
+EOF
+
+./configure
+
+make
+make -j1 DESTDIR="$1" base-install
