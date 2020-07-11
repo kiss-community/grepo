@@ -1,0 +1,12 @@
+
+name: Shellcheck
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: ludeeus/action-shellcheck@0.2.1
