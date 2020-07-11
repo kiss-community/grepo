@@ -1,0 +1,13 @@
+files/crypttab
+files/fstab
+files/group
+files/host.conf
+files/hosts
+files/issue
+files/mime.types
+files/os-release
+files/passwd
+files/profile
+files/securetty
+files/shadow
+files/shells

@@ -5,7 +5,8 @@ mkdir build
 cd build
 
 ../configure \
-    --prefix=/usr
+    --prefix=/usr \
+    --with-pthread
 
 make
 make DESTDIR="$1" install
