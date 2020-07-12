@@ -1,14 +1,23 @@
 #!/bin/sh -e
 
+# glibc wont build without optimization for some reason
+CFLAGS="${CFLAGS:--Os}"
+# glibc fails becuase of handling warnings as errors, to prevent this some warnings are disabled.
+export CFLAGS="$CFLAGS -Wno-zero-length-bounds -Wno-array-bounds"
+
+# locale script for generating locales as well as default en_US.UTF8 locale
+install -Dm755 ./locale-gen "$1/usr/bin/locale-gen"
+install -Dm644 ./locale.gen "$1/etc/locale.gen"
+
 # glibc wont build in main directory
 mkdir build
 cd build
 
 ../configure \
-    --prefix=/usr \
-    --with-pthread
+    --prefix=/usr
 
 make
 make DESTDIR="$1" install
 
 rm "$1/var/db/Makefile"
+
