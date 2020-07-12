@@ -15,6 +15,9 @@ for d in bin include lib share src; do
     install -dm 755 "$1/usr/$d"
 done
 
+# Setup locale directory
+install -dm 755 "$1/usr/bin/locale"
+
 # Setup manpages directories.
 for d in 1 2 3 4 5 6 7 8; do
     install -dm 755 "$1/usr/share/man/man$d"
