@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/local/jdk-14"
+mv \
+	bin \
+	conf \
+	include \
+	jmods \
+	legal \
+	lib \
+	release \
+	"$1/usr/local/jdk-14"
