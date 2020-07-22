@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+cat <<EOF
+
+NOTE: openjdk is installed into /usr/local/jdk-14,
+      you might want to add /usr/local/jdk-14/bin
+      to your PATH.
+
+EOF
