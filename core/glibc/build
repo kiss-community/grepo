@@ -2,30 +2,22 @@
 
 # glibc wont build without optimization for some reason
 CFLAGS="${CFLAGS:--Os}"
+# glibc fails becuase of handling warnings as errors, to prevent this some warnings are disabled.
+export CFLAGS="$CFLAGS -Wno-zero-length-bounds -Wno-array-bounds"
+
+# locale script for generating locales as well as default en_US.UTF8 locale
+install -Dm755 ./locale-gen "$1/usr/bin/locale-gen"
+install -Dm644 ./locale.gen "$1/etc/locale.gen"
 
 # glibc wont build in main directory
 mkdir build
 cd build
 
 ../configure \
-    --prefix=/usr \
-    --disable-werror
-
-# glibc fails becuase of handling warnings as errors, to prevent this some warnings are disabled.
+    --prefix=/usr
 
 make
 make DESTDIR="$1" install
 
-rm  "$1/var/db/Makefile" \
-    "$1/usr/bin/ldd" \
-    "$1/usr/bin/sotruss" \
-    "$1/usr/bin/xtrace"
+rm "$1/var/db/Makefile"
 
-# locale script for generating locales as well as default en_US.UTF8 locale
-install -Dm755 ../shalts/locale-gen "$1/usr/bin/locale-gen"
-install -Dm644 ../locale.gen "$1/etc/locale.gen"
-
-# replace bash scripts with posix sh ports
-install -Dm755 ../shalts/ldd "$1/usr/bin/ldd"
-install -Dm755 ../shalts/sotruss "$1/usr/bin/sotruss"
-install -Dm755 ../shalts/xtrace "$1/usr/bin/xtrace"
