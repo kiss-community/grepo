@@ -1,0 +1,7 @@
+#!/bin/sh
+
+printf 'The latest update to this repository adds the kiss linux
+repo as a git submodule. This means that you can now
+remove the kiss linux repo (/var/db/kiss/repo by default)
+from your machine. Remember to also fix your KISS_PATH
+'
