@@ -1,3 +1,4 @@
 [submodule "repo"]
 	path = repo
 	url = https://github.com/kisslinux/repo
+	branch = master
