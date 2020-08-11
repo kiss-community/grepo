@@ -4,4 +4,7 @@ printf 'The latest update to this repository adds the kiss linux
 repo as a git submodule. This means that you can now
 remove the kiss linux repo (/var/db/kiss/repo by default)
 from your machine. Remember to also fix your KISS_PATH
+
+If you installed GKISS after the 11th of august this year you may
+ignore this message.
 '
