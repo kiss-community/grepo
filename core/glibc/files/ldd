@@ -1,0 +1,141 @@
+#!/bin/sh
+# Copyright (C) 1996-2020 Free Software Foundation, Inc.
+# Copyright (C) 2020 depsterr <depsterr at protonmail dot com>
+# This file is part of the GNU C Library.
+
+# The GNU C Library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+
+# The GNU C Library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+
+# You should have received a copy of the GNU Lesser General Public
+# License along with the GNU C Library; if not, see
+# <https://www.gnu.org/licenses/>.
+
+# This script was ported from bash to POSIX sh by depsterr
+# <depsterr at protonmail dot com>
+
+# This script is meant to be fully compatible with the gnu ldd
+# version.
+
+# Multiple entries to make sure ldd implementation works on other
+# (64 bit) distros too.
+LD_LIST="/usr/lib/ld-linux-x86-64.so.2 /usr/lib/ld-linux.so.2
+/lib64/ld-linux-x86-64.so.2 /lib64/ld-linux.so.2
+/lib/ld-linux-x86-64.so.2 /lib/ld-linux.so.2"
+
+# This is the GNU version number. We copy the version number
+# for maximum compatibility.
+LDD_VERSION=2.31
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+    --vers*)
+        printf '%s\n' "$LDD_VERSION"
+        exit 0
+        ;;
+    --h*)
+        printf 'Usage: %s [OPTION]... FILE...
+    --help                    print this help and exit
+    --version                 print version information and exit
+    -d, --data-relocs         process data relocations
+    -r, --function-relocs     process data and function relocations
+    -u, --unused              print unused direct dependencies
+    -v, --verbose             print all information
+' "$0"
+        exit 0
+        ;;
+    -d*)
+        warn=yes
+        shift
+        ;;
+    -r | --f*)
+        warn=yes
+        bind_now=yes
+        shift
+        ;;
+    -v | --verb*)
+        verbose=yes
+        shift
+        ;;
+    -u | --u*)
+        unused=yes
+        shift
+        ;;
+    --)
+        shift; break
+        ;;
+    -*)
+        printf "%s: unrecognized option '%s'\nrun '%s --help' for more information.\n" "$0" "$1" "$0" >&2
+        exit 1
+        ;;
+    *)
+        break
+        ;;
+    esac
+done
+
+add_env="LD_TRACE_LOADED_OBJECTS=1 LD_WARN=$warn LD_BIND_NOW=$bind_now
+LD_LIBRARY_VERSION=\$verify_out LD_VERBOSE=$verbose"
+[ "$unused" = yes ] && add_env="$add_env LD_DEBUG=\"$LD_DEBUG${LD_DEBUG:+,}unused\""
+
+# shellcheck disable=2086
+[ -z "$1" ] && {
+    printf "%s: missing file arguments\nrun '%s --help' for more information.\n" "$0" "$0" >&2
+    exit 1
+}
+
+result=0
+# This is done on purpose.
+# shellcheck disable=2068
+for file in $@; do
+    printf '%s:\n' "$file"
+    [ "${file#/}" = "$file" ] && file="./$file"
+    if [ ! -e "$file" ]; then
+        printf "%s: %s: No such file or directory\n" "$0" "$file" >&2
+        result=1
+    elif [ ! -f "$file" ]; then
+        printf "%s: %s: not regular file\n" "$0" "$file" >&2
+        result=1
+    elif [ -r "$file" ]; then
+        ret=1
+        # Used in eval
+        # shellcheck disable=2034
+        for ld in $LD_LIST; do
+            [ -x "$ld" ] || continue
+            verify_out="$("$ld" --verify "$1")"
+            ret="$?"
+            case $ret in
+                0|2)
+                    LD="$ld"
+                    break
+                    ;;
+            esac
+        done
+        case "$ret" in
+            1)
+                printf "%s: error: '%s' is not a dynamic executable\n" "$0" "$file" >&2
+                result=1
+                ;;
+            0|2)
+                # This is done on purpose.
+                # shellcheck disable=2086
+                ( eval $add_env "$LD" "$file" ) || result=1    
+                ;;
+            *)
+                printf "%s: error %s exited with unknown exit code (%s)\n" "$0" "$LD" "$ret" >&2
+                exit 1
+                ;;
+        esac
+    else
+        printf "%s: error: you do not have read permission for '%s'\n" "$0" "$file" >&2
+        result=1
+    fi
+done
+
+exit "$result"
