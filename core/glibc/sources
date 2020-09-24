@@ -1,3 +1,5 @@
-https://ftp.gnu.org/gnu/libc/glibc-2.30.tar.xz
-https://github.com/gkiss-linux/sh-alternatives/releases/download/1.0/glibc.tar.xz sh-alternatives/
+https://ftp.gnu.org/gnu/libc/glibc-2.32.tar.xz
+files/ldd
+files/locale-gen
 files/locale.gen
+files/sotruss
