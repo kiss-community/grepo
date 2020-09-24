@@ -1,8 +1,0 @@
-#!/bin/sh
-
-printf '
-GKISS is now orphaned as I am no longer up to the task of maintaining it.
-
-Anyone willing to adopt GKISS may mail me at depsterr at protonmail dot com
-if someone is up to the task they may be made owner of the gkiss github
-organization.\n'
