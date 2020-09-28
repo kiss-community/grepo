@@ -31,7 +31,7 @@ LD_LIST="/usr/lib/ld-linux-x86-64.so.2 /usr/lib/ld-linux.so.2
 
 # This is the GNU version number. We copy the version number
 # for maximum compatibility.
-LDD_VERSION=2.31
+LDD_VERSION=2.32
 
 while [ $# -gt 0 ]; do
     case "$1" in
