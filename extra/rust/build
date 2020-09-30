@@ -15,10 +15,8 @@ done
     done
 }
 
-# 'rust' checksums files in 'vendor/', but we patch a few.
-for vendor in openssl-sys; do
-    sed -i 's/\("files":{\)[^}]*/\1/' "vendor/$vendor/.cargo-checksum.json"
-done
+# 'rust' checksums files in 'vendor/', but we patch one.
+sed -i 's/\("files":{\)[^}]*/\1/' "vendor/openssl-sys/.cargo-checksum.json"
 
 cat > config.toml <<EOF
 [llvm]
