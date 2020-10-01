@@ -1,11 +1,11 @@
 #!/bin/sh -e
 
-# glibc wont build without optimization for some reason
+# Build cannot happen without optimizations.
 CFLAGS="${CFLAGS:--Os}"
 
-# glibc wont build in main directory
-mkdir build
-cd build
+# Build must happen outside of glibc source.
+mkdir -p glibc-build
+cd glibc-build
 
 ../configure \
     --prefix=/usr \
@@ -19,10 +19,13 @@ rm  "$1/var/db/Makefile" \
     "$1/usr/bin/sotruss" \
     "$1/usr/bin/xtrace"
 
-# locale script for generating locales as well as default en_US.UTF8 locale
+# Setup locale directory
+install -dm 755 "$1/usr/lib/locale"
+
+# Install locale script for generating locales.
 install -Dm755 ../locale-gen "$1/usr/bin/locale-gen"
 install -Dm644 ../locale.gen "$1/etc/locale.gen"
 
-# replace bash scripts with posix sh ports
+# Replace bash scripts with POSIX sh ports.
 install -Dm755 ../ldd "$1/usr/bin/ldd"
 install -Dm755 ../sotruss "$1/usr/bin/sotruss"
