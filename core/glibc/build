@@ -19,7 +19,7 @@ rm  "$1/var/db/Makefile" \
     "$1/usr/bin/sotruss" \
     "$1/usr/bin/xtrace"
 
-# Setup locale directory
+# Setup locale directory.
 install -dm 755 "$1/usr/lib/locale"
 
 # Install locale script for generating locales.
