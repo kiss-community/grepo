@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-# m4 cannot install for supported glibc version without this
+export CFLAGS="$CFLAGS -static"
+
 patch -p1 < m4-glibc.patch
 
 ./configure \
