@@ -1,9 +1,4 @@
 #!/bin/sh
 
-cat <<EOF
-
-NOTE: Install the 'libvdpau' package for hardware acclerated video playback on NVIDIA graphics cards.
-
-EOF
 /usr/bin/depmod
 /usr/bin/ldconfig
