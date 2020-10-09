@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-version=450.80.02
+version=455.28
 
 sh NVIDIA-Linux-x86_64-$version.run --extract-only
 cd NVIDIA-Linux-x86_64-$version
