@@ -8,14 +8,14 @@ done
 # bootstrap library to allow for the removal of the internet
 # connection requirement per build.
 {
-    mkdir -p "${cache_dir:=build/cache/2020-08-03}"
+    mkdir -p "${cache_dir:=build/cache/2020-08-27}"
 
     for tarball in *.tar.xz\?no-extract; do
         mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"
     done
 }
 
-# 'rust' checksums files in 'vendor/', but we patch one.
+# 'rust' checksums files in 'vendor/', but we patch a file.
 sed -i 's/\("files":{\)[^}]*/\1/' "vendor/openssl-sys/.cargo-checksum.json"
 
 cat > config.toml <<EOF
