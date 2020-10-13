@@ -1,5 +1,3 @@
 https://ftp.gnu.org/gnu/libc/glibc-2.32.tar.xz
-files/ldd
-files/locale-gen
+https://github.com/gkisslinux/sh-alternatives/releases/download/2020.10.13/glibc.tar.xz
 files/locale.gen
-files/sotruss

@@ -27,5 +27,5 @@ install -Dm755 ../locale-gen "$1/usr/bin/locale-gen"
 install -Dm644 ../locale.gen "$1/etc/locale.gen"
 
 # Replace bash scripts with POSIX sh ports.
-install -Dm755 ../ldd "$1/usr/bin/ldd"
+install -Dm755 ../ldd     "$1/usr/bin/ldd"
 install -Dm755 ../sotruss "$1/usr/bin/sotruss"
