@@ -1,119 +1,112 @@
 #!/bin/sh -e
 
-version=455.28
+version=455.38
 
 sh NVIDIA-Linux-x86_64-$version.run --extract-only
 cd NVIDIA-Linux-x86_64-$version
 
 # X driver
-install -d "$1/usr/lib/xorg/modules/drivers"
-install -m755 nvidia_drv.so "$1/usr/lib/xorg/modules/drivers/"
+install -Dm755 nvidia_drv.so "$1/usr/lib/xorg/modules/drivers/nvidia_drv.so"
 
 # GLX extension module for X
-install -dm755 "$1/usr/lib/nvidia/xorg"
-install -m755 libglxserver_nvidia.so.$version "$1/usr/lib/nvidia/xorg/"
-# Ensure that X find GLX
-ln -s libglxserver_nvidia.so.$version "$1/usr/lib/nvidia/xorg/libglxserver_nvidia.so"
-ln -s libglxserver_nvidia.so.$version "$1/usr/lib/nvidia/xorg/libglxserver_nvidia.so.1"
+install -Dm755 "libglxserver_nvidia.so.$version" "$1/usr/lib/nvidia/xorg/libglxserver_nvidia.so.$version"
 
-# GLVND libraries
-install -m755 libGLX_nvidia.so.$version "$1/usr/lib/"
-install -m755 libEGL_nvidia.so.$version "$1/usr/lib/"
-ln -s libGLX_nvidia.so.$version         "$1/usr/lib/libGLX_nvidia.so.0"
-ln -s libEGL_nvidia.so.$version         "$1/usr/lib/libEGL_nvidia.so.0"
+# Ensure that X finds glx
+ln -s "libglxserver_nvidia.so.$version" "$1/usr/lib/nvidia/xorg/libglxserver_nvidia.so.1"
+ln -s "libglxserver_nvidia.so.$version" "$1/usr/lib/nvidia/xorg/libglxserver_nvidia.so"
 
-# OpenGL ES libraries
-install -d "$1/usr/lib"
-install -m755 libGLESv1_CM_nvidia.so.$version "$1/usr/lib/"
-install -m755 libGLESv2_nvidia.so.$version    "$1/usr/lib/"
-ln -s libGLESv1_CM_nvidia.so.$version "$1/usr/lib/libGLESv1_CM_nvidia.so.1"
-ln -s libGLESv2_nvidia.so.$version    "$1/usr/lib/libGLESv2_nvidia.so.2"
-install -Dm644 10_nvidia.json "$1/usr/share/glvnd/egl_vendor.d/10_nvidia.json"
+install -Dm755 "libGLX_nvidia.so.$version" "$1/usr/lib/libGLX_nvidia.so.$version"
+
+# OpenGL libraries
+install -Dm755 "libEGL_nvidia.so.$version"       "$1/usr/lib/libEGL_nvidia.so.$version"
+install -Dm755 "libGLESv1_CM_nvidia.so.$version" "$1/usr/lib/libGLESv1_CM_nvidia.so.$version"
+install -Dm755 "libGLESv2_nvidia.so.$version"    "$1/usr/lib/libGLESv2_nvidia.so.$version"
+install -Dm644 "10_nvidia.json"                  "$1/usr/share/glvnd/egl_vendor.d/10_nvidia.json"
+
+# OpenGL core library
+install -Dm755 "libnvidia-glcore.so.$version"  "$1/usr/lib/libnvidia-glcore.so.$version"
+install -Dm755 "libnvidia-eglcore.so.$version" "$1/usr/lib/libnvidia-eglcore.so.$version"
+install -Dm755 "libnvidia-glsi.so.$version"    "$1/usr/lib/libnvidia-glsi.so.$version"
+
+# misc
+install -Dm755 "libnvidia-ifr.so.$version"       "$1/usr/lib/libnvidia-ifr.so.$version"
+install -Dm755 "libnvidia-fbc.so.$version"       "$1/usr/lib/libnvidia-fbc.so.$version"
+install -Dm755 "libnvidia-encode.so.$version"    "$1/usr/lib/libnvidia-encode.so.$version"
+install -Dm755 "libnvidia-cfg.so.$version"       "$1/usr/lib/libnvidia-cfg.so.$version"
+install -Dm755 "libnvidia-ml.so.$version"        "$1/usr/lib/libnvidia-ml.so.$version"
+install -Dm755 "libnvidia-ngx.so.$version"       "$1/usr/lib/libnvidia-ngx.so.$version"
+install -Dm755 "libnvidia-glvkspirv.so.$version" "$1/usr/lib/libnvidia-glvkspirv.so.$version"
 
 # Vulkan ICD
-install -d "$1/etc/vulkan/icd.d"
-install -m644 nvidia_icd.json "$1/etc/vulkan/icd.d/"
+install -Dm644 "nvidia_icd.json"    "$1/usr/share/vulkan/icd.d/nvidia_icd.json"
+install -Dm644 "nvidia_layers.json" "$1/usr/share/vulkan/implicit_layer.d/nvidia_layers.json"
 
-# Driver component libraries
-install -m755 libnvidia-cfg.so.$version       "$1/usr/lib/"
-install -m755 libnvidia-compiler.so.$version  "$1/usr/lib/"
-install -m755 libnvidia-eglcore.so.$version   "$1/usr/lib/"
-install -m755 libnvidia-glcore.so.$version    "$1/usr/lib/"
-install -m755 libnvidia-glsi.so.$version      "$1/usr/lib/"
-install -m755 libnvidia-glvkspirv.so.$version "$1/usr/lib/"
-install -m755 libnvidia-rtcore.so.$version    "$1/usr/lib/"
-install -m755 libnvidia-cbl.so.$version       "$1/usr/lib/"
+# VDPAU
+install -Dm755 "libvdpau_nvidia.so.$version" "$1/usr/lib/vdpau/libvdpau_nvidia.so.$version"
+ln -s "libvdpau_nvidia.so.$version" "$1/usr/lib/vdpau/libvdpau_nvidia.so.1"
+ln -s "libvdpau_nvidia.so.$version" "$1/usr/lib/vdpau/libvdpau_nvidia.so"
 
-# VDPAU library
-install -Dm755 libvdpau_nvidia.so.$version "$1/usr/lib/vdpau/libvdpau_nvidia.so.$version"
-ln -s libvdpau_nvidia.so.$version "$1/usr/lib/vdpau/libvdpau_nvidia.so.1"
-ln -s libvdpau_nvidia.so.$version "$1/usr/lib/vdpau/libvdpau_nvidia.so"
+# nvidia-tls library
+install -Dm755 "libnvidia-tls.so.$version" "$1/usr/lib/libnvidia-tls.so.$version"
 
-# CUDA libraries
-install -m755 libcuda.so.$version "$1/usr/lib/"
-install -m755 libnvidia-ptxjitcompiler.so.$version "$1/usr/lib/"
-ln -s libcuda.so.$version "$1/usr/lib/libcuda.so"
-ln -s libcuda.so.$version "$1/usr/lib/libcuda.so.1"
-ln -s libnvidia-ptxjitcompiler.so.$version "$1/usr/lib/libnvidia-ptxjitcompiler.so"
-ln -s libnvidia-ptxjitcompiler.so.$version "$1/usr/lib/libnvidia-ptxjitcompiler.so.1"
+# CUDA
+install -Dm755 "libcuda.so.$version"    "$1/usr/lib/libcuda.so.$version"
+install -Dm755 "libnvcuvid.so.$version" "$1/usr/lib/libnvcuvid.so.$version"
 
-# OpenCL libraries
-install -m755 libOpenCL.so.1.0.0           "$1/usr/lib/"
-install -m755 libnvidia-opencl.so.$version "$1/usr/lib/"
-install -Dm644 nvidia.icd "$1/etc/OpenCL/vendors/nvidia.icd"
-ln -s libnvidia-opencl.so.$version "$1/usr/lib/libnvidia-opencl.so"
-ln -s libnvidia-opencl.so.$version "$1/usr/lib/libnvidia-opencl.so.1"
+# PTX JIT Compiler (Parallel Thread Execution (PTX) is a pseudo-assembly language for CUDA)
+install -Dm755 "libnvidia-ptxjitcompiler.so.$version" "$1/usr/lib/libnvidia-ptxjitcompiler.so.$version"
 
-# CUDA MPI applications
-install -d "$1/usr/bin"
-install -m755 nvidia-cuda-mps-control "$1/usr/bin/"
-install -m755 nvidia-cuda-mps-server  "$1/usr/bin/"
+# raytracing
+install -Dm755 "libnvoptix.so.$version"       "$1/usr/lib/libnvoptix.so.$version"
+install -Dm755 "libnvidia-rtcore.so.$version" "$1/usr/lib/libnvidia-rtcore.so.$version"
+install -Dm755 "libnvidia-cbl.so.$version"    "$1/usr/lib/libnvidia-cbl.so.$version"
 
-# TLS library
-install -m755 libnvidia-tls.so.$version "$1/usr/lib/"
+# Optical flow
+install -Dm755 "libnvidia-opticalflow.so.$version" "$1/usr/lib/libnvidia-opticalflow.so.$version"
 
-# Monitoring and management API library
-install -m755 libnvidia-ml.so.$version "$1/usr/lib/"
+# UI library for nvidia-settings
+install -Dm755 "libnvidia-gtk3.so.$version" "$1/usr/lib/libnvidia-gtk3.so.$version"
 
-# Applications
-install -m4755 nvidia-modprobe "$1/usr/bin/"
-for bin in persistenced settings smi xconfig; do
-    install -m755 nvidia-$bin "$1/usr/bin"
+# nvidia-xconfig
+install -Dm755 nvidia-xconfig      "$1/usr/bin/nvidia-xconfig"
+install -Dm644 nvidia-xconfig.1.gz "$1/usr/share/man/man1/nvidia-xconfig.1.gz"
+
+# nvidia-smi
+install -Dm755 nvidia-smi      "$1/usr/bin/nvidia-smi"
+install -Dm644 nvidia-smi.1.gz "$1/usr/share/man/man1/nvidia-smi.1.gz"
+
+# nvidia-cuda-mps
+install -Dm755 nvidia-cuda-mps-server       "$1/usr/bin/nvidia-cuda-mps-server"
+install -Dm755 nvidia-cuda-mps-control      "$1/usr/bin/nvidia-cuda-mps-control"
+install -Dm644 nvidia-cuda-mps-control.1.gz "$1/usr/share/man/man1/nvidia-cuda-mps-control.1.gz"
+
+# nvidia-modprobe
+install -Dm4755 nvidia-modprobe     "$1/usr/bin/nvidia-modprobe"
+install -Dm644 nvidia-modprobe.1.gz "$1/usr/share/man/man1/nvidia-modprobe.1.gz"
+
+# nvidia-persistenced
+install -Dm755 nvidia-persistenced      "$1/usr/bin/nvidia-persistenced"
+install -Dm644 nvidia-persistenced.1.gz "$1/usr/share/man/man1/nvidia-persistenced.1.gz"
+
+# nvidia-settings
+install -Dm755 nvidia-settings      "$1/usr/bin/nvidia-settings"
+install -Dm644 nvidia-settings.1.gz "$1/usr/share/man/man1/nvidia-settings.1.gz"
+
+# application profiles
+install -Dm644 nvidia-application-profiles-$version-rc \
+    "$1/usr/share/nvidia/nvidia-application-profiles-$version-rc"
+install -Dm644 nvidia-application-profiles-$version-key-documentation \
+    "$1/usr/share/nvidia/nvidia-application-profiles-$version-key-documentation"
+
+# create soname links
+for lib in "$1/usr/lib/"*.so*; do
+    soname=$(dirname "$lib")/$(readelf -d "$lib" | awk '/SONAME/ { print $5 }' | tr -d '[]')
+    base=$(echo "$soname" | sed -r 's/(.*).so.*/\1.so/')
+    [ -e "$soname" ] || ln -s "$(basename "$lib")" "$soname"
+    [ -e "$base" ] || ln -s "$(basename "$soname")" "$base"
 done
 
-# nvidia-settings UI library
-install -m755 libnvidia-gtk3.so.$version "$1/usr/lib/"
-
-# Encoding/decoding libraries
-install -m755 libnvcuvid.so.$version       "$1/usr/lib/"
-install -m755 libnvidia-encode.so.$version "$1/usr/lib/"
-install -m755 libnvidia-ifr.so.$version    "$1/usr/lib/"
-install -m755 libnvidia-fbc.so.$version    "$1/usr/lib/"
-
-# OptiX ray tracing engine
-install -m755 libnvoptix.so.$version "$1/usr/lib/"
-ln -s libnvoptix.so.$version "$1/usr/lib/libnvoptix.so"
-ln -s libnvoptix.so.$version "$1/usr/lib/libnvoptix.so.1"
-
-# Optical Flow library
-install -m755 libnvidia-opticalflow.so.$version "$1/usr/lib/"
-ln -s libnvidia-opticalflow.so.$version "$1/usr/lib/libnvidia-opticalflow.so"
-ln -s libnvidia-opticalflow.so.$version "$1/usr/lib/libnvidia-opticalflow.so.1"
-
-# NGX library
-install -m755 libnvidia-ngx.so.$version "$1/usr/lib/"
-ln -s libnvidia-ngx.so.$version "$1/usr/lib/libnvidia-ngx.so"
-ln -s libnvidia-ngx.so.$version "$1/usr/lib/libnvidia-ngx.so.1"
-
-# Application profiles
-install -dm755 "$1/usr/share/nvidia"
-install -m644 nvidia-application-profiles-$version-rc \
-    "$1/usr/share/nvidia/"
-install -m644 nvidia-application-profiles-$version-key-documentation \
-    "$1/usr/share/nvidia/"
-
-# Kernel modules
+# kernel modules
 cd kernel
-make module
-install -d "$1/lib/modules/$(uname -r)/extra"
-install -m644 ./*.ko "$1/lib/modules/$(uname -r)/extra/"
+make modules
+install -Dm644 ./*.ko -t "$1/usr/lib/modules/$(uname -r)/extra/"
