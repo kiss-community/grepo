@@ -1,2 +1,1 @@
-libressl
-linux-headers make
+../../kiss-repo/extra/wpa_supplicant/depends
