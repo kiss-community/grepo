@@ -9,11 +9,11 @@ cd NVIDIA-Linux-x86_64-$version
 install -Dm755 nvidia_drv.so "$1/usr/lib/xorg/modules/drivers/nvidia_drv.so"
 
 # GLX extension module for X
-install -Dm755 "libglxserver_nvidia.so.$version" "$1/usr/lib/nvidia/xorg/libglxserver_nvidia.so.$version"
+install -Dm755 "libglxserver_nvidia.so.$version" "$1/usr/lib/xorg/modules/extensions/libglxserver_nvidia.so.$version"
 
 # Ensure that X finds glx
-ln -s "libglxserver_nvidia.so.$version" "$1/usr/lib/nvidia/xorg/libglxserver_nvidia.so.1"
-ln -s "libglxserver_nvidia.so.$version" "$1/usr/lib/nvidia/xorg/libglxserver_nvidia.so"
+ln -s "libglxserver_nvidia.so.$version" "$1/usr/lib/xorg/modules/extensions/libglxserver_nvidia.so.1"
+ln -s "libglxserver_nvidia.so.$version" "$1/usr/lib/xorg/modules/extensions/libglxserver_nvidia.so"
 
 install -Dm755 "libGLX_nvidia.so.$version" "$1/usr/lib/libGLX_nvidia.so.$version"
 
