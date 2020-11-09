@@ -2,8 +2,8 @@
 
 version=455.38
 
-sh NVIDIA-Linux-x86_64-$version.run --extract-only
-cd NVIDIA-Linux-x86_64-$version
+sh NVIDIA-Linux-x86_64-$version-no-compat32.run --extract-only
+cd NVIDIA-Linux-x86_64-$version-no-compat32
 
 # X driver
 install -Dm755 nvidia_drv.so "$1/usr/lib/xorg/modules/drivers/nvidia_drv.so"
@@ -16,6 +16,11 @@ ln -s "libglxserver_nvidia.so.$version" "$1/usr/lib/xorg/modules/extensions/libg
 ln -s "libglxserver_nvidia.so.$version" "$1/usr/lib/xorg/modules/extensions/libglxserver_nvidia.so"
 
 install -Dm755 "libGLX_nvidia.so.$version" "$1/usr/lib/libGLX_nvidia.so.$version"
+
+# OpenCL
+install -Dm644 nvidia.icd "$1/etc/OpenCL/vendors/nvidia.icd"
+install -Dm755 "libnvidia-compiler.so.$version" "$1/usr/lib/libnvidia-compiler.so.$version"
+install -Dm755 "libnvidia-opencl.so.$version"   "$1/usr/lib/libnvidia-opencl.so.$version"
 
 # OpenGL libraries
 install -Dm755 "libEGL_nvidia.so.$version"       "$1/usr/lib/libEGL_nvidia.so.$version"
@@ -81,8 +86,8 @@ install -Dm755 nvidia-cuda-mps-control      "$1/usr/bin/nvidia-cuda-mps-control"
 install -Dm644 nvidia-cuda-mps-control.1.gz "$1/usr/share/man/man1/nvidia-cuda-mps-control.1.gz"
 
 # nvidia-modprobe
-install -Dm4755 nvidia-modprobe     "$1/usr/bin/nvidia-modprobe"
-install -Dm644 nvidia-modprobe.1.gz "$1/usr/share/man/man1/nvidia-modprobe.1.gz"
+install -Dm4755 nvidia-modprobe      "$1/usr/bin/nvidia-modprobe"
+install -Dm644  nvidia-modprobe.1.gz "$1/usr/share/man/man1/nvidia-modprobe.1.gz"
 
 # nvidia-persistenced
 install -Dm755 nvidia-persistenced      "$1/usr/bin/nvidia-persistenced"
@@ -91,6 +96,10 @@ install -Dm644 nvidia-persistenced.1.gz "$1/usr/share/man/man1/nvidia-persistenc
 # nvidia-settings
 install -Dm755 nvidia-settings      "$1/usr/bin/nvidia-settings"
 install -Dm644 nvidia-settings.1.gz "$1/usr/share/man/man1/nvidia-settings.1.gz"
+install -Dm644 nvidia-settings.png     "$1/usr/share/pixmaps/nvidia-settings.png"
+install -Dm644 nvidia-settings.desktop "$1/usr/share/applications/nvidia-settings.desktop"
+sed -e 's:__UTILS_PATH__:/usr/bin:' -e 's:__PIXMAP_PATH__:/usr/share/pixmaps:' -i \
+    "$1/usr/share/applications/nvidia-settings.desktop"
 
 # application profiles
 install -Dm644 nvidia-application-profiles-$version-rc \
