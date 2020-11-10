@@ -8,9 +8,4 @@ cat <<EOF
 NOTE: Run 'nvidia-xconfig' to generate an X configuration file.
 NOTE: The 'nvidia' package must be rebuilt after each kernel update.
 
-Tearing issues ?
-
--> Enable 'Force Composition Pipeline' in 'nvidia-settings'.
--> Set 'layers.acceleration.force-enabled' and optionally 'gfx.webrender.all' to 'True' in Firefox's 'about:config'.
-
 EOF
