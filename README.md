@@ -25,7 +25,7 @@ Regularly updated binaries are provided for the following packages:
 ```sh
 export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
 ```
-* The packages can now be installed by a simple `kiss b $PKG && kiss i $PKG`.
+* The packages can now be installed by a simple `kiss b $PKG && kiss i $PKG` command.
 
 ## NVIDIA
 
