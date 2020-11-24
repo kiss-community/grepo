@@ -12,7 +12,7 @@ Follow the steps mentioned on the [KISS Linux](https://k1ss.org/install) website
 ## NVIDIA
 
 * Install the nvidia drivers by building the `nvidia` package.
-* For kernel configuration, refer to the [Gentoo Wiki](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers#Kernel_compatibility). The `nouveau` kernel module must either be blacklisted or disabled in the kernel configuration.
+* For kernel configuration, refer to the [Gentoo Wiki](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers#Kernel_compatibility). The `nouveau` kernel module must either be blacklisted from loading or disabled in the kernel configuration.
 
 ### Screen Tearing
 * Enable `Force Composition Pipeline` in the `nvidia-settings` GUI and save the changes to `xorg.conf` by using the `Save to X Configuration File` option.
