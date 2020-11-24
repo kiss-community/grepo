@@ -9,6 +9,24 @@ Follow the steps mentioned on the [KISS Linux](https://k1ss.org/install) website
 * In order to rebuild `glibc`, the KISS [Community repository](https://github.com/kisslinux/community) needs to be enabled.
 * Additionally, enable the GKISS [Community repository](https://github.com/gkisslinux/gcommunity) along with the KISS one.
 
+## Binary Packages
+
+**NOTE:** This assumes that the user trusts the source of the binary packages. All binary packages are built in a GKISS chroot obtained from the releases page dedicated to building packages only.
+
+Regularly updated binaries are provided for the following packages:
+* Firefox
+* Firefox ESR
+* LLVM
+* Rust
+
+### Installing binaries
+
+* Modify `KISS_PATH` such that the `bin` repository takes priority over other repositories:
+```sh
+export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
+```
+* The packages can now be installed by a simple `kiss b $PKG && kiss i $PKG` command.
+
 ## NVIDIA
 
 * Install the nvidia drivers by building the `nvidia` package.
