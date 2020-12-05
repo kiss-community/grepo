@@ -11,6 +11,11 @@ cd glibc-build
     --prefix=/usr \
     --disable-werror
 
+printf "slibdir=/usr/lib\n" >> configparms
+printf "rtlddir=/usr/lib\n" >> configparms
+printf "sbindir=/usr/bin\n" >> configparms
+printf "rootsbindir=/usr/bin" >> configparms
+
 make
 make DESTDIR="$1" install
 
