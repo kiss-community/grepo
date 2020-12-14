@@ -9,6 +9,8 @@ cd glibc-build
 
 ../configure \
     --prefix=/usr \
+    --libdir=/usr/lib \
+    --libexecdir=/usr/lib \
     --disable-werror
 
 printf '%s\n' \
