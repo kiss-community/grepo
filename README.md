@@ -19,7 +19,7 @@ Regularly updated binaries are provided for the following packages:
 * LLVM
 * Rust
 
-Binaries for KISS (musl) -> [here](https://github.com/git-bruh/kiss-bins)
+Binaries for KISS (musl) -> [here](https://github.com/kiss-community/repo-bin)
 
 ### Installing binaries
 
@@ -40,4 +40,4 @@ export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
 
 ## Reporting Issues
 
-Any build failures/segfaults encountered with packages from the official KISS repositories (main/community) should be reported in the form of an issue on this repository.
+Any build failures/segfaults encountered with packages from GKISS/KISS repositories should be reported in the form of an issue on this repository.
