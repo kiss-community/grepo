@@ -48,6 +48,7 @@ install -Dm644 "nvidia_layers.json" "$1/usr/share/vulkan/implicit_layer.d/nvidia
 
 # VDPAU
 install -Dm755 "libvdpau_nvidia.so.$version" "$1/usr/lib/vdpau/libvdpau_nvidia.so.$version"
+
 ln -s "libvdpau_nvidia.so.$version" "$1/usr/lib/vdpau/libvdpau_nvidia.so.1"
 ln -s "libvdpau_nvidia.so.$version" "$1/usr/lib/vdpau/libvdpau_nvidia.so"
 
@@ -94,11 +95,11 @@ install -Dm755 nvidia-persistenced      "$1/usr/bin/nvidia-persistenced"
 install -Dm644 nvidia-persistenced.1.gz "$1/usr/share/man/man1/nvidia-persistenced.1.gz"
 
 # nvidia-settings
-install -Dm755 nvidia-settings      "$1/usr/bin/nvidia-settings"
-install -Dm644 nvidia-settings.1.gz "$1/usr/share/man/man1/nvidia-settings.1.gz"
+install -Dm755 nvidia-settings         "$1/usr/bin/nvidia-settings"
+install -Dm644 nvidia-settings.1.gz    "$1/usr/share/man/man1/nvidia-settings.1.gz"
 install -Dm644 nvidia-settings.png     "$1/usr/share/pixmaps/nvidia-settings.png"
 install -Dm644 nvidia-settings.desktop "$1/usr/share/applications/nvidia-settings.desktop"
-sed -e 's:__UTILS_PATH__:/usr/bin:' -e 's:__PIXMAP_PATH__:/usr/share/pixmaps:' -i \
+sed -e "s:__UTILS_PATH__:/usr/bin:" -e "s:__PIXMAP_PATH__:/usr/share/pixmaps:" -i \
     "$1/usr/share/applications/nvidia-settings.desktop"
 
 # application profiles
@@ -107,7 +108,7 @@ install -Dm644 nvidia-application-profiles-$version-rc \
 install -Dm644 nvidia-application-profiles-$version-key-documentation \
     "$1/usr/share/nvidia/nvidia-application-profiles-$version-key-documentation"
 
-# create soname links
+# soname links
 for lib in "$1/usr/lib/"*.so*; do
     soname=$(dirname "$lib")/$(readelf -d "$lib" | awk '/SONAME/ { print $5 }' | tr -d '[]')
     base=$(echo "$soname" | sed -r 's/(.*).so.*/\1.so/')
@@ -118,4 +119,4 @@ done
 # kernel modules
 cd kernel
 make modules
-install -Dm644 ./*.ko -t "$1/usr/lib/modules/$(uname -r)/extra/"
+install -Dm644 ./*.ko -t "$1/usr/lib/modules/${KERNEL_UNAME:-$(uname -r)}"

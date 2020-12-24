@@ -1,6 +1,6 @@
 #!/bin/sh
 
-/usr/bin/depmod
+/usr/bin/depmod "${KERNEL_UNAME:-$(uname -r)}"
 /usr/bin/ldconfig
 
 cat <<EOF
