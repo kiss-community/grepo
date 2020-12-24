@@ -33,6 +33,11 @@ export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
 
 * Install the nvidia drivers by building the `nvidia` package.
 * For kernel configuration, refer to the [Gentoo Wiki](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers#Kernel_compatibility). The `nouveau` kernel module must either be blacklisted from being loaded or disabled in the kernel configuration.
+* The kernel modules can also be built for a specific kernel by exporting the `KERNEL_UNAME` variable:
+```sh
+export KERNEL_UNAME=5.10.2 # Example
+kiss b nvidia && kiss i nvidia
+```
 
 ### Screen Tearing
 * Enable `Force Composition Pipeline` in the `nvidia-settings` GUI and save the changes to `xorg.conf` by using the `Save to X Configuration File` option.
