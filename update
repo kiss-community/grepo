@@ -1,0 +1,4 @@
+#!/bin/sh
+
+printf "The 'kiss-repo' submodule has temporarily been switched to kiss-community/repo-main due to inactivity on the official KISS repositores.\n"
+git submodule sync
