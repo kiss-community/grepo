@@ -15,7 +15,6 @@ Follow the steps mentioned on the [KISS Linux](https://k1ss.org/install) website
 
 Regularly updated binaries are provided for the following packages:
 * Firefox
-* Firefox ESR
 * LLVM
 * Rust
 
