@@ -36,6 +36,8 @@ export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
 ```sh
 export KERNEL_UNAME=5.10.2 # Example
 kiss b nvidia && kiss i nvidia
+# Environment variables can't be used in `post-install` ?
+depmod "$KERNEL_UNAME"
 ```
 
 ### Screen Tearing
