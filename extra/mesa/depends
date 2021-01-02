@@ -9,7 +9,7 @@ libXrender
 libXxf86vm
 libdrm
 libelf
-libglvnd      make
+libglvnd
 libxcb
 libxshmfence
 linux-headers make
