@@ -119,4 +119,4 @@ done
 # kernel modules
 cd kernel
 make modules
-install -Dm644 ./*.ko -t "$1/usr/lib/modules/${KERNEL_UNAME:-$(uname -r)}"
+install -Dm644 ./*.ko -t "$1/usr/lib/modules/${KERNEL_UNAME:-$(uname -r)}/extra"

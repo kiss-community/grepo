@@ -1,11 +1,11 @@
 #!/bin/sh
 
-/usr/bin/depmod "${KERNEL_UNAME:-$(uname -r)}"
+/usr/bin/depmod
 /usr/bin/ldconfig
 
 cat <<EOF
 
+NOTE: If 'KERNEL_UNAME' was exported, it is necessary to run 'depmod \$KERNEL_UNAME' manually.
 NOTE: Run 'nvidia-xconfig' to generate an X configuration file.
-NOTE: The 'nvidia' package must be rebuilt after each kernel update.
 
 EOF
