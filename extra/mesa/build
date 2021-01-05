@@ -42,7 +42,7 @@ meson \
     --buildtype=release \
     -Dplatforms=x11 \
     -Dzstd=disabled \
-    -Dglvnd=enabled \
+    -Dglvnd=true \
     . output
 
 ninja -C output
