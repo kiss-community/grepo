@@ -1,5 +1,7 @@
 # GKISS Linux 🐂
 
+![Downloads](https://img.shields.io/github/downloads/gkisslinux/grepo/latest/gkiss-chroot-2020.10.13.tar.xz)
+
 ## Installation
 
 Follow the steps mentioned on the [KISS Linux](https://k1ss.org/install) website, making a few changes:
