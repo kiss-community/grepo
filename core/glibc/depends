@@ -1,4 +1,3 @@
 gawk          make
-gnugrep       make
 linux-headers make
 python        make

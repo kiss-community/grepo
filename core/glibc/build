@@ -28,13 +28,9 @@ rm  "$1/var/db/Makefile" \
     "$1/usr/bin/xtrace" \
     "$1/usr/bin/tzselect"
 
-# Setup locale directory.
 install -dm 755 "$1/usr/lib/locale"
+printf "en_US.UTF8 UTF-8\n" > "$1/etc/locale.gen"
 
-# Install locale script for generating locales.
-:> "$1/etc/locale.gen"
-install -Dm755 ../locale-gen "$1/usr/bin/locale-gen"
-
-# Replace bash scripts with POSIX sh ports.
-install -Dm755 ../ldd     "$1/usr/bin/ldd"
-install -Dm755 ../sotruss "$1/usr/bin/sotruss"
+for script in ldd locale-gen sotruss; do
+    install -Dm755 "../glibc/$script" "$1/usr/bin/$script"
+done
