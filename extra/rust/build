@@ -6,7 +6,7 @@ patch -p1 < libressl.patch
 # bootstrap library to allow for the removal of the internet
 # connection requirement per build.
 {
-    mkdir -p "${cache_dir:=build/cache/2020-11-19}"
+    mkdir -p "${cache_dir:=build/cache/2020-12-31}"
 
     for tarball in *.tar.xz\?no-extract; do
         mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"
@@ -15,6 +15,11 @@ patch -p1 < libressl.patch
 
 # We modified this crate.
 sed -i 's/\("files":{\)[^}]*/\1/' "vendor/openssl-sys/.cargo-checksum.json"
+
+# Move credential helpers to /usr/lib.
+sed -i 's/libexec/lib/g' \
+    src/bootstrap/dist.rs \
+    src/tools/cargo/src/cargo/ops/registry/auth.rs
 
 cat > config.toml <<EOF
 [llvm]
