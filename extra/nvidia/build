@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-version=460.39
+version=460.56
 
 sh NVIDIA-Linux-x86_64-$version-no-compat32.run --extract-only
 cd NVIDIA-Linux-x86_64-$version-no-compat32
