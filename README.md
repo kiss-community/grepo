@@ -4,11 +4,11 @@
 
 ## Installation
 
-Follow the steps mentioned on the [KISS Linux](https://k1ss.org/install) website, making a few changes:
+Follow the steps mentioned on the [KISS Linux](https://k1sslinux.org/install) website, making a few changes:
 
 * Download the latest GKISS tarball from https://github.com/gkisslinux/grepo/releases instead of the KISS tarball.
 * Generate locales by running `locale-gen` as root after modifying the `/etc/locale.gen` file with the appropriate locales (Such as `en_US.UTF8 UTF-8`). Refer to the [Arch Wiki](https://wiki.archlinux.org/index.php/Locale).
-* In order to rebuild `glibc`, the KISS [Community repository](https://github.com/kisslinux/community) needs to be enabled.
+* In order to rebuild `glibc`, the KISS [Community repository](https://github.com/kiss-community/repo-community) needs to be enabled.
 * Additionally, enable the GKISS [Community repository](https://github.com/gkisslinux/gcommunity) along with the KISS one.
 
 ## Binary Packages
