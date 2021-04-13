@@ -13,7 +13,7 @@ cd glibc-build
     --libexecdir=/usr/lib \
     --disable-werror
 
-printf '%s\n' \
+printf "%s\n" \
     "slibdir=/usr/lib" \
     "rtlddir=/usr/lib" \
     "sbindir=/usr/bin" \
