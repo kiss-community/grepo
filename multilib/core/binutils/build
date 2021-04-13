@@ -1,0 +1,31 @@
+#!/bin/sh -e
+
+cat > makeinfo <<EOF
+#!/bin/sh
+printf 'makeinfo (GNU texinfo) 5.2\n'
+EOF
+
+chmod +x makeinfo
+export PATH=$PATH:$PWD
+
+./configure \
+    --prefix=/usr \
+    --with-lib-path=/usr/lib:/usr/local/lib \
+    --enable-targets=x86_64-linux-gnu \
+    --enable-deterministic-archives \
+    --disable-gold \
+    --enable-lto \
+    --enable-ld=default \
+    --enable-plugins \
+    --enable-multilib \
+    --disable-werror \
+    --disable-gdb \
+    --disable-nls \
+    --disable-readline \
+    --disable-gprof \
+    --with-mmap \
+    --with-system-zlib
+
+make configure-host
+make tooldir=/usr
+make DESTDIR="$1" tooldir=/usr install

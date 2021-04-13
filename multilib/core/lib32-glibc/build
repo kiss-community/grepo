@@ -1,0 +1,36 @@
+#!/bin/sh -e
+
+# Build cannot happen without optimizations.
+CFLAGS="${CFLAGS:--Os}"
+
+# Build must happen outside of glibc source.
+mkdir -p glibc-build
+cd glibc-build
+
+../configure \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --libexecdir=/usr/lib32 \
+    --host=i686-pc-linux-gnu \
+    --disable-werror
+
+printf "%s\n" \
+    "slibdir=/usr/lib32" \
+    "rtlddir=/usr/lib32" \
+    "sbindir=/usr/bin" \
+    "rootsbindir=/usr/bin" > configparms
+
+make
+make DESTDIR="$1" install
+
+install -d "$1/usr/lib"
+
+for dir in etc usr/bin usr/share; do
+    rm -rf "$1/$dir"
+done
+
+# Keep only 32-bit header files.
+find "$1/usr/include" -type f ! -name "*-32.h" -exec rm -f {} +
+
+ln -s ../lib32/ld-linux.so.2 "$1/usr/lib/"
+ln -s ../lib/locale "$1/usr/lib32/locale"

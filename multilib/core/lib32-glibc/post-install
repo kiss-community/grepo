@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+grep -qFw /usr/lib32 /etc/ld.so.conf ||
+    printf /usr/lib32\\n >> /etc/ld.so.conf
+
+/usr/bin/ldconfig
