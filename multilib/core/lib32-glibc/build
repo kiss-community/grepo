@@ -26,7 +26,7 @@ make DESTDIR="$1" install
 install -d "$1/usr/lib"
 
 for dir in etc usr/bin usr/share; do
-    rm -rf "$1/$dir"
+    rm -rf "${1:?}/$dir"
 done
 
 # Keep only 32-bit header files.
