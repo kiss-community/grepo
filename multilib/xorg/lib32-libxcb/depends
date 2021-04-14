@@ -1,0 +1,6 @@
+lib32-libXau
+libxcb
+pkgconf make
+python  make
+xcb-proto
+xorg-util-macros

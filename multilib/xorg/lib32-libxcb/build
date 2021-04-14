@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+sed -i 's/pthread-stubs //' configure
+
+./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib32
+
+make
+make DESTDIR="$1" install
