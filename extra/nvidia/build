@@ -2,8 +2,8 @@
 
 version=460.67
 
-sh NVIDIA-Linux-x86_64-$version-no-compat32.run --extract-only
-cd NVIDIA-Linux-x86_64-$version-no-compat32
+sh NVIDIA-Linux-x86_64-$version.run --extract-only
+cd NVIDIA-Linux-x86_64-$version
 
 # X driver
 install -Dm755 nvidia_drv.so "$1/usr/lib/xorg/modules/drivers/nvidia_drv.so"
