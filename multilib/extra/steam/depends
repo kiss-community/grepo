@@ -1,6 +1,4 @@
 bash
 dbus
 lib32-libX11
-lib32-libXext
 lib32-libdrm
-lib32-nvidia

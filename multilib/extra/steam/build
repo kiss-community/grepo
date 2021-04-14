@@ -5,7 +5,5 @@ sed -i 's/-e -q/-f/g' bin_steam.sh
 
 make DESTDIR="$1" install
 
-cat > "$1/usr/lib/steam/bin_steamdeps.py" << EOF
-#!/bin/sh
-return 0
-EOF
+rm -f "$1/usr/bin/steamdeps"
+rm -f "$1/usr/lib/steam/bin_steamdeps.py"
