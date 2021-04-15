@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --with-shared-memory-dir=/dev/shm
+
+make
+make DESTDIR="$1" install

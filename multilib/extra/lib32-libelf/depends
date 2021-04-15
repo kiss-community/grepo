@@ -1,0 +1,3 @@
+pkgconf make
+lib32-zlib
+libelf

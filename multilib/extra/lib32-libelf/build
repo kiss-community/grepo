@@ -1,0 +1,28 @@
+#!/bin/sh -e
+
+# Build sometimes forces -Werror.
+export CFLAGS="$CFLAGS -Wno-error"
+
+# Disable configure error for missing argp, fts, and obstack.
+sed -i -e 's/as_fn_error.*argp/: "/g' \
+       -e 's/as_fn_error.*fts/: "/g' \
+       -e 's/as_fn_error.*obstack/: "/g' configure
+
+# Don't compile two unrelated C files which require argp.
+sed -i 's/color.*printversion../#/g' lib/Makefile.in
+
+./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --disable-symbol-versioning \
+    --disable-debuginfod \
+    --disable-nls \
+    ac_cv_c99=yes # Override check for Clang.
+
+# Skip the default make target and build only what we need.
+make -C lib
+make -C libelf
+make -C libelf DESTDIR="$1" install
+
+mkdir -p "$1/usr/lib32/pkgconfig"
+cp -f config/libelf.pc "$1/usr/lib32/pkgconfig/libelf.pc"
