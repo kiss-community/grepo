@@ -1,4 +1,4 @@
 cmake  make
-python make
 lib32-zlib
 llvm
+python make
