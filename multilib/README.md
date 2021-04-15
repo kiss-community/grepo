@@ -21,9 +21,9 @@ for pkg in binutils gcc lib32-glibc; do
 done
 ```
 
-**NOTE:** The `bin` repository must be used for the first time since a multilib toolchain cannot be built from a pure 64-bit toolchain. If desired, the toolchain can be built by first replacing the KISS toolchain with Arch's multilib toolchain, and then rebuilding the KISS toolchain.
-
 * In order to run graphical applications, one of either `lib32-nvidia` or `lib32-mesa` must be installed, depending upon the graphics card present in the system.
+
+**NOTE:** The `bin` repository must be used for the first time since a multilib toolchain cannot be built from a pure 64-bit toolchain. If desired, the toolchain can be built by first replacing the KISS toolchain with Arch's multilib toolchain, and then rebuilding the KISS toolchain.
 
 **NOTE:** The `lib32-llvm` package is enough to build `lib32-mesa`, but _CANNOT_ be used to build a `clang` that generates 32-bit binaries.
 
