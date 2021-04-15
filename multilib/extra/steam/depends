@@ -1,4 +1,4 @@
 bash
-dbus
 lib32-libX11
 lib32-libdrm
+libdbus-stub
