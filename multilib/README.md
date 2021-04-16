@@ -56,6 +56,7 @@ case "$TYPE" in
         # Default package manager hook.
         rm -rf "$3/usr/share/gettext" \
                "$3/usr/share/polkit-1" \
+               "$3/usr/share/locale" \
                "$3/usr/share/info"
     ;;
 esac
