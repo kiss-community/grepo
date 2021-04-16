@@ -18,6 +18,16 @@ KISS_PATH="$KISS_PATH:/path/to/grepo/multilib/extra"
 KISS_PATH="$KISS_PATH:/path/to/grepo/multilib/xorg"
 ```
 
+* Create a few symlinks to use the existing sources for 32-bit packages:
+```
+cd "${XDG_CACHE_HOME:-"${HOME:?HOME is null}/.cache"}/kiss"
+
+for pkg in $(kiss search "lib32-*"); do
+    pkg="$(basename "$pkg")"
+    ln -sf "${pkg#lib32-}" "$pkg"
+done
+```
+
 * Set up a `KISS_HOOK` to remove unwanted stuff from 32-bit packages:
 ```
 #!/bin/sh -e
