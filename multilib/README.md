@@ -19,7 +19,7 @@ KISS_PATH="$KISS_PATH:/path/to/grepo/multilib/xorg"
 ```
 
 * Create a few symlinks to use the existing sources for 32-bit packages:
-```
+```sh
 cd "${XDG_CACHE_HOME:-"${HOME:?HOME is null}/.cache"}/kiss"
 
 for pkg in $(kiss search "lib32-*"); do
@@ -29,7 +29,7 @@ done
 ```
 
 * Set up a `KISS_HOOK` to remove unwanted stuff from 32-bit packages:
-```
+```sh
 #!/bin/sh -e
 
 case "$TYPE" in
@@ -95,4 +95,11 @@ kiss b steam && kiss i steam
 ```sh
 cd /etc/ssl/certs
 ln -sf ../cert.pem ca-certificates.crt
+```
+
+* Since `steam` uses a _LOT_ of non-standard `tar` options, `/usr/bin/tar` must be switch to `gtar` for the initial setup aswell as future updates:
+
+```sh
+kiss b gtar && kiss i gtar
+kiss a gtar /usr/bin/tar
 ```
