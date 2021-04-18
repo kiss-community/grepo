@@ -22,7 +22,7 @@ KISS_PATH="$KISS_PATH:/path/to/grepo/multilib/xorg"
 ```sh
 cd "${XDG_CACHE_HOME:-"${HOME:?HOME is null}/.cache"}/kiss"
 
-for pkg in $(kiss search "lib32-*"); do
+for pkg in $(kiss search "lib32-*" | grep multilib); do
     pkg="$(basename "$pkg")"
     ln -sf "${pkg#lib32-}" "$pkg"
 done
@@ -97,7 +97,7 @@ cd /etc/ssl/certs
 ln -sf ../cert.pem ca-certificates.crt
 ```
 
-* Since `steam` uses a _LOT_ of non-standard `tar` options, `/usr/bin/tar` must be switch to `gtar` for the initial setup aswell as future updates:
+* Since `steam` uses a _LOT_ of non-standard `tar` options, `/usr/bin/tar` must be switched to `gtar` during the initial setup and future updates:
 
 ```sh
 kiss b gtar && kiss i gtar
