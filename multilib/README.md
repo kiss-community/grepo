@@ -55,6 +55,7 @@ case "$TYPE" in
         export PKG_CONFIG_PATH="$_PKG_CONFIG_PATH"
 
         case "$PKG" in
+            lib32-glibc) ;;
             lib32-*)
                 rm -rf "$3/etc" \
                        "$3/usr/bin" \
