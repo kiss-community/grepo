@@ -25,7 +25,7 @@ make DESTDIR="$1" install
 
 install -d "$1/usr/lib"
 
-for dir in etc usr/bin usr/share; do
+for dir in etc usr/bin usr/share var; do
     rm -rf "${1:?}/$dir"
 done
 
