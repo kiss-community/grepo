@@ -28,52 +28,9 @@ for pkg in $(kiss search "lib32-*" | grep multilib); do
 done
 ```
 
-* Set up a `KISS_HOOK` to remove unwanted stuff from 32-bit packages:
-```sh
-#!/bin/sh -e
+* Set a `KISS_HOOK` to remove unwanted stuff from 32-bit packages:
 
-case "$TYPE" in
-    pre-build)
-        export _CC="${CC:-cc}"
-        export _CXX="${CXX:-c++}"
-        export _PKG_CONFIG_PATH="$PKG_CONFIG_PATH"
-
-        case "$PKG" in
-            lib32-*)
-                export CC="gcc -m32"
-                export CXX="g++ -m32"
-                export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-            ;;
-        esac
-    ;;
-
-    post-build)
-        : "${DEST:?DEST is unset}"
-
-        export CC="$_CC"
-        export CXX="$_CXX"
-        export PKG_CONFIG_PATH="$_PKG_CONFIG_PATH"
-
-        case "$PKG" in
-            lib32-glibc) ;;
-            lib32-*)
-                rm -rf "$3/etc" \
-                       "$3/usr/bin" \
-                       "$3/usr/include" \
-                       "$3/usr/share"
-            ;;
-        esac
-
-        # Default package manager hook.
-        rm -rf "$3/usr/share/gettext" \
-               "$3/usr/share/polkit-1" \
-               "$3/usr/share/locale" \
-               "$3/usr/share/info"
-    ;;
-esac
-```
-
-`export KISS_HOOK=/path/to/hook`
+`export KISS_HOOK=/path/to/grepo/multilib/kiss-hook`
 
 * In order to run graphical applications, one of either `lib32-nvidia` or `lib32-mesa` must be installed, depending upon the graphics card present in the system.
 
@@ -104,3 +61,7 @@ ln -sf ../cert.pem ca-certificates.crt
 kiss b gtar && kiss i gtar
 kiss a gtar /usr/bin/tar
 ```
+
+* Some games require `pulseaudio`:
+
+`kiss b pulseaudio && kiss i pulseaudio # From 'gcommunity'`
