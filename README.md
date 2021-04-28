@@ -1,6 +1,6 @@
 # GKISS Linux 🐂
 
-![Downloads](https://img.shields.io/github/downloads/gkisslinux/grepo/latest/gkiss-chroot-2020.10.13.tar.xz)
+![Downloads](https://img.shields.io/github/downloads/gkisslinux/grepo/latest/gkiss-chroot-2021.04.28.tar.xz)
 
 ## Installation
 
