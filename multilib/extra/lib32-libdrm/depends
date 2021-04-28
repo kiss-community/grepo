@@ -1,5 +1,0 @@
-lib32-libpciaccess
-libdrm
-linux-headers make
-meson         make
-pkgconf       make

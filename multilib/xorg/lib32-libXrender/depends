@@ -1,4 +1,0 @@
-lib32-libXext   make
-libXrender
-pkgconf         make
-xorgproto       make

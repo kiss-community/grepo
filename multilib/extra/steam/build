@@ -1,9 +1,0 @@
-#!/bin/sh -e
-
-# Make readlink command work with non-GNU coreutils.
-sed -i 's/-e -q/-f/g' bin_steam.sh
-
-make DESTDIR="$1" install
-
-rm -f "$1/usr/bin/steamdeps"
-rm -f "$1/usr/lib/steam/bin_steamdeps.py"

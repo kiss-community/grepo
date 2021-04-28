@@ -1,4 +1,0 @@
-lib32-libX11
-lib32-libXext
-libglvnd
-meson make

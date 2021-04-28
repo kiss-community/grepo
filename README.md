@@ -9,10 +9,7 @@ Follow the steps mentioned on the [KISS Linux](https://k1sslinux.org/install) we
 * Download the latest GKISS tarball from https://github.com/gkisslinux/grepo/releases instead of the KISS tarball.
 * In order to rebuild `glibc`, the KISS [Community repository](https://github.com/kiss-community/repo-community) needs to be enabled.
 * Generate locales by running `locale-gen` as root after modifying the `/etc/locale.gen` file with the appropriate locales (Such as `en_US.UTF8 UTF-8`). Refer to the [Arch Wiki](https://wiki.archlinux.org/index.php/Locale).
-
-#### Optional
-* Enable the GKISS [Community repository](https://github.com/gkisslinux/gcommunity) for software like `dbus` and `pulseaudio`.
-* Enable the [Multilib repository](https://github.com/gkisslinux/grepo/tree/master/multilib) to run programs like `steam` and `wine`.
+* Optionally, enable the GKISS [Community repository](https://github.com/gkisslinux/gcommunity) for software like `dbus` and `pulseaudio`.
 
 ## Binary Packages
 

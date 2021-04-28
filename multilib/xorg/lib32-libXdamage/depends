@@ -1,5 +1,0 @@
-lib32-libX11
-lib32-libXfixes
-libXdamage
-pkgconf   make
-xorgproto make

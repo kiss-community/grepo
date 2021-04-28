@@ -1,6 +1,0 @@
-lib32-libXau
-lib32-libxcb
-libX11
-pkgconf make
-xorgproto
-xtrans  make
