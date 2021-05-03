@@ -2,8 +2,8 @@
 
 version="$2"
 
-sh NVIDIA-Linux-x86_64-$version.run --extract-only
-cd NVIDIA-Linux-x86_64-$version
+sh "NVIDIA-Linux-x86_64-$version-no-compat32.run" --extract-only
+cd "NVIDIA-Linux-x86_64-$version-no-compat32"
 
 # X driver
 install -Dm755 nvidia_drv.so "$1/usr/lib/xorg/modules/drivers/nvidia_drv.so"
@@ -103,9 +103,9 @@ sed -e "s:__UTILS_PATH__:/usr/bin:" -e "s:__PIXMAP_PATH__:/usr/share/pixmaps:" -
     "$1/usr/share/applications/nvidia-settings.desktop"
 
 # application profiles
-install -Dm644 nvidia-application-profiles-$version-rc \
+install -Dm644 "nvidia-application-profiles-$version-rc" \
     "$1/usr/share/nvidia/nvidia-application-profiles-$version-rc"
-install -Dm644 nvidia-application-profiles-$version-key-documentation \
+install -Dm644 "nvidia-application-profiles-$version-key-documentation" \
     "$1/usr/share/nvidia/nvidia-application-profiles-$version-key-documentation"
 
 # soname links
