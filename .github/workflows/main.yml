@@ -11,4 +11,5 @@ jobs:
     - uses: actions/checkout@v1
     - name: Run shellcheck.
       run: |
-        find . \( -name "build" -o -name "post-install" \) -exec shellcheck {} \;
+        shopt -s nullglob
+        shellcheck */*/build */*/post-install
