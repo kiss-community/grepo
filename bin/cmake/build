@@ -1,4 +1,3 @@
 #!/bin/sh -e
 
-cp -r etc "$1/etc"
 cp -r usr "$1/usr"

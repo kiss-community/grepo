@@ -13,9 +13,10 @@ Follow the steps mentioned on the [KISS Linux](https://k1sslinux.org/install) we
 
 ## Binary Packages
 
-**NOTE:** This assumes that the user trusts the source of the binary packages. All binary packages are built in a GKISS chroot obtained from the releases page dedicated to building packages only.
+**NOTE:** This assumes that the user trusts the source of the binary packages. All binary packages are built in a GKISS chroot obtained from the releases page dedicated to building packages only. The packages are built with the build flags found in the [kissLTO](https://github.com/git-bruh/kissLTO) repo with the exception of `-march=native` and `-mtune=native`.
 
 Regularly updated binaries are provided for the following packages:
+* CMake
 * Firefox
 * LLVM
 * Rust
