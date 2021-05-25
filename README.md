@@ -34,12 +34,12 @@ export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
 ## NVIDIA
 
 * Install the nvidia drivers by building the `nvidia` package.
-* For kernel configuration, refer to the [Gentoo Wiki](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers#Kernel_compatibility). The `nouveau` kernel module must either be blacklisted from being loaded or disabled in the kernel configuration.
+* For kernel configuration, refer to the [Gentoo Wiki](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers#Kernel_compatibility). The `nouveau` kernel module must either be blacklisted from being loaded or disabled in the kernel configuration. The NVIDIA module can be loaded by running `modprobe nvidia-drm modeset=1` as root.
 * The kernel modules can also be built for a specific kernel by exporting the `KERNEL_UNAME` variable:
 ```sh
 export KERNEL_UNAME=5.10.2 # Example
 kiss b nvidia && kiss i nvidia
-# Environment variables can't be used in `post-install` ?
+# Environment variables can't be used in `post-install`.
 depmod "$KERNEL_UNAME"
 ```
 
