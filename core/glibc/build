@@ -11,7 +11,8 @@ cd glibc-build
     --prefix=/usr \
     --libdir=/usr/lib \
     --libexecdir=/usr/lib \
-    --disable-werror
+    --disable-werror \
+    libc_cv_include_x86_isa_level=no
 
 printf "%s\n" \
     "slibdir=/usr/lib" \
