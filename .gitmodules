@@ -1,3 +1,4 @@
-[submodule "repo"]
+[submodule "kiss-repo"]
 	path = kiss-repo
-	url = https://github.com/kiss-community/repo-main
+	url = https://github.com/kisslinux/repo.git
+	ignore = all
