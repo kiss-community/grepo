@@ -1,12 +1,16 @@
 #!/bin/sh -e
 
+patch -p1 < firefox-fix.patch
+
 # Make sure gmp is built with generic options.
 cp gcc/gmp/configfsf.guess gcc/gmp/config.guess
 cp gcc/gmp/configfsf.sub   gcc/gmp/config.sub
 
 # Use lib not lib64 by default.
-sed -i '/m64=/s/lib64/lib/' gcc/gcc/config/i386/t-linux64
-sed -i 's/lib64/lib/'       gcc/gcc/config/i386/linux64.h
+sed '/m64=/s/lib64/lib/' gcc/gcc/config/i386/t-linux64 > _
+mv -f _ gcc/gcc/config/i386/t-linux64
+sed 's/lib64/lib/' gcc/gcc/config/i386/linux64.h > _
+mv -f _ gcc/gcc/config/i386/linux64.h
 
 # Build must happen outside of gcc source.
 mkdir -p gcc-build
@@ -47,6 +51,7 @@ export libat_cv_have_ifunc=no
     --enable-tls \
     --enable-languages=c,c++ \
     --without-included-gettext \
+    --with-zstd=no \
     --with-system-zlib \
     --build=x86_64-pc-linux-gnu \
     "${bootstrap:---enable-bootstrap}"
@@ -59,11 +64,8 @@ find "$1" -name libgtkpeer.a  -exec rm -f {} +
 find "$1" -name libgjsmalsa.a -exec rm -f {} +
 find "$1" -name libgij.a      -exec rm -f {} +
 
-# Some legacy programs will expect cc
-ln -s gcc "$1/usr/bin/cc"
-
-# POSIX compliance.
-install -Dm755 ../c99 "$1/usr/bin/c99"
+ln -sf gcc "$1/usr/bin/cc"
+cp -f ../c99 "$1/usr/bin"
 
 # Symlink for LTO.
 {
