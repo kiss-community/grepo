@@ -11,5 +11,6 @@ jobs:
     - uses: actions/checkout@v1
     - name: Run shellcheck.
       run: |
+        git submodule update --remote --init -f
         shopt -s nullglob
         shellcheck */*/build */*/post-install
