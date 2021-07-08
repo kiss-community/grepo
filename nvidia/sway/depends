@@ -1,0 +1,17 @@
+cairo
+glib
+json-c
+libevdev
+libglvnd
+libinput
+libudev-zero
+libxkbcommon
+linux-headers     make
+mesa
+pango
+pcre
+pixman
+swaybg
+wayland
+wayland-protocols make
+wlroots

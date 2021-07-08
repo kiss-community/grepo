@@ -1,0 +1,81 @@
+#!/bin/sh -e
+
+version="$2"
+
+sh "NVIDIA-Linux-x86_64-$version-no-compat32.run" --extract-only
+cd "NVIDIA-Linux-x86_64-$version-no-compat32"
+
+# OpenCL
+install -Dm644 nvidia.icd "$1/etc/OpenCL/vendors/nvidia.icd"
+install -Dm755 "libnvidia-compiler.so.$version" "$1/usr/lib/libnvidia-compiler.so.$version"
+install -Dm755 "libnvidia-opencl.so.$version"   "$1/usr/lib/libnvidia-opencl.so.$version"
+
+# OpenGL libraries
+install -Dm755 "libEGL_nvidia.so.$version"       "$1/usr/lib/libEGL_nvidia.so.$version"
+install -Dm755 "libGLESv1_CM_nvidia.so.$version" "$1/usr/lib/libGLESv1_CM_nvidia.so.$version"
+install -Dm755 "libGLESv2_nvidia.so.$version"    "$1/usr/lib/libGLESv2_nvidia.so.$version"
+install -Dm644 "10_nvidia.json"                  "$1/usr/share/glvnd/egl_vendor.d/10_nvidia.json"
+
+# OpenGL core library
+install -Dm755 "libnvidia-glcore.so.$version"  "$1/usr/lib/libnvidia-glcore.so.$version"
+install -Dm755 "libnvidia-eglcore.so.$version" "$1/usr/lib/libnvidia-eglcore.so.$version"
+install -Dm755 "libnvidia-glsi.so.$version"    "$1/usr/lib/libnvidia-glsi.so.$version"
+
+# misc
+install -Dm755 "libnvidia-encode.so.$version"    "$1/usr/lib/libnvidia-encode.so.$version"
+install -Dm755 "libnvidia-cfg.so.$version"       "$1/usr/lib/libnvidia-cfg.so.$version"
+install -Dm755 "libnvidia-ml.so.$version"        "$1/usr/lib/libnvidia-ml.so.$version"
+install -Dm755 "libnvidia-ngx.so.$version"       "$1/usr/lib/libnvidia-ngx.so.$version"
+install -Dm755 "libnvidia-glvkspirv.so.$version" "$1/usr/lib/libnvidia-glvkspirv.so.$version"
+
+# Vulkan ICD
+install -Dm644 "nvidia_icd.json"    "$1/usr/share/vulkan/icd.d/nvidia_icd.json"
+install -Dm644 "nvidia_layers.json" "$1/usr/share/vulkan/implicit_layer.d/nvidia_layers.json"
+
+# nvidia-tls library
+install -Dm755 "libnvidia-tls.so.$version" "$1/usr/lib/libnvidia-tls.so.$version"
+
+# CUDA
+install -Dm755 "libcuda.so.$version"    "$1/usr/lib/libcuda.so.$version"
+install -Dm755 "libnvcuvid.so.$version" "$1/usr/lib/libnvcuvid.so.$version"
+
+# PTX JIT Compiler (Parallel Thread Execution (PTX) is a pseudo-assembly language for CUDA)
+install -Dm755 "libnvidia-ptxjitcompiler.so.$version" "$1/usr/lib/libnvidia-ptxjitcompiler.so.$version"
+
+# raytracing
+install -Dm755 "libnvoptix.so.$version"       "$1/usr/lib/libnvoptix.so.$version"
+install -Dm755 "libnvidia-rtcore.so.$version" "$1/usr/lib/libnvidia-rtcore.so.$version"
+install -Dm755 "libnvidia-cbl.so.$version"    "$1/usr/lib/libnvidia-cbl.so.$version"
+
+# Optical flow
+install -Dm755 "libnvidia-opticalflow.so.$version" "$1/usr/lib/libnvidia-opticalflow.so.$version"
+
+# nvidia-smi
+install -Dm755 nvidia-smi      "$1/usr/bin/nvidia-smi"
+install -Dm644 nvidia-smi.1.gz "$1/usr/share/man/man1/nvidia-smi.1.gz"
+
+# nvidia-cuda-mps
+install -Dm755 nvidia-cuda-mps-server       "$1/usr/bin/nvidia-cuda-mps-server"
+install -Dm755 nvidia-cuda-mps-control      "$1/usr/bin/nvidia-cuda-mps-control"
+install -Dm644 nvidia-cuda-mps-control.1.gz "$1/usr/share/man/man1/nvidia-cuda-mps-control.1.gz"
+
+# nvidia-modprobe
+install -Dm4755 nvidia-modprobe      "$1/usr/bin/nvidia-modprobe"
+install -Dm644  nvidia-modprobe.1.gz "$1/usr/share/man/man1/nvidia-modprobe.1.gz"
+
+# nvidia-persistenced
+install -Dm755 nvidia-persistenced      "$1/usr/bin/nvidia-persistenced"
+install -Dm644 nvidia-persistenced.1.gz "$1/usr/share/man/man1/nvidia-persistenced.1.gz"
+
+# soname links
+for lib in "$1/usr/lib/"*.so*; do
+    soname=$(dirname "$lib")/$(readelf -d "$lib" | awk '/SONAME/ { print $5 }' | tr -d '[]')
+    base=$(echo "$soname" | sed -r 's/(.*).so.*/\1.so/')
+    [ -e "$soname" ] || ln -s "$(basename "$lib")" "$soname"
+    [ -e "$base" ] || ln -s "$(basename "$soname")" "$base"
+done
+
+# kernel modules
+cd kernel
+make modules
+install -Dm644 ./*.ko -t "$1/usr/lib/modules/${KERNEL_UNAME:-$(uname -r)}/extra"

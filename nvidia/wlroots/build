@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    -Dexamples=false \
+    -Dxwayland=disabled \
+    -Dxcb-errors=disabled \
+    -Dx11-backend=disabled \
+    . output
+
+ninja -C output
+ninja -C output install
