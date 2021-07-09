@@ -5,7 +5,7 @@
 
 cat <<EOF
 
-NOTE: If 'KERNEL_UNAME' was exported, it is necessary to run 'depmod \$KERNEL_UNAME' manually.
-NOTE: Run 'nvidia-xconfig' to generate an X configuration file.
+NOTE: If 'KERNEL_UNAME' was exported, it is necessary to run
+      'depmod \$KERNEL_UNAME' manually.
 
 EOF
