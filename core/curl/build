@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --enable-ipv6 \
+    --enable-unix-sockets \
+    --enable-hidden-symbols \
+    --disable-manual \
+    --disable-ldap \
+    --disable-ares \
+    --with-openssl \
+    --with-pic \
+    --with-ca-fallback \
+    --without-librtmp \
+    --without-icu \
+    --without-libpsl \
+    --without-libidn \
+    --without-libidn2 \
+    --without-zstd
+
+make
+make DESTDIR="$1" install
+
+# Remove library documentation.
+rm -rf "$1/usr/share/man/man3"
