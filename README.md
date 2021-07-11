@@ -37,6 +37,7 @@ export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
 ```sh
 export KISS_PATH=/path/to/grepo/nvidia:$KISS_PATH
 ```
+* Build `libglvnd`, and then `mesa` since NVIDIA drivers require libglvnd.
 * Install the nvidia drivers by building the `nvidia` package.
 * For kernel configuration, refer to the [Gentoo Wiki](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers#Kernel_compatibility). The `nouveau` kernel module must either be blacklisted from being loaded or disabled in the kernel configuration.
 * The kernel modules can also be built for a specific kernel by exporting the `KERNEL_UNAME` variable:
