@@ -1,0 +1,15 @@
+egl-wayland
+flex              make
+libdrm
+libinput
+libxkbcommon
+linux-headers     make
+mesa
+meson             make
+pixman
+pkgconf           make
+samurai           make
+seatd
+wayland
+wayland-protocols make
+xkeyboard-config

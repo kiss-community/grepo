@@ -1,6 +1,6 @@
 # GKISS Linux 🐂
 
-![Downloads](https://img.shields.io/github/downloads/gkisslinux/grepo/latest/gkiss-chroot-2021.04.29.tar.xz)
+![Downloads](https://img.shields.io/github/downloads/gkisslinux/grepo/latest/gkiss-chroot-2021.7-5.tar.xz)
 
 ## Installation
 
@@ -33,19 +33,30 @@ export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
 
 ## NVIDIA
 
+* Modify `KISS_PATH` such that the `nvidia` repository takes priority over other repositories since some Wayland packages like `wlroots` are forked here to add NVIDIA support:
+```sh
+export KISS_PATH=/path/to/grepo/nvidia:$KISS_PATH
+```
+* Build `libglvnd`, and then `mesa` since NVIDIA drivers require libglvnd.
 * Install the nvidia drivers by building the `nvidia` package.
-* For kernel configuration, refer to the [Gentoo Wiki](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers#Kernel_compatibility). The `nouveau` kernel module must either be blacklisted from being loaded or disabled in the kernel configuration. The NVIDIA module can be loaded by running `modprobe nvidia-drm modeset=1` as root.
+* For kernel configuration, refer to the [Gentoo Wiki](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers#Kernel_compatibility). The `nouveau` kernel module must either be blacklisted from being loaded or disabled in the kernel configuration.
 * The kernel modules can also be built for a specific kernel by exporting the `KERNEL_UNAME` variable:
 ```sh
 export KERNEL_UNAME=5.10.2 # Example
-kiss b nvidia && kiss i nvidia
+kiss b nvidia
 # Environment variables can't be used in `post-install`.
 depmod "$KERNEL_UNAME"
 ```
-
-### Screen Tearing
-* Enable `Force Composition Pipeline` in the `nvidia-settings` GUI and save the changes to `xorg.conf` by using the `Save to X Configuration File` option.
-* Enable `layers.acceleration.force-enabled` or switch to **WebRender** by setting `gfx.webrender.all` to `True` in Firefox's `about:config`.
+* For Wayland compositors to work properly, the NVIDIA kernel module _MUST_ be loaded with the `modeset` parameter set to `1`:
+```sh
+# Files in /etc/rc.d are executed on boot.
+-> cat << EOF | $cmd_su tee /etc/rc.d/nvidia.boot
+> #!/bin/sh
+>
+> /bin/modprobe nvidia-drm modeset=1
+> EOF
+-> $cmd_su chmod 755 /etc/rc.d/nvidia.boot
+```
 
 ## Reporting Issues
 

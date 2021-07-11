@@ -1,0 +1,50 @@
+#!/bin/sh -e
+
+sh "NVIDIA-Linux-x86_64-${2}-no-compat32.run" --extract-only
+cd "NVIDIA-Linux-x86_64-${2}-no-compat32"
+
+mkdir -p \
+    "$1/usr/bin" \
+    "$1/usr/share/man/man1" \
+    "$1/usr/share/glvnd/egl_vendor.d" \
+    "$1/usr/share/vulkan/icd.d" \
+    "$1/usr/share/vulkan/implicit_layer.d" \
+    "$1/usr/lib/modules/${KERNEL_UNAME:-$(uname -r)}/extra"
+
+bins="
+smi persistenced modprobe
+"
+
+libs="
+libEGL_nvidia     libGLESv1_CM_nvidia libGLESv2_nvidia libnvidia-glcore
+libnvidia-eglcore libnvidia-glsi      libnvidia-cfg    libnvidia-ml
+libnvidia-ngx     libnvidia-glvkspirv libnvidia-tls
+"
+
+for bin in $bins; do
+    cp "nvidia-${bin}" "$1/usr/bin/"
+    cp "nvidia-${bin}.1.gz" "$1/usr/share/man/man1/"
+done
+
+for lib in $libs; do
+    cp "${lib}.so.$2" "$1/usr/lib/"
+done
+
+chmod 4755 "$1/usr/bin/nvidia-modprobe"
+
+cp 10_nvidia.json     "$1/usr/share/glvnd/egl_vendor.d/"
+cp nvidia_icd.json    "$1/usr/share/vulkan/icd.d/"
+cp nvidia_layers.json "$1/usr/share/vulkan/implicit_layer.d/"
+
+# soname links
+for lib in "$1/usr/lib/"*.so*; do
+    soname=$(dirname "$lib")/$(readelf -d "$lib" | awk '/SONAME/ {print $5}' | tr -d '[]')
+    base=$(printf "%s" "$soname" | sed -r 's/(.*).so.*/\1.so/')
+    [ -e "$soname" ] || ln -sf "$(basename "$lib")" "$soname"
+    [ -e "$base" ] || ln -sf "$(basename "$soname")" "$base"
+done
+
+# kernel modules
+cd kernel
+make modules
+cp ./*.ko "$1/usr/lib/modules/${KERNEL_UNAME:-$(uname -r)}/extra"

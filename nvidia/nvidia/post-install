@@ -1,0 +1,11 @@
+#!/bin/sh
+
+/usr/bin/depmod
+/usr/bin/ldconfig
+
+cat <<EOF
+
+NOTE: If 'KERNEL_UNAME' was exported, it is necessary to run
+      'depmod \$KERNEL_UNAME' manually.
+
+EOF
