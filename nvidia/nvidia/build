@@ -12,7 +12,7 @@ mkdir -p \
     "$1/usr/lib/modules/${KERNEL_UNAME:-$(uname -r)}/extra"
 
 bins="
-smi persistenced
+smi persistenced modprobe
 "
 
 libs="
@@ -29,6 +29,8 @@ done
 for lib in $libs; do
     cp "${lib}.so.$2" "$1/usr/lib/"
 done
+
+chmod 4755 "$1/usr/bin/nvidia-modprobe"
 
 cp 10_nvidia.json     "$1/usr/share/glvnd/egl_vendor.d/"
 cp nvidia_icd.json    "$1/usr/share/vulkan/icd.d/"
