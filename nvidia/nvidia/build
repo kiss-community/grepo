@@ -12,22 +12,18 @@ mkdir -p \
     "$1/usr/lib/modules/${KERNEL_UNAME:-$(uname -r)}/extra"
 
 bins="
-smi cuda-mps-server cuda-mps-control persistenced
+smi persistenced
 "
 
 libs="
-libnvidia-compiler  libnvidia-opencl libEGL_nvidia       libGLESv1_CM_nvidia
-libGLESv2_nvidia    libnvidia-glcore libnvidia-eglcore   libnvidia-glsi
-libnvidia-encode    libnvidia-cfg    libnvidia-ml        libnvidia-ngx
-libnvidia-glvkspirv libnvidia-tls    libcuda             libnvcuvid
-libnvoptix          libnvidia-rtcore libnvidia-cbl       libnvidia-opticalflow
-libnvidia-ptxjitcompiler
+libEGL_nvidia     libGLESv1_CM_nvidia libGLESv2_nvidia libnvidia-glcore
+libnvidia-eglcore libnvidia-glsi      libnvidia-cfg    libnvidia-ml
+libnvidia-ngx     libnvidia-glvkspirv libnvidia-tls
 "
 
 for bin in $bins; do
     cp "nvidia-${bin}" "$1/usr/bin/"
-    # Some bins might not have a man-page, such as nvidia-cuda-mps-server.
-    cp "nvidia-${bin}.1.gz" "$1/usr/share/man/man1/" 2>/dev/null ||:
+    cp "nvidia-${bin}.1.gz" "$1/usr/share/man/man1/"
 done
 
 for lib in $libs; do
