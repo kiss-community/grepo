@@ -13,13 +13,12 @@ Follow the steps mentioned on the [KISS Linux](https://k1sslinux.org/install) we
 
 ## Binary Packages
 
-**NOTE:** This assumes that the user trusts the source of the binary packages. All binary packages are built in a GKISS chroot obtained from the releases page dedicated to building packages only. The packages are built with the build flags found in the [kissLTO](https://github.com/git-bruh/kissLTO) repo with the exception of `-march=native` and `-mtune=native`. `llvm` is built with regular flags.
+**NOTE:** This assumes that the user trusts the source of the binary packages. The packages are built on the author's personal system with [these](https://github.com/git-bruh/dotfiles/blob/master/.profile#L3) build flags.
 
 Regularly updated binaries are provided for the following packages:
+
 * CMake
 * Firefox
-* LLVM
-* Rust
 
 Binaries for KISS (musl) -> [here](https://github.com/kiss-community/repo-bin)
 
@@ -33,13 +32,19 @@ export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
 
 ## NVIDIA
 
+**TIP:** `mesa` can be built without `llvm` on NVIDIA systems, look [here](https://github.com/git-bruh/kiss-repo/blob/master/overrides/mesa/build) for an example.
+
 * Modify `KISS_PATH` such that the `nvidia` repository takes priority over other repositories since some Wayland packages like `wlroots` are forked here to add NVIDIA support:
 ```sh
 export KISS_PATH=/path/to/grepo/nvidia:$KISS_PATH
 ```
+
 * Build `libglvnd`, and then `mesa` since NVIDIA drivers require libglvnd.
+
 * Install the nvidia drivers by building the `nvidia` package.
+
 * For kernel configuration, refer to the [Gentoo Wiki](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers#Kernel_compatibility). The `nouveau` kernel module must either be blacklisted from being loaded or disabled in the kernel configuration.
+
 * The kernel modules can also be built for a specific kernel by exporting the `KERNEL_UNAME` variable:
 ```sh
 export KERNEL_UNAME=5.10.2 # Example
@@ -47,6 +52,7 @@ kiss b nvidia
 # Environment variables can't be used in `post-install`.
 depmod "$KERNEL_UNAME"
 ```
+
 * For Wayland compositors to work properly, the NVIDIA kernel module _MUST_ be loaded with the `modeset` parameter set to `1`:
 ```sh
 # Files in /etc/rc.d are executed on boot.
