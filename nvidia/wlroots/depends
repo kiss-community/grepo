@@ -1,15 +1,13 @@
 egl-wayland
-flex              make
+flex make
 libdrm
 libinput
+libseat
+libudev-zero
 libxkbcommon
-linux-headers     make
+linux-headers make
 mesa
-meson             make
+meson make
 pixman
-pkgconf           make
-samurai           make
-seatd
 wayland
 wayland-protocols make
-xkeyboard-config

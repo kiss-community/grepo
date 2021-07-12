@@ -1,17 +1,15 @@
 cairo
-glib
+flex make
 json-c
-libevdev
-libglvnd
 libinput
-libudev-zero
+libseat
 libxkbcommon
-linux-headers     make
-mesa
+linux-headers make
+meson make
 pango
 pcre
 pixman
-swaybg
+pkgconf make
 wayland
 wayland-protocols make
 wlroots
