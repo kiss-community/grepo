@@ -32,6 +32,7 @@ submodules     = false
 python         = "python3"
 locked-deps    = true
 vendor         = true
+tools          = ["cargo", "rls", "clippy", "rustfmt", "analysis", "src", "rust-demangler"]
 sanitizers     = false
 profiler       = false
 full-bootstrap = false
