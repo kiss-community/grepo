@@ -1,6 +1,5 @@
-bzip2
-curl
-expat
 gcc
+llvm
 openssl
+xz
 zlib

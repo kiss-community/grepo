@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+cat << EOF
+
+NOTE: This is a stub package for 'clang'. The 'llvm' package from the 'bin' repo provides 'llvm', 'clang' and 'clang-tools'.
+
+EOF
