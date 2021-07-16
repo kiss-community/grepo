@@ -24,4 +24,4 @@ EOF
 make
 make DESTDIR="$1" install
 
-cp -rf man "$1/usr/share/man"
+cp -Rf man "$1/usr/share/man"
