@@ -8,7 +8,7 @@ make CC="${CC:-cc}" ALL_LIBS=libnl-tiny.a -C libnl
 # The CFLAGS must be set to link to the above locally built
 # libnl-tiny library.
 export CFLAGS="$CFLAGS -I$PWD/libnl/include -L$PWD/libnl -lnl-tiny"
-export CFLAGS="$CFLAGS -static -D_GNU_SOURCE -DLIBNL1_COMPAT -pthread"
+export CFLAGS="$CFLAGS -D_GNU_SOURCE -DLIBNL1_COMPAT -pthread"
 
 cd wpa_supplicant
 
