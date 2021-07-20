@@ -17,8 +17,11 @@ Follow the steps mentioned on the [KISS Linux](https://k1sslinux.org/install) we
 
 Regularly updated binaries are provided for the following packages:
 
+* Clang
 * CMake
 * Firefox
+* LLVM
+* Rust
 
 Binaries for KISS (musl) -> [here](https://github.com/kiss-community/repo-bin)
 
