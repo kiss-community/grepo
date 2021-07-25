@@ -1,9 +1,0 @@
-#!/bin/sh
-cat <<EOF
-
-The 'kiss-repo' submodule has been changed to point to the original KISS repos, it should be synchronized by running the following commands:
-
-$ cd /path/to/grepo
-$ git submodule sync --recursive
-
-EOF
