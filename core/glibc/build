@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 # Build cannot happen without optimizations.
-CFLAGS="${CFLAGS:--Os}"
+export CFLAGS="${CFLAGS:--Os}"
 
 # Build must happen outside of glibc source.
 mkdir -p glibc-build
@@ -23,15 +23,14 @@ printf "%s\n" \
 make
 make DESTDIR="$1" install
 
-rm  "$1/var/db/Makefile" \
-    "$1/usr/bin/ldd" \
-    "$1/usr/bin/sotruss" \
-    "$1/usr/bin/xtrace" \
-    "$1/usr/bin/tzselect"
+rm -f "$1/var/db/Makefile" \
+      "$1/usr/bin/xtrace" \
+      "$1/usr/bin/tzselect"
 
-install -dm 755 "$1/usr/lib/locale"
+mkdir -p "$1/usr/lib/locale"
 printf "en_US.UTF8 UTF-8\n" > "$1/etc/locale.gen"
 
 for script in ldd locale-gen sotruss; do
-    install -Dm755 "../glibc/$script" "$1/usr/bin/$script"
+    cp -f "../glibc/$script" "$1/usr/bin/$script"
+    chmod +x "$1/usr/bin/$script"
 done
