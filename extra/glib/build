@@ -1,0 +1,46 @@
+#!/bin/sh -e
+
+# Remove 'libelf' dependency.
+sed 's/HAVE_LIBELF/HAVE_KISS/' gio/meson.build > _
+mv -f _ gio/meson.build
+
+# Remove 'util-linux' dependency.
+sed 's/libmount_dep.found()/false/' meson.build > _
+mv -f _ meson.build
+
+cat << EOF | patch -p1
+diff --git a/glib/gspawn.c b/glib/gspawn.c
+index 899647c2f8..3073a10a42 100644
+--- a/glib/gspawn.c
++++ b/glib/gspawn.c
+@@ -1520,7 +1520,7 @@ safe_closefrom (int lowfd)
+    *
+    * Handle ENOSYS in case it’s supported in libc but not the kernel; if so,
+    * fall back to safe_fdwalk(). */
+-  if (close_range (lowfd, G_MAXUINT) != 0 && errno == ENOSYS)
++  if (close_range (lowfd, G_MAXUINT, 0) != 0 && errno == ENOSYS)
+ #endif  /* HAVE_CLOSE_RANGE */
+   (void) safe_fdwalk (close_func, GINT_TO_POINTER (lowfd));
+ #endif
+EOF
+
+: > glib/tests/meson.build
+: > tests/meson.build
+: > gobject/tests/mesom.build
+: > gio/tests/meson.build
+: > fuzzing/meson.build
+
+meson \
+    --prefix=/usr \
+    -Dlibmount=disabled \
+    -Dinstalled_tests=false \
+    -Ddefault_library=both \
+    -Dman=false \
+    -Dfam=false \
+    -Dinternal_pcre=true \
+    . build
+
+ninja -C build
+ninja -C build install
+
+rm -rf "$1/usr/bin/gdbus"
