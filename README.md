@@ -49,6 +49,7 @@ export KISS_PATH=/path/to/grepo/nvidia:$KISS_PATH
 * For kernel configuration, refer to the [Gentoo Wiki](https://wiki.gentoo.org/wiki/NVIDIA/nvidia-drivers#Kernel_compatibility). The `nouveau` kernel module must either be blacklisted from being loaded or disabled in the kernel configuration.
 
 * The kernel modules can also be built for a specific kernel by exporting the `KERNEL_UNAME` variable:
+
 ```sh
 export KERNEL_UNAME=5.10.2 # Example
 kiss b nvidia
@@ -56,15 +57,11 @@ kiss b nvidia
 depmod "$KERNEL_UNAME"
 ```
 
-* For Wayland compositors to work properly, the NVIDIA kernel module _MUST_ be loaded with the `modeset` parameter set to `1`:
+* For Wayland compositors to work properly, the NVIDIA kernel module _MUST_ be loaded with the `modeset` parameter set to `1`, append the following to `/etc/inittab`:
+
 ```sh
-# Files in /etc/rc.d are executed on boot.
--> cat << EOF | $cmd_su tee /etc/rc.d/nvidia.boot
-> #!/bin/sh
->
-> /bin/modprobe nvidia-drm modeset=1
-> EOF
--> $cmd_su chmod 755 /etc/rc.d/nvidia.boot
+# Run a one-shot command during boot.
+::once:/bin/modprobe nvidia-drm modeset=1
 ```
 
 ## Reporting Issues
