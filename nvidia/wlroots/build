@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+unzip ./*.zip
+
+cd "wlroots-eglstreams-$2"
+
 export DESTDIR="$1"
 
 meson \

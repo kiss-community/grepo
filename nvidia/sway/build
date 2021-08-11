@@ -1,6 +1,10 @@
 #!/bin/sh -e
 
-patch -p1 < no-evdev.patch
+unzip ./*.zip
+
+cd "sway-$2"
+
+patch -p1 < ../no-evdev.patch
 
 # Default background color.
 sed 's/0.25f, 0.25f, 0.25f/0.929, 0.870, 0.678/' \
@@ -21,4 +25,8 @@ meson \
 ninja -C build
 ninja -C build install
 
-rm -rf "${1:?}/usr/share"
+rm -rf \
+    "$1/usr/share/fish" \
+    "$1/usr/share/bash-completion" \
+    "$1/usr/share/backgrounds" \
+    "$1/usr/share/zsh"

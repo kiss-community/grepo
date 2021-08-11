@@ -1,2 +1,2 @@
-git+https://github.com/swaywm/sway#96102184ab96c522fe1f9175bc4d5ceb09aa1720
+https://github.com/swaywm/sway/archive/b345d6e5d2f175b0be5c5f2a445291611104c98e.zip
 patches/no-evdev.patch
