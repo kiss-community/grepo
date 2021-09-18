@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-mkdir -p "$1/usr/include/EGL" "$1/usr/share/pkgconfig"
-
-cp interface/* "$1/usr/include/EGL"
-cp ./*.pc "$1/usr/share/pkgconfig"

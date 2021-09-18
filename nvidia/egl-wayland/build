@@ -2,6 +2,9 @@
 
 export DESTDIR="$1"
 
+export CFLAGS="$CFLAGS -I$PWD/eglexternalplatform/interface"
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$PWD/eglexternalplatform"
+
 meson \
     --prefix=/usr \
     . output
