@@ -7,6 +7,7 @@ sed -i "/subdir('tests')/d" meson.build
 
 meson \
     --prefix=/usr \
+    -Dx11=disabled \
     . output
 
 ninja -C output
