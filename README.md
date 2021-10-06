@@ -35,8 +35,6 @@ export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
 
 ## NVIDIA
 
-If you're here just for the NVIDIA drivers then check out [this repo](https://github.com/git-bruh/nvidia-musl).
-
 **TIP:** `mesa` can be built without `llvm` on NVIDIA systems, look [here](https://github.com/git-bruh/kiss-repo/blob/master/overrides/mesa/build) for an example.
 
 * Modify `KISS_PATH` such that the `nvidia` repository takes priority over other repositories since some Wayland packages like `wlroots` are forked here to add NVIDIA support:
