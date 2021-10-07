@@ -16,9 +16,8 @@ smi persistenced modprobe
 "
 
 libs="
-libEGL_nvidia     libGLESv1_CM_nvidia libGLESv2_nvidia libnvidia-glcore
-libnvidia-eglcore libnvidia-glsi      libnvidia-cfg    libnvidia-ml
-libnvidia-ngx     libnvidia-glvkspirv libnvidia-tls
+libEGL_nvidia     libGLESv1_CM_nvidia libGLESv2_nvidia
+libnvidia-eglcore libnvidia-glsi      libnvidia-ml
 "
 
 for bin in $bins; do
@@ -32,9 +31,16 @@ done
 
 chmod 4755 "$1/usr/bin/nvidia-modprobe"
 
-cp 10_nvidia.json     "$1/usr/share/glvnd/egl_vendor.d/"
-cp nvidia_icd.json    "$1/usr/share/vulkan/icd.d/"
-cp nvidia_layers.json "$1/usr/share/vulkan/implicit_layer.d/"
+cp 10_nvidia.json "$1/usr/share/glvnd/egl_vendor.d/"
+
+# https://download.nvidia.com/XFree86/Linux-x86_64/470.74/README/installedcomponents.html
+# > The Vulkan ICD configuration file included with the driver references
+# > libGLX_nvidia.so.0, however in environments where X11 client libraries are
+# > not available, libEGL_nvidia.so.0 should be used.
+sed 's|libGLX_nvidia.so.0|libEGL_nvidia.so.0|' nvidia_icd.json \
+    > "$1/usr/share/vulkan/icd.d/nvidia_icd.json"
+sed 's|libGLX_nvidia.so.0|libEGL_nvidia.so.0|' nvidia_layers.json \
+    > "$1/usr/share/vulkan/implicit_layer.d/nvidia_layers.json"
 
 # soname links
 for lib in "$1/usr/lib/"*.so*; do
