@@ -5,7 +5,9 @@ cd "NVIDIA-Linux-x86_64-${2}-no-compat32"
 
 mkdir -p \
     "$1/usr/bin" \
+    "$1/usr/lib/gbm" \
     "$1/usr/share/man/man1" \
+    "$1/usr/share/egl/egl_external_platform.d" \
     "$1/usr/share/glvnd/egl_vendor.d" \
     "$1/usr/share/vulkan/icd.d" \
     "$1/usr/share/vulkan/implicit_layer.d" \
@@ -17,7 +19,8 @@ smi persistenced modprobe
 
 libs="
 libEGL_nvidia     libGLESv1_CM_nvidia libGLESv2_nvidia
-libnvidia-eglcore libnvidia-glsi      libnvidia-ml
+libnvidia-eglcore libnvidia-allocator libnvidia-glsi
+libnvidia-ml
 "
 
 for bin in $bins; do
@@ -29,9 +32,17 @@ for lib in $libs; do
     cp "${lib}.so.$2" "$1/usr/lib/"
 done
 
+for lib in libnvidia-egl-gbm.so.1.1.0 libnvidia-egl-wayland.so.1.1.9; do
+    cp "$lib" "$1/usr/lib/"
+done
+
+ln -sf ../libnvidia-allocator.so.1 "$1/usr/lib/gbm/nvidia-drm_gbm.so"
+
 chmod 4755 "$1/usr/bin/nvidia-modprobe"
 
 cp 10_nvidia.json "$1/usr/share/glvnd/egl_vendor.d/"
+cp 10_nvidia_wayland.json "$1/usr/share/egl/egl_external_platform.d/"
+cp 15_nvidia_gbm.json "$1/usr/share/egl/egl_external_platform.d/"
 
 # https://download.nvidia.com/XFree86/Linux-x86_64/470.74/README/installedcomponents.html
 # > The Vulkan ICD configuration file included with the driver references

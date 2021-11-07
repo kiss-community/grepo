@@ -1,1 +1,4 @@
+libdrm
 libglvnd
+mesa
+wayland
