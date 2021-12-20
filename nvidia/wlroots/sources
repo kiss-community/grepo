@@ -1,1 +1,2 @@
-https://github.com/danvd/wlroots-eglstreams/archive/7660c54541d548ce631ab2839234e24a626a24cb.zip
+https://github.com/danvd/wlroots-eglstreams/archive/545d823db12dce0361e324846af0f75703d2212c.zip
+patches/fix-no-xwayland.patch

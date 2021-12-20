@@ -6,6 +6,8 @@ cd "wlroots-eglstreams-$2"
 
 export DESTDIR="$1"
 
+patch -p1 < ../fix-no-xwayland.patch
+
 meson \
     --prefix=/usr \
     -Ddefault_library=both \
