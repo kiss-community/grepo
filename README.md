@@ -31,7 +31,7 @@ Binaries for KISS (musl) -> [here](https://github.com/kiss-community/repo-bin)
 ```sh
 export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
 ```
-* The packages can now be installed by a simple `kiss b $PKG && kiss i $PKG` command.
+* The packages can now be installed by a simple `kiss b $PKG` command.
 
 ## NVIDIA
 
