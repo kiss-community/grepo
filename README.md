@@ -1,6 +1,6 @@
 # GKISS Linux 🐂
 
-![Downloads](https://img.shields.io/github/downloads/gkisslinux/grepo/latest/gkiss-chroot-2021.7-7.tar.xz)
+![Downloads](https://img.shields.io/github/downloads/gkisslinux/grepo/total.svg)
 
 ## Installation
 
@@ -31,11 +31,14 @@ Binaries for KISS (musl) -> [here](https://github.com/kiss-community/repo-bin)
 ```sh
 export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
 ```
+
 * The packages can now be installed by a simple `kiss b $PKG` command.
 
 ## NVIDIA
 
 **TIP:** `mesa` can be built without `llvm` on NVIDIA systems, look [here](https://github.com/git-bruh/kiss-repo/blob/master/overrides/mesa/build) for an example.
+
+**TIP:** X11 Packages can be found in the [kiss-xorg](https://github.com/ehawkvu/kiss-xorg) repo if Wayland is not for you.
 
 * Modify `KISS_PATH` such that the `nvidia` repository takes priority over other repositories since some Wayland packages like `wlroots` are forked here to add NVIDIA support:
 ```sh
