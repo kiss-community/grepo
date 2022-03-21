@@ -4,10 +4,6 @@ unzip ./*.zip
 
 cd "wlroots-eglstreams-$2"
 
-sed 's|^extern struct xwayland_keyboard_grab_manager.*|struct xwayland_keyboard_grab_manager *xwayland_keyboard_grab_manager = NULL;|' \
-    types/wlr_keyboard.c > _
-mv -f _ types/wlr_keyboard.c
-
 export DESTDIR="$1"
 
 meson \
