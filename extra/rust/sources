@@ -1,4 +1,4 @@
-https://static.rust-lang.org/dist/rustc-1.59.0-src.tar.xz
-https://static.rust-lang.org/dist/2022-01-13/rust-std-1.58.0-x86_64-unknown-linux-gnu.tar.xz?no-extract
-https://static.rust-lang.org/dist/2022-01-13/rustc-1.58.0-x86_64-unknown-linux-gnu.tar.xz?no-extract
-https://static.rust-lang.org/dist/2022-01-13/cargo-1.58.0-x86_64-unknown-linux-gnu.tar.xz?no-extract
+https://static.rust-lang.org/dist/rustc-1.60.0-src.tar.xz
+https://static.rust-lang.org/dist/2022-02-24/rust-std-1.59.0-x86_64-unknown-linux-gnu.tar.xz?no-extract
+https://static.rust-lang.org/dist/2022-02-24/rustc-1.59.0-x86_64-unknown-linux-gnu.tar.xz?no-extract
+https://static.rust-lang.org/dist/2022-02-24/cargo-1.59.0-x86_64-unknown-linux-gnu.tar.xz?no-extract
