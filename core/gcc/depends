@@ -1,1 +1,4 @@
-../../kiss-repo/core/gcc/depends
+binutils
+bison  make
+flex   make
+zlib
