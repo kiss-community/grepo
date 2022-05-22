@@ -1,10 +1,6 @@
 #!/bin/sh -e
 
-unzip ./*.zip
-
-cd "sway-$2"
-
-patch -p1 < ../no-evdev.patch
+patch -p1 < no-evdev.patch
 
 # Default background color.
 sed 's/0.25f, 0.25f, 0.25f/0.929, 0.870, 0.678/' \
