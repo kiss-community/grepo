@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+USE_NVIDIA_OPEN=1
+
+: "${KERNEL_UNAME:=$(uname -r)}"
+
 sh "NVIDIA-Linux-x86_64-${2}-no-compat32.run" --extract-only
 cd "NVIDIA-Linux-x86_64-${2}-no-compat32"
 
@@ -95,7 +99,18 @@ for lib in "$1/usr/lib/"*.so*; do
     [ -e "$base" ] || ln -sf "$(basename "$soname")" "$base"
 done
 
+mkdir -p "$1/usr/lib/firmware/nvidia/$2"
+cp firmware/gsp.bin "$1/usr/lib/firmware/nvidia/$2/"
+
 # kernel modules
-cd kernel
-make modules
-cp ./*.ko "$1/usr/lib/modules/${KERNEL_UNAME:-$(uname -r)}/extra"
+if [ "$USE_NVIDIA_OPEN" = 1 ]; then
+    cd ../nvidia-open
+
+    make modules
+    cd kernel-open
+else
+    cd kernel
+    make modules
+fi
+
+cp ./*.ko "$1/usr/lib/modules/$KERNEL_UNAME/extra"

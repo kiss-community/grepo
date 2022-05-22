@@ -64,7 +64,7 @@ depmod "$KERNEL_UNAME"
 
 ```sh
 # Run a one-shot command during boot.
-::once:/bin/modprobe nvidia-drm modeset=1
+::once:/bin/modprobe nvidia-drm modeset=1 NVreg_OpenRmEnableUnsupportedGpus=1 NVreg_EnableGpuFirmware=1
 ```
 
 ## Reporting Issues
