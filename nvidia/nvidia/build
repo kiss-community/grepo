@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-USE_NVIDIA_OPEN=1
+USE_NVIDIA_OPEN=0
 
 : "${KERNEL_UNAME:=$(uname -r)}"
 
