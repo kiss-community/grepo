@@ -60,11 +60,20 @@ kiss b nvidia
 depmod "$KERNEL_UNAME"
 ```
 
-* For Wayland compositors to work properly, the NVIDIA kernel module _MUST_ be loaded with the `modeset` parameter set to `1`, append the following to `/etc/inittab`:
+* For Wayland compositors to work properly, the NVIDIA kernel module _MUST_ be loaded with the GSP firmware (To avoid flickering) and the `modeset` parameter enabled:
 
 ```sh
-# Run a one-shot command during boot.
-::once:/bin/modprobe nvidia-drm modeset=1 NVreg_OpenRmEnableUnsupportedGpus=1 NVreg_EnableGpuFirmware=1
+# tee /etc/rc.d/nvidia.boot <<EOF
+/bin/modprobe nvidia NVreg_OpenRmEnableUnsupportedGpus=1 NVreg_EnableGpuFirmware=1 NVreg_EnableGpuFirmwareLogs=1
+/bin/modprobe nvidia-drm modeset=1
+EOF
+```
+
+If the firmware was loaded correctly, the following command should output the driver version instead of `N/A`:
+
+```sh
+$ nvidia-smi -q | grep GSP
+    GSP Firmware Version                  : 515.48.07
 ```
 
 ## Reporting Issues
