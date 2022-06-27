@@ -2,11 +2,14 @@
 
 export DESTDIR="$1"
 
+patch -p1 < hwdb.patch
+
 meson \
     --prefix=/usr \
     -Ddefault_library=both \
     -Dexamples=false \
     -Dxcb-errors=disabled \
+    -Dpnpids_file="$PWD/pnp.ids" \
     . build
 
 ninja -C build
