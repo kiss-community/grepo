@@ -9,7 +9,6 @@ cd glibc-build
 
 ../configure \
     --prefix=/usr \
-    --libdir=/usr/lib \
     --libexecdir=/usr/lib \
     --disable-werror \
     libc_cv_include_x86_isa_level=no
