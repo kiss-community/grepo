@@ -4,7 +4,7 @@
 
 ## Installation
 
-Follow the steps mentioned on the [KISS Linux](https://k1sslinux.org/install) website, making a few changes:
+Follow the steps mentioned on the [KISS Linux](https://kisslinux.org/install) website, making a few changes:
 
 * Download the latest GKISS tarball from https://github.com/gkisslinux/grepo/releases instead of the KISS tarball.
 * In order to rebuild `glibc`, the KISS [Community repository](https://github.com/kiss-community/repo-community) needs to be enabled.
