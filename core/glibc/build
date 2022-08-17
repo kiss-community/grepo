@@ -3,6 +3,8 @@
 # Build cannot happen without optimizations.
 export CFLAGS="${CFLAGS:--Os}"
 
+patch -p1 < reenable_DT_HASH.patch
+
 # Build must happen outside of glibc source.
 mkdir -p glibc-build
 cd glibc-build
@@ -28,7 +30,7 @@ rm -f "$1/var/db/Makefile" \
       "$1/usr/bin/tzselect"
 
 mkdir -p "$1/usr/lib/locale"
-printf "en_US.UTF8 UTF-8\n" > "$1/etc/locale.gen"
+printf "en_US.UTF-8 UTF-8\n" > "$1/etc/locale.gen"
 
 for script in ldd locale-gen sotruss; do
     cp -f "../glibc/$script" "$1/usr/bin/$script"
