@@ -1,29 +1,10 @@
-From e47de5cb2d4dbecb58f569ed241e8e95c568f03c Mon Sep 17 00:00:00 2001
-From: Florian Weimer <fweimer@redhat.com>
-Date: Fri, 29 Apr 2022 16:37:51 +0200
-Subject: [PATCH] Do not use --hash-style=both for building glibc shared
- objects
-
-The comment indicates that --hash-style=both was used to maintain
-compatibility with static dlopen, but we had many internal ABI
-changes since then, so this compatiblity does not add value anymore.
-
-Reviewed-by: Carlos O'Donell <carlos@redhat.com>
----
- Makeconfig     |  9 +++++++++
- Makerules      |  7 +++++++
- config.make.in |  1 +
- configure      | 28 ++++++++++++++++++++++++++++
- configure.ac   | 16 ++++++++++++++++
- 5 files changed, 61 insertions(+)
-
-diff --git b/Makeconfig a/Makeconfig
-index 760f14e92f..0aa5fb0099 100644
---- b/Makeconfig
-+++ a/Makeconfig
-@@ -362,6 +362,15 @@ relro-LDFLAGS = -Wl,-z,relro
- LDFLAGS.so += $(relro-LDFLAGS)
- LDFLAGS-rtld += $(relro-LDFLAGS)
+diff --git a/Makeconfig b/Makeconfig
+index ba70321a..e2131d43 100644
+--- a/Makeconfig
++++ b/Makeconfig
+@@ -371,6 +371,15 @@ dt-relr-ldflag =
+ no-dt-relr-ldflag =
+ endif
  
 +ifeq (yes,$(have-hash-style))
 +# For the time being we unconditionally use 'both'.  At some time we
@@ -37,11 +18,11 @@ index 760f14e92f..0aa5fb0099 100644
  ifeq (no,$(build-pie-default))
  pie-default = $(no-pie-ccflag)
  else # build-pie-default
-diff --git b/Makerules a/Makerules
-index 354528b8c7..428464f092 100644
---- b/Makerules
-+++ a/Makerules
-@@ -557,6 +557,13 @@ $(common-objpfx)shlib.lds: $(common-objpfx)config.make $(..)Makerules
+diff --git a/Makerules b/Makerules
+index d1e139d0..44134e37 100644
+--- a/Makerules
++++ b/Makerules
+@@ -558,6 +558,13 @@ $(common-objpfx)shlib.lds: $(common-objpfx)config.make $(..)Makerules
  		  -Wl,--verbose 2>/dev/null | \
  	  sed > $@T \
  	      -e '/^=========/,/^=========/!d;/^=========/d' \
@@ -55,31 +36,31 @@ index 354528b8c7..428464f092 100644
  	      -e 's/^.*\*(\.dynbss).*$$/& \
  		 PROVIDE(__start___libc_freeres_ptrs = .); \
  		 *(__libc_freeres_ptrs) \
-diff --git b/config.make.in a/config.make.in
-index fff4c78dd0..bf728c71c0 100644
---- b/config.make.in
-+++ a/config.make.in
-@@ -70,6 +70,7 @@ have-libcap = @have_libcap@
+diff --git a/config.make.in b/config.make.in
+index d7c416cb..130e639d 100644
+--- a/config.make.in
++++ b/config.make.in
+@@ -69,6 +69,7 @@ have-libaudit = @have_libaudit@
+ have-libcap = @have_libcap@
  have-cc-with-libunwind = @libc_cv_cc_with_libunwind@
- fno-unit-at-a-time = @fno_unit_at_a_time@
  bind-now = @bindnow@
 +have-hash-style = @libc_cv_hashstyle@
  use-default-link = @use_default_link@
  have-cxx-thread_local = @libc_cv_cxx_thread_local@
  have-loop-to-function = @libc_cv_cc_loop_to_function@
-diff --git b/configure a/configure
-index 716dc041b6..5a730dc5fc 100755
---- b/configure
-+++ a/configure
-@@ -622,6 +622,7 @@ libc_cv_cc_nofma
+diff --git a/configure b/configure
+index ff2c406b..07f93766 100755
+--- a/configure
++++ b/configure
+@@ -621,6 +621,7 @@ libc_cv_cc_submachine
+ libc_cv_cc_nofma
  libc_cv_mtls_dialect_gnu2
- fno_unit_at_a_time
  libc_cv_has_glob_dat
 +libc_cv_hashstyle
  libc_cv_fpie
  libc_cv_z_execstack
  ASFLAGS_config
-@@ -6193,6 +6194,33 @@ $as_echo "$libc_cv_fpie" >&6; }
+@@ -6192,6 +6193,33 @@ $as_echo "$libc_cv_fpie" >&6; }
  
  
  
@@ -113,10 +94,10 @@ index 716dc041b6..5a730dc5fc 100755
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GLOB_DAT reloc" >&5
  $as_echo_n "checking for GLOB_DAT reloc... " >&6; }
  if ${libc_cv_has_glob_dat+:} false; then :
-diff --git b/configure.ac a/configure.ac
-index d08ad4d64e..a045f6608e 100644
---- b/configure.ac
-+++ a/configure.ac
+diff --git a/configure.ac b/configure.ac
+index eb5bc6a1..870347c5 100644
+--- a/configure.ac
++++ b/configure.ac
 @@ -1360,6 +1360,22 @@ LIBC_TRY_CC_OPTION([-fpie], [libc_cv_fpie=yes], [libc_cv_fpie=no])
  
  AC_SUBST(libc_cv_fpie)
@@ -140,6 +121,3 @@ index d08ad4d64e..a045f6608e 100644
  AC_CACHE_CHECK(for GLOB_DAT reloc,
  	       libc_cv_has_glob_dat, [dnl
  cat > conftest.c <<EOF
--- 
-2.37.1
-
