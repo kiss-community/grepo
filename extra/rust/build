@@ -1,19 +1,11 @@
 #!/bin/sh -e
 
-# Instruct the compiler to trim absolute paths in resulting binaries and instead
-# change them to relative paths ($PWD/... ./...).
-export RUSTFLAGS="$RUSTFLAGS --remap-path-prefix=$PWD=."
+patch -p1 < fix-curl.patch
 
-# This package mimics the download process of rust's 'x.py'
-# bootstrap library to allow for the removal of the internet
-# connection requirement per build.
-{
-    mkdir -p "${cache_dir:=build/cache/2022-02-24}"
-
-    for tarball in *.tar.xz\?no-extract; do
-        mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"
-    done
-}
+# Ignore checksums of files modified above.
+sed 's/\("files":{\)[^}]*/\1/' \
+    vendor/curl-sys/.cargo-checksum.json > _
+mv -f _ vendor/curl-sys/.cargo-checksum.json
 
 cat > config.toml <<EOF
 [llvm]
@@ -36,6 +28,38 @@ tools          = [ "cargo", "rustfmt" ]
 sanitizers     = false
 profiler       = false
 full-bootstrap = false
+EOF
+
+maj="${2%%.*}"
+min="${2%.*}"
+min="${min#*.}"
+
+rust_version=$(rustc --version 2>/dev/null) || rust_version=null
+rust_version="${rust_version#rustc }"
+
+# If possible, use system rust to bootstrap.
+case "$rust_version" in
+    "$maj.$min".*|"$maj.$((min - 1))".*)
+        cat >> config.toml <<EOF
+cargo          = "/usr/bin/cargo"
+rustc          = "/usr/bin/rustc"
+rustfmt        = "/usr/bin/rustfmt"
+EOF
+    ;;
+
+    *)
+        # This mimics the download process of rust's 'x.py'
+        # bootstrap library to allow for the removal of the internet
+        # connection requirement per build.
+        mkdir -p "${cache_dir:=build/cache/2022-06-30}"
+
+        for tarball in *.tar.xz\?no-extract; do
+            mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"
+        done
+    ;;
+esac
+
+cat >> config.toml <<EOF
 
 [install]
 prefix = "/usr"
@@ -63,28 +87,7 @@ rpath             = false
 dist-src          = false
 EOF
 
-# Workaround to get Rust to build in llvm-only environments.
-# libgcc_s.so is needed for Rust's bootstrap binaries, on llvm-only systems
-# this library does not exist. This hack creates it as alias to libunwind.
-case $("$CC" -print-file-name=libunwind.so) in */*)
-    printf 'llvm-libunwind = "system"\n' >> config.toml
-
-    mkdir -p libgcc
-
-    printf 'INPUT(-lunwind)\n' > \
-        libgcc/libgcc_s.so
-
-    ln -sf "$KISS_ROOT/usr/lib/libunwind.so.1" \
-        libgcc/libgcc_s.so.1
-
-    export \
-        LD_LIBRARY_PATH="$PWD/libgcc:$LD_LIBRARY_PATH" \
-        LIBRARY_PATH="$PWD/libgcc:$LIBRARY_PATH"
-esac
-
-export DESTDIR="$1"
-
-./x.py build -j "$(nproc)"
+./x.py build -j "$(grep -scF 'core id' /proc/cpuinfo)"
 ./x.py install
 
 rm -rf \
