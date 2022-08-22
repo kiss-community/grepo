@@ -37,7 +37,6 @@ libnvidia-encode
 libnvoptix
 libnvidia-opticalflow
 libnvidia-ngx
-libnvidia-vulkan-producer
 "
 
 soname_libs="
@@ -76,6 +75,10 @@ if [ "$xorg" ]; then
 fi
 
 if [ ! "$xorg" ] || [ "$wayland" ]; then
+    libs="
+        $libs libnvidia-vulkan-producer
+    "
+
     soname_libs="
         $soname_libs
         libnvidia-egl-gbm.so.1.1.0 libnvidia-egl-wayland.so.1.1.9
