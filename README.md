@@ -13,7 +13,7 @@ Follow the steps mentioned on the [KISS Linux](https://kisslinux.org/install) we
 
 ## NVIDIA
 
-**TIP:** `mesa` can be built without `llvm` on NVIDIA systems, look [here](https://github.com/git-bruh/kiss-repo/blob/master/overrides/mesa/build) for an example.
+**TIP:** `mesa` can be built without `llvm` on NVIDIA systems, look [here](https://codeberg.org/git-bruh/kiss-repo/src/branch/master/overrides/mesa/build) for an example.
 
 **TIP:** X11 Packages can be found in the [kiss-xorg](https://github.com/ehawkvu/kiss-xorg) repo if Wayland is not for you.
 
