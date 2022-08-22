@@ -23,20 +23,14 @@ persistenced
 "
 
 libs="
-libEGL_nvidia libGLESv1_CM_nvidia libGLESv2_nvidia
-libnvidia-cfg libnvidia-compiler libnvidia-eglcore libnvidia-glcore
-libnvidia-glsi libnvidia-glvkspirv libnvidia-rtcore libnvidia-allocator
-libcuda
+libEGL_nvidia      libGLESv1_CM_nvidia libGLESv2_nvidia
+libnvidia-eglcore  libnvidia-glcore    libnvidia-glsi
+libnvidia-opencl   libnvidia-encode    libnvidia-rtcore
+libnvidia-compiler libnvidia-allocator libnvidia-cfg
+libnvidia-nvvm     libnvidia-tls       libnvidia-ml
+libnvcuvid         libcuda             libnvoptix
+libnvidia-ngx      libnvidia-glvkspirv libnvidia-opticalflow
 libnvidia-ptxjitcompiler
-libnvidia-nvvm
-libnvidia-opencl
-libnvidia-tls
-libnvidia-ml
-libnvcuvid
-libnvidia-encode
-libnvoptix
-libnvidia-opticalflow
-libnvidia-ngx
 "
 
 soname_libs="
@@ -97,6 +91,10 @@ if [ ! "$xorg" ] || [ "$wayland" ]; then
         sed 's|libGLX_nvidia.so.0|libEGL_nvidia.so.0|' "$file.json" > _
         mv -f _ "$file.json"
     done
+
+    # libnvidia-vulkan-producer.so has no SONAME set
+    ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so.1"
+    ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so"
 fi
 
 cp nvidia_icd.json "$1/etc/vulkan/icd.d/"
@@ -128,16 +126,13 @@ for lib in $soname_libs; do
 done
 
 # soname links
-for lib in "$1/usr/lib/"*.so*; do
-    soname=$(dirname "$lib")/$(readelf -d "$lib" | awk '/SONAME/ {print $5}' | tr -d '[]')
-    base=$(printf "%s" "$soname" | sed -r 's/(.*).so.*/\1.so/')
-    [ -e "$soname" ] || ln -sf "$(basename "$lib")" "$soname"
-    [ -e "$base" ] || ln -sf "$(basename "$soname")" "$base"
+for lib in "$1"/usr/lib/*.so*; do
+    soname="${lib%/*}/$(readelf -d "$lib" | awk -F'[][]' '/SONAME/ {print $2}')"
+    base=${soname%%.so*}
+    [ -e "$soname" ] || ln -sf "${lib##*/}" "${soname}"
+    [ -e "$base" ] || ln -sf "${soname##*/}" "${base}.so"
 done
 
-# libnvidia-vulkan-producer.so has no SONAME set
-ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so.1"
-ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so"
 
 mkdir -p "$1/usr/lib/firmware/nvidia/$2"
 cp firmware/gsp.bin "$1/usr/lib/firmware/nvidia/$2/"
