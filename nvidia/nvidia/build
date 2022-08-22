@@ -113,7 +113,7 @@ cp "nvidia-application-profiles-$2-rc" \
 for bin in $bins; do
     cp "nvidia-${bin}" "$1/usr/bin/"
 
-    [ -f "$nvidia-${bin}.1.gz" ] || continue
+    [ -f "nvidia-${bin}.1.gz" ] || continue
     cp "nvidia-${bin}.1.gz" "$1/usr/share/man/man1/"
 done
 
