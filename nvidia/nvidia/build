@@ -104,13 +104,10 @@ cp firmware/gsp.bin "$1/usr/lib/firmware/nvidia/$2/"
 
 # kernel modules
 if [ "$USE_NVIDIA_OPEN" = 1 ]; then
-    cd ../nvidia-open
-
-    make modules
     cd kernel-open
 else
     cd kernel
-    make modules
 fi
 
+make modules
 cp ./*.ko "$1/usr/lib/modules/$KERNEL_UNAME/extra"
