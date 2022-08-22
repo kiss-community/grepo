@@ -11,29 +11,6 @@ Follow the steps mentioned on the [KISS Linux](https://kisslinux.org/install) we
 * Generate locales by running `locale-gen` as root after modifying the `/etc/locale.gen` file with the appropriate locales separated by newlines (`en_US.UTF-8 UTF-8` for most users) and add `export LANG=en_US.UTF-8` to `/etc/profile`.
 * Optionally, enable the GKISS [Community repository](https://github.com/gkisslinux/gcommunity) for software like `dbus` and `pulseaudio`.
 
-## Binary Packages
-
-**NOTE:** This assumes that the user trusts the source of the binary packages. The packages are built on the author's personal system with [these](https://github.com/git-bruh/dotfiles/blob/master/.profile#L3) build flags.
-
-Regularly updated binaries are provided for the following packages:
-
-* Clang
-* CMake
-* Firefox
-* LLVM
-* Rust
-
-Binaries for KISS (musl) -> [here](https://github.com/kiss-community/repo-bin)
-
-### Installing binaries
-
-* Modify `KISS_PATH` such that the `bin` repository takes priority over other repositories:
-```sh
-export KISS_PATH=/path/to/grepo/bin:$KISS_PATH
-```
-
-* The packages can now be installed by a simple `kiss b $PKG` command.
-
 ## NVIDIA
 
 **TIP:** `mesa` can be built without `llvm` on NVIDIA systems, look [here](https://github.com/git-bruh/kiss-repo/blob/master/overrides/mesa/build) for an example.
