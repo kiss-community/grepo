@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-USE_NVIDIA_OPEN=0
-
 : "${KERNEL_UNAME:=$(uname -r)}"
 
 sh "NVIDIA-Linux-x86_64-${2}-no-compat32.run" --extract-only
@@ -13,18 +11,37 @@ mkdir -p \
     "$1/usr/share/man/man1" \
     "$1/usr/share/egl/egl_external_platform.d" \
     "$1/usr/share/glvnd/egl_vendor.d" \
-    "$1/usr/share/vulkan/icd.d" \
-    "$1/usr/share/vulkan/implicit_layer.d" \
+    "$1/usr/share/nvidia" \
+    "$1/etc/vulkan/icd.d" \
+    "$1/etc/vulkan/implicit_layer.d" \
+    "$1/etc/OpenCL/vendors/" \
     "$1/usr/lib/modules/${KERNEL_UNAME:-$(uname -r)}/extra"
 
 bins="
-smi persistenced modprobe
+cuda-mps-control cuda-mps-server modprobe smi debugdump bug-report.sh
+persistenced
 "
 
 libs="
-libEGL_nvidia     libGLESv1_CM_nvidia libGLESv2_nvidia
-libnvidia-eglcore libnvidia-allocator libnvidia-glsi
+libEGL_nvidia libGLESv1_CM_nvidia libGLESv2_nvidia
+libnvidia-cfg libnvidia-compiler libnvidia-eglcore libnvidia-glcore
+libnvidia-glsi libnvidia-glvkspirv libnvidia-rtcore libnvidia-allocator
+libcuda
+libnvidia-ptxjitcompiler
+libnvidia-nvvm
+libnvidia-opencl
+libnvidia-tls
 libnvidia-ml
+libnvcuvid
+libnvidia-encode
+libnvoptix
+libnvidia-opticalflow
+libnvidia-ngx
+libnvidia-vulkan-producer
+"
+
+soname_libs="
+libOpenCL.so.1.0.0
 "
 
 xorg=
@@ -34,9 +51,9 @@ kiss list wayland && wayland=true
 
 if [ "$xorg" ]; then
     bins="$bins xconfig settings"
+
     libs="
-        $libs libGLX_nvidia libnvidia-glcore libnvidia-tls libnvidia-glvkspirv
-        libnvidia-gtk3
+        $libs libGLX_nvidia libnvidia-gtk3 libnvidia-fbc
     "
 
     mkdir -p "$1/usr/lib/xorg/modules/drivers" \
@@ -59,9 +76,10 @@ if [ "$xorg" ]; then
 fi
 
 if [ ! "$xorg" ] || [ "$wayland" ]; then
-    for lib in libnvidia-egl-gbm.so.1.1.0 libnvidia-egl-wayland.so.1.1.9; do
-        cp "$lib" "$1/usr/lib/"
-    done
+    soname_libs="
+        $soname_libs
+        libnvidia-egl-gbm.so.1.1.0 libnvidia-egl-wayland.so.1.1.9
+    "
 
     ln -sf ../libnvidia-allocator.so.1 "$1/usr/lib/gbm/nvidia-drm_gbm.so"
 
@@ -72,16 +90,27 @@ if [ ! "$xorg" ] || [ "$wayland" ]; then
     # > The Vulkan ICD configuration file included with the driver references
     # > libGLX_nvidia.so.0, however in environments where X11 client libraries are
     # > not available, libEGL_nvidia.so.0 should be used.
-    sed 's|libGLX_nvidia.so.0|libEGL_nvidia.so.0|' nvidia_icd.json \
-        > "$1/usr/share/vulkan/icd.d/nvidia_icd.json"
-    sed 's|libGLX_nvidia.so.0|libEGL_nvidia.so.0|' nvidia_layers.json \
-        > "$1/usr/share/vulkan/implicit_layer.d/nvidia_layers.json"
+    for file in nvidia_icd nvidia_layers; do
+        sed 's|libGLX_nvidia.so.0|libEGL_nvidia.so.0|' "$file.json" > _
+        mv -f _ "$file.json"
+    done
 fi
+
+cp nvidia_icd.json "$1/etc/vulkan/icd.d/"
+cp nvidia_layers.json "$1/etc/vulkan/implicit_layer.d/"
 
 cp 10_nvidia.json "$1/usr/share/glvnd/egl_vendor.d/"
 
+cp nvidia.icd "$1/etc/OpenCL/vendors/"
+
+cp "nvidia-application-profiles-$2-rc" \
+   "nvidia-application-profiles-$2-key-documentation" \
+   "$1/usr/share/nvidia/"
+
 for bin in $bins; do
     cp "nvidia-${bin}" "$1/usr/bin/"
+
+    [ -f "$nvidia-${bin}.1.gz" ] || continue
     cp "nvidia-${bin}.1.gz" "$1/usr/share/man/man1/"
 done
 
@@ -89,6 +118,10 @@ chmod 4755 "$1/usr/bin/nvidia-modprobe"
 
 for lib in $libs; do
     cp "${lib}.so.$2" "$1/usr/lib/"
+done
+
+for lib in $soname_libs; do
+    cp "$lib" "$1/usr/lib/"
 done
 
 # soname links
@@ -99,15 +132,15 @@ for lib in "$1/usr/lib/"*.so*; do
     [ -e "$base" ] || ln -sf "$(basename "$soname")" "$base"
 done
 
+# libnvidia-vulkan-producer.so has no SONAME set
+ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so.1"
+ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so"
+
 mkdir -p "$1/usr/lib/firmware/nvidia/$2"
 cp firmware/gsp.bin "$1/usr/lib/firmware/nvidia/$2/"
 
 # kernel modules
-if [ "$USE_NVIDIA_OPEN" = 1 ]; then
-    cd kernel-open
-else
-    cd kernel
-fi
-
+cd kernel
 make modules
+
 cp ./*.ko "$1/usr/lib/modules/$KERNEL_UNAME/extra"
