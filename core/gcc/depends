@@ -1,4 +1,1 @@
-binutils
-bison  make
-flex   make
-zlib
+../../kiss-repo/core/binutils/depends
