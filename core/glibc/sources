@@ -1,3 +1,4 @@
 https://ftp.gnu.org/gnu/libc/glibc-2.36.tar.xz
 https://github.com/gkisslinux/sh-alternatives/archive/2.36-2.tar.gz
+patches/fix-sys-mount-h.patch
 patches/reenable_DT_HASH.patch

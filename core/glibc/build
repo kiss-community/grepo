@@ -3,7 +3,9 @@
 # Build cannot happen without optimizations.
 export CFLAGS="${CFLAGS:--Os}"
 
-patch -p1 < reenable_DT_HASH.patch
+for p in *.patch; do
+    patch -p1 < "$p"
+done
 
 # Build must happen outside of glibc source.
 mkdir -p glibc-build
