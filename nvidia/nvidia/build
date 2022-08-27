@@ -37,65 +37,56 @@ soname_libs="
 libOpenCL.so.1.0.0
 "
 
-xorg=
-wayland=
-kiss list xorg-server && xorg=true
-kiss list wayland && wayland=true
+libs="
+    $libs libnvidia-vulkan-producer
+"
 
-if [ "$xorg" ]; then
-    bins="$bins xconfig settings"
+soname_libs="
+    $soname_libs libnvidia-egl-gbm.so.1.1.0
+"
 
-    libs="
-        $libs libGLX_nvidia libnvidia-gtk3 libnvidia-fbc
-    "
+ln -sf ../libnvidia-allocator.so.1 "$1/usr/lib/gbm/nvidia-drm_gbm.so"
 
-    mkdir -p "$1/usr/lib/xorg/modules/drivers" \
-             "$1/usr/lib/xorg/modules/extensions" \
-             "$1/usr/lib/vdpau"
+cp 10_nvidia_wayland.json 15_nvidia_gbm.json \
+    "$1/usr/share/egl/egl_external_platform.d/"
 
-    cp nvidia_drv.so "$1/usr/lib/xorg/modules/drivers/nvidia_drv.so"
-    cp "libglxserver_nvidia.so.$2" \
-        "$1/usr/lib/xorg/modules/extensions/libglxserver_nvidia.so.$2"
+# https://download.nvidia.com/XFree86/Linux-x86_64/470.74/README/installedcomponents.html
+# > The Vulkan ICD configuration file included with the driver references
+# > libGLX_nvidia.so.0, however in environments where X11 client libraries are
+# > not available, libEGL_nvidia.so.0 should be used.
+for file in nvidia_icd nvidia_layers; do
+    sed 's|libGLX_nvidia.so.0|libEGL_nvidia.so.0|' "$file.json" > _
+    mv -f _ "$file.json"
+done
 
-    ln -s "libglxserver_nvidia.so.$2" \
-        "$1/usr/lib/xorg/modules/extensions/libglxserver_nvidia.so.1"
-    ln -s "libglxserver_nvidia.so.$2" \
-        "$1/usr/lib/xorg/modules/extensions/libglxserver_nvidia.so"
+# libnvidia-vulkan-producer.so has no SONAME set
+ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so.1"
+ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so"
 
-    cp "libvdpau_nvidia.so.$2" "$1/usr/lib/vdpau/libvdpau_nvidia.so.$2"
+mkdir -p "$1/usr/include/EGL" "$1/usr/lib/pkgconfig"
 
-    ln -s "libvdpau_nvidia.so.$2" "$1/usr/lib/vdpau/libvdpau_nvidia.so.1"
-    ln -s "libvdpau_nvidia.so.$2" "$1/usr/lib/vdpau/libvdpau_nvidia.so"
-fi
+(
+    cd ../eglexternalplatform
 
-if [ ! "$xorg" ] || [ "$wayland" ]; then
-    libs="
-        $libs libnvidia-vulkan-producer
-    "
+    cp interface/* "$1/usr/include/EGL/"
+    cp ./*.pc "$1/usr/lib/pkgconfig/"
+)
 
-    soname_libs="
-        $soname_libs
-        libnvidia-egl-gbm.so.1.1.0 libnvidia-egl-wayland.so.1.1.9
-    "
+(
+    cd ../egl-wayland
 
-    ln -sf ../libnvidia-allocator.so.1 "$1/usr/lib/gbm/nvidia-drm_gbm.so"
+    export DESTDIR="$1"
 
-    cp 10_nvidia_wayland.json "$1/usr/share/egl/egl_external_platform.d/"
-    cp 15_nvidia_gbm.json "$1/usr/share/egl/egl_external_platform.d/"
+    export CFLAGS="$CFLAGS -I$1/usr/include/EGL"
+    export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$1/usr/lib/pkgconfig"
 
-    # https://download.nvidia.com/XFree86/Linux-x86_64/470.74/README/installedcomponents.html
-    # > The Vulkan ICD configuration file included with the driver references
-    # > libGLX_nvidia.so.0, however in environments where X11 client libraries are
-    # > not available, libEGL_nvidia.so.0 should be used.
-    for file in nvidia_icd nvidia_layers; do
-        sed 's|libGLX_nvidia.so.0|libEGL_nvidia.so.0|' "$file.json" > _
-        mv -f _ "$file.json"
-    done
+    meson \
+        --prefix=/usr \
+        . output
 
-    # libnvidia-vulkan-producer.so has no SONAME set
-    ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so.1"
-    ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so"
-fi
+    ninja -C output
+    ninja -C output install
+)
 
 cp nvidia_icd.json "$1/etc/vulkan/icd.d/"
 cp nvidia_layers.json "$1/etc/vulkan/implicit_layer.d/"
