@@ -20,8 +20,9 @@ m4            make
 mesa
 nasm          make
 nodejs        make
+nspr
+nss
 pango
-perl          make
 pixman
 pkgconf       make
 python        make

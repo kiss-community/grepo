@@ -6,4 +6,5 @@ patches/fix-clang-as.patch
 patches/fix-linux-header.patch
 patches/no-dbus.patch
 patches/no-fribidi.patch
+patches/no-perl.patch
 patches/arc4random.patch

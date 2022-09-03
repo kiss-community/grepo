@@ -53,7 +53,6 @@ export CXXFLAGS="$CXXFLAGS -w"
 # change them to relative paths ($PWD/... ./...).
 export RUSTFLAGS="$RUSTFLAGS --remap-path-prefix=$PWD=."
 
-export LDFLAGS="$LDFLAGS -Wl,-rpath=/usr/lib/firefox,--enable-new-dtags"
 export RUSTFLAGS="$RUSTFLAGS -Cdebuginfo=0"
 export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=system
 export MOZ_DEBUG_FLAGS=-g0
@@ -78,8 +77,8 @@ ac_add_options --with-system-png
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-zlib
 ac_add_options --with-system-pixman
-ac_add_options --without-system-nss
-ac_add_options --without-system-nspr
+ac_add_options --with-system-nss
+ac_add_options --with-system-nspr
 ac_add_options --without-wasm-sandboxed-libraries
 ac_add_options --disable-eme
 ac_add_options --disable-dbus
