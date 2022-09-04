@@ -7,6 +7,7 @@
 Follow the steps mentioned on the [KISS Linux](https://kisslinux.org/install) website, making a few changes:
 
 * Download the latest GKISS tarball from https://github.com/gkisslinux/grepo/releases instead of the KISS tarball.
+
 * The `KISS_PATH` should be set as follows - with `grepo` instead of `repo`:
 
 ```sh
@@ -21,8 +22,8 @@ KISS_PATH="$KISS_PATH:$REPODIR/community/community"
 ```
 
 * In order to rebuild `glibc`, the KISS [Community repository](https://github.com/kiss-community/repo-community) needs to be enabled.
+
 * Generate locales by running `locale-gen` as root after modifying the `/etc/locale.gen` file with the appropriate locales separated by newlines (`en_US.UTF-8 UTF-8` for most users) and add `export LANG=en_US.UTF-8` to `/etc/profile`.
-* Optionally, enable the GKISS [Community repository](https://github.com/gkisslinux/gcommunity) for software like `dbus` and `pulseaudio`.
 
 ## NVIDIA
 
