@@ -7,6 +7,19 @@
 Follow the steps mentioned on the [KISS Linux](https://kisslinux.org/install) website, making a few changes:
 
 * Download the latest GKISS tarball from https://github.com/gkisslinux/grepo/releases instead of the KISS tarball.
+* The `KISS_PATH` should be set as follows - with `grepo` instead of `repo`:
+
+```sh
+REPODIR="$HOME/Repos" # Example, set this accordingly
+
+export KISS_PATH=""
+KISS_PATH="$KISS_PATH:$REPODIR/grepo/core"
+KISS_PATH="$KISS_PATH:$REPODIR/grepo/nvidia" # Important, must be placed before all other repos (only required on NVIDIA systems)
+KISS_PATH="$KISS_PATH:$REPODIR/grepo/extra"
+KISS_PATH="$KISS_PATH:$REPODIR/grepo/wayland"
+KISS_PATH="$KISS_PATH:$REPODIR/community/community"
+```
+
 * In order to rebuild `glibc`, the KISS [Community repository](https://github.com/kiss-community/repo-community) needs to be enabled.
 * Generate locales by running `locale-gen` as root after modifying the `/etc/locale.gen` file with the appropriate locales separated by newlines (`en_US.UTF-8 UTF-8` for most users) and add `export LANG=en_US.UTF-8` to `/etc/profile`.
 * Optionally, enable the GKISS [Community repository](https://github.com/gkisslinux/gcommunity) for software like `dbus` and `pulseaudio`.
@@ -15,14 +28,11 @@ Follow the steps mentioned on the [KISS Linux](https://kisslinux.org/install) we
 
 **TIP:** `mesa` can be built without `llvm` on NVIDIA systems, look [here](https://codeberg.org/git-bruh/kiss-repo/src/branch/master/overrides/mesa/build) for an example.
 
-**TIP:** X11 Packages can be found in the [kiss-xorg](https://github.com/ehawkvu/kiss-xorg) repo if Wayland is not for you.
-
 * Modify `KISS_PATH` such that the `nvidia` repository takes priority over other repositories since some Wayland packages like `wlroots` are forked here to add NVIDIA support:
+
 ```sh
 export KISS_PATH=/path/to/grepo/nvidia:$KISS_PATH
 ```
-
-* Build `libglvnd`, and then `mesa` since NVIDIA drivers require libglvnd.
 
 * Install the nvidia drivers by building the `nvidia` package.
 
