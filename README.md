@@ -64,6 +64,12 @@ $ nvidia-smi -q | grep GSP
     GSP Firmware Version                  : 515.48.07
 ```
 
+* Additionally, disable hardware cursors for wayland compositors to avoid flickering by adding the following command to `~/.profile`:
+
+```sh
+export WLR_NO_HARDWARE_CURSORS=1
+```
+
 ## Reporting Issues
 
 Any build failures/segfaults encountered with packages from GKISS/KISS repositories should be reported in the form of an issue on this repository.
