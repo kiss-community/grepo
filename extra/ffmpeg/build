@@ -1,0 +1,41 @@
+#!/bin/sh -e
+
+for p in *.patch; do
+    patch -p1 < "$p"
+done
+
+./configure \
+    --cc="$CC" \
+    --cxx="$CXX" \
+    --prefix=/usr \
+    --disable-debug \
+    --disable-libxml2 \
+    --disable-static \
+    --disable-libxcb \
+    --disable-libxcb-shm \
+    --disable-libxcb-xfixes \
+    --disable-libxcb-shape \
+    --disable-xlib \
+    --enable-gpl \
+    --enable-libass \
+    --enable-libdrm \
+    --enable-libmp3lame \
+    --enable-libopus \
+    --enable-libvorbis \
+    --enable-libvpx \
+    --enable-libwebp \
+    --enable-libx264 \
+    --enable-libx265 \
+    --enable-libxvid \
+    --enable-nonfree \
+    --enable-openssl \
+    --enable-shared \
+    --enable-version3 \
+    --enable-nvdec \
+    --enable-nvenc \
+    --x86asmexe=nasm
+
+make
+make install
+
+rm -rf "$1/usr/share/ffmpeg/examples"

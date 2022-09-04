@@ -1,0 +1,17 @@
+alsa-lib
+ffnvcodec-headers make
+lame
+libass
+libdrm
+libogg
+libvorbis
+libvpx
+libwebp
+linux-headers make
+nasm          make
+openssl
+opus
+pkgconf make
+x264
+x265
+xvidcore

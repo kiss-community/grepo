@@ -1,0 +1,13 @@
+alsa-lib
+ffmpeg
+ffnvcodec-headers make
+freetype-harfbuzz
+libass
+libxkbcommon
+linux-headers     make
+mesa
+meson   make
+pkgconf make
+python  make
+wayland
+wayland-protocols make
