@@ -14,8 +14,7 @@ mkdir -p \
     "$1/usr/share/nvidia" \
     "$1/etc/vulkan/icd.d" \
     "$1/etc/vulkan/implicit_layer.d" \
-    "$1/etc/OpenCL/vendors/" \
-    "$1/usr/lib/modules/${KERNEL_UNAME:-$(uname -r)}/extra"
+    "$1/etc/OpenCL/vendors/"
 
 bins="
 cuda-mps-control cuda-mps-server modprobe smi debugdump bug-report.sh
@@ -130,6 +129,10 @@ cp firmware/gsp.bin "$1/usr/lib/firmware/nvidia/$2/"
 
 # kernel modules
 cd kernel
-make modules
 
-cp ./*.ko "$1/usr/lib/modules/$KERNEL_UNAME/extra"
+make modules
+make INSTALL_MOD_PATH="$1/usr" INSTALL_MOD_STRIP=1 modules_install
+
+for file in modules.symbols modules.dep modules.alias; do
+    rm -f "$1/usr/lib/modules/$KERNEL_UNAME/$file"
+done
