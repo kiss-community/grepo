@@ -20,6 +20,7 @@
 meson \
     --prefix=/usr \
     -Dalsa=enabled \
+    -Dlibmpv=true \
     -Dwayland=enabled \
     -Dx11=disabled \
     . output
