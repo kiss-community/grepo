@@ -1,0 +1,4 @@
+eglexternalplatform make
+meson make
+wayland
+wayland-protocols make

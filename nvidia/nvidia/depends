@@ -1,6 +1,5 @@
+egl-wayland
 libdrm
 libglvnd
 mesa
-meson make
 wayland
-wayland-protocols make
