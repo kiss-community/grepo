@@ -1,0 +1,2 @@
+https://libsdl.org/release/SDL2-VERSION.tar.gz
+patches/0001-Fixed-OpenGL-ES-Shaders-for-systems-that-don-t-under.patch
