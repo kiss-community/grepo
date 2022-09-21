@@ -1,13 +1,11 @@
 #!/bin/sh -e
 
-export DESTDIR="$1"
-
 # Don't build tests.
 sed -i "/subdir('tests')/d" meson.build
 
-meson \
-    --prefix=/usr \
-    . output
+muon setup \
+    -Dprefix=/usr \
+    output
 
 ninja -C output
-ninja -C output install
+muon  -C output install
