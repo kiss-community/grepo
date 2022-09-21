@@ -1,4 +1,4 @@
 eglexternalplatform make
-meson make
+muon make
 wayland
 wayland-protocols make
