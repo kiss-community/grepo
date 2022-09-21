@@ -6,7 +6,7 @@ libudev-zero
 libxkbcommon
 linux-headers make
 mesa
-meson make
+muon make
 pixman
 wayland
 wayland-protocols make
