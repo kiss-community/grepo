@@ -1,0 +1,34 @@
+#!/bin/sh -e
+
+if command -v cmake >/dev/null; then
+    cmake -B build \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_USE_SYSTEM_CURL=True \
+        -DCMAKE_USE_SYSTEM_EXPAT=True \
+        -DCMAKE_USE_SYSTEM_ZLIB=True \
+        -DCMAKE_USE_SYSTEM_BZIP2=True \
+        -DBUILD_CursesDialog=OFF \
+        -DBUILD_TESTING=OFF
+
+    cmake --build   build
+    cmake --install build
+
+else
+    ./configure \
+        --prefix=/usr \
+        --system-curl \
+        --system-expat \
+        --system-zlib \
+        --system-bzip2 \
+        --parallel="$(grep -scF 'core id' /proc/cpuinfo)" -- \
+        -DBUILD_CursesDialog=OFF
+
+    make
+    make install
+fi
+
+rm -rf \
+    "$1/usr/doc" \
+    "$1/usr/share/cmake"*/Help \
+    "$1/usr/share/bash-completion"

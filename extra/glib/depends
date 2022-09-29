@@ -1,0 +1,5 @@
+libffi
+meson   make
+pcre2
+pkgconf make
+zlib

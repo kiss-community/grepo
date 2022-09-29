@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+: > fuzzing/meson.build
+
+meson \
+    --prefix=/usr \
+    -Dlibmount=disabled \
+    -Dinstalled_tests=false \
+    -Ddefault_library=both \
+    -Dman=false \
+    -Dtests=false \
+    -Dlibelf=disabled \
+    -Dnls=disabled \
+    . build
+
+ninja -C build
+ninja -C build install
+
+rm -rf "$1/usr/bin/gdbus"

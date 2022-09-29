@@ -1,0 +1,57 @@
+#!/bin/sh -e
+
+out=$PWD/out
+mkdir -p out
+
+(
+    cd cyrus-sasl
+
+    ./configure \
+        LIBS='-lssl -lcrypto' \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --disable-shared \
+        --sbindir=/usr/bin
+
+    make
+    make DESTDIR="$out" install
+)
+
+# Remove perl dependency.
+sed 's/ doc contrib/ contrib/g' Makefile.in > _
+mv -f _ Makefile.in
+
+./configure \
+    ac_cv_search_sasl_encode64=-lsasl2 \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --disable-doc \
+    --disable-full-doc \
+    --enable-pop \
+    --enable-imap \
+    --enable-smtp \
+    --with-ssl \
+    --with-sasl="$out/usr"
+
+make
+make install-exec
+
+rm -f "$1/etc/mime.types"
+
+mkdir -p \
+    "$1/usr/share/man/man1" \
+    "$1/usr/share/man/man5" \
+
+# Install manual pages.
+for file in \
+    mutt.1 pgpring.1 pgpewrap.1 smime_keys.1 mbox.5 mmdf.5 muttrc.5
+do
+    base=${file%%.[15]}
+    suf=${file##"$base".}
+
+    sed \
+        -e 's,@docdir@,/usr/share/doc,g' \
+        -e 's,@sysconfdir@,/etc,g' \
+        -e 's,@bindir@,/usr/bin,g' \
+        "doc/$base.man" > "$1/usr/share/man/man$suf/$file"
+done

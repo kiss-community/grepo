@@ -1,0 +1,5 @@
+libva
+mesa    make
+pkgconf make
+wayland
+wayland-protocols make

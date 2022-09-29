@@ -1,0 +1,29 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --datadir=/usr/share/openssh \
+    --sysconfdir=/etc/ssh \
+    --sbindir=/usr/bin \
+    --libexecdir=/usr/lib/openssh \
+    --without-selinux \
+    --with-privsep-user=nobody \
+    --with-mantype=doc \
+    --without-rpath \
+    --disable-strip \
+    --with-ssl-engine \
+    --with-pid-dir=/run \
+    --disable-wtmp \
+    --disable-utmp
+
+make
+make DESTDIR="$1" install
+
+cp -f contrib/ssh-copy-id   "$1/usr/bin"
+cp -f contrib/ssh-copy-id.1 "$1/usr/share/man/man1"
+chmod +x "$1/usr/bin/ssh-copy-id"
+
+# Install runit services.
+mkdir -p "$1/etc/sv/sshd"
+cp -f sshd.run "$1/etc/sv/sshd/run"
+ln -sf /run/runit/supervise.sshd "$1/etc/sv/sshd/supervise"

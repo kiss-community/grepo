@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr
+
+make
+
+make -C lib     install
+make -C include install
+
+make install-m4dataDATA install-pkgconfigDATA
+

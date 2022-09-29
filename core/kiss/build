@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+mkdir -p \
+    "$1/usr/bin" \
+    "$1/usr/share/doc/kiss"
+
+cp -f  kiss contrib/*  "$1/usr/bin"
+cp -f  docs/site/*.txt "$1/usr/share/doc/kiss"
+cp -rf docs/site/wiki  "$1/usr/share/doc/kiss"
+
+rm -f \
+    "$1/usr/share/doc/kiss/README.txt" \
+    "$1/usr/share/doc/kiss/post.txt" \
+    "$1/usr/share/doc/kiss/tidbits.txt"

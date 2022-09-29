@@ -1,0 +1,20 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --enable-cscope \
+    --enable-multibyte \
+    --with-ex-name=vim-ex \
+    --with-view-name=vim-view \
+    --disable-perlinterp \
+    --disable-pythoninterp \
+    --disable-rubyinterp \
+    --disable-netbeans \
+    --disable-gpm \
+    --disable-xim \
+    --disable-gui \
+    --disable-nls \
+    --without-x
+
+make
+make install

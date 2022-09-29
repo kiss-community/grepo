@@ -1,0 +1,7 @@
+fontconfig
+freetype-harfbuzz
+glib
+libpng
+pixman
+pkgconf make
+zlib

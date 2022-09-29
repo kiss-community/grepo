@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+# Required by qt5 and possibly other software.
+export CPPFLAGS="$CPPFLAGS -DSQLITE_ENABLE_COLUMN_METADATA"
+
+./configure \
+    --prefix=/usr \
+    --enable-threadsafe \
+    --enable-dynamic-extensions \
+    --enable-fts5 \
+    ac_cv_search_readline=no \
+
+make
+make install

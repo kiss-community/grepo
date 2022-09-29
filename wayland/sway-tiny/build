@@ -1,0 +1,37 @@
+#!/bin/sh -e
+
+patch -p1 < no-evdev.patch
+
+# Default background color.
+sed 's/0.25f, 0.25f, 0.25f/0.929, 0.870, 0.678/' \
+    sway/desktop/render.c > _
+mv -f _ sway/desktop/render.c
+
+# Build fails with clang due to -Werror.
+export CFLAGS="$CFLAGS -Wno-unused-function -Wno-error"
+
+meson \
+    -Dprefix=/usr \
+    -Dswaybar=false \
+    -Dswaynag=false \
+    -Ddefault-wallpaper=false \
+    -Dzsh-completions=false \
+    -Dbash-completions=false \
+    -Dfish-completions=false \
+    -Dxwayland=disabled \
+    -Dwlroots:examples=false \
+    -Dwlroots:xcb-errors=disabled \
+    -Dwlroots:default_library=static \
+    -Dseatd:libseat-builtin=enabled \
+    -Dseatd:default_library=static \
+    --force-fallback-for=wlroots,seatd \
+    . output
+
+ninja -C output
+
+mkdir -p \
+    "$1/usr/bin" \
+    "$1/etc/sway"
+
+cp -f output/sway/sway "$1/usr/bin"
+cp -f config.in "$1/etc/sway/config"

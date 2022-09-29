@@ -1,0 +1,21 @@
+diff --git a/nss/lib/ckfw/builtins/Makefile b/nss/lib/ckfw/builtins/Makefile
+index 2a633d2..561818b 100644
+--- a/nss/lib/ckfw/builtins/Makefile
++++ b/nss/lib/ckfw/builtins/Makefile
+@@ -67,4 +67,4 @@ NSS_CERTDATA_TXT = certdata.txt
+ endif
+ 
+ $(OBJDIR)/certdata.c: $(NSS_CERTDATA_TXT) certdata.perl | $$(@D)/d
+-	$(PERL) certdata.perl $(NSS_CERTDATA_TXT) $@
++	./certdata.sh $(NSS_CERTDATA_TXT) $@
+diff --git a/nss/lib/ckfw/builtins/testlib/Makefile b/nss/lib/ckfw/builtins/testlib/Makefile
+index 9eb29dd..d170325 100644
+--- a/nss/lib/ckfw/builtins/testlib/Makefile
++++ b/nss/lib/ckfw/builtins/testlib/Makefile
+@@ -71,5 +71,5 @@ NSS_CERTDATA-TESTLIB_TXT = certdata-testlib.txt
+ endif
+ 
+ $(OBJDIR)/certdata-testlib.c: $(NSS_CERTDATA-TESTLIB_TXT) | $$(@D)/d
+-	$(PERL) ../certdata.perl $(NSS_CERTDATA-TESTLIB_TXT) $@
++	../certdata.sh $(NSS_CERTDATA-TESTLIB_TXT) $@
+ 

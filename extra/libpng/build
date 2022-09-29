@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+patch -p1 < apng.patch
+
+./configure \
+    --prefix=/usr
+
+make
+make install

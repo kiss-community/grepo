@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --without-xmlwf \
+    --without-examples \
+    --without-tests \
+    --without-docbook
+
+make
+make install
+
+# Remove documentation (Changelogs, etc).
+rm -rf "${1:?}/usr/share"

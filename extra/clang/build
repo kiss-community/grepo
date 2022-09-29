@@ -1,0 +1,31 @@
+#!/bin/sh -e
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DLLVM_ENABLE_RTTI=ON \
+    -DLLVM_ENABLE_EH=ON \
+    -DLLVM_ENABLE_LIBXML2=OFF \
+    -DCLANG_BUILD_EXAMPLES=OFF \
+    -DCLANG_INCLUDE_DOCS=OFF \
+    -DCLANG_INCLUDE_TESTS=OFF \
+    -DLIBCLANG_BUILD_STATIC=ON \
+    -Wno-dev
+
+cmake --build   build
+cmake --install build
+
+# Fix up libexec location. This can't be done during
+# the configure stage of the build as it is hardcoded.
+{
+    mv -f \
+        "$1/usr/libexec/"*analyze* \
+        "$1/usr/libexec/"*intercept* \
+        "$1/usr/lib/clang"
+
+    rmdir "$1/usr/libexec"
+
+    sed 's|libexec|lib/clang|' "$1/usr/bin/scan-build" > _
+    mv -f _ "$1/usr/bin/scan-build"
+    chmod +x "$1/usr/bin/scan-build"
+}

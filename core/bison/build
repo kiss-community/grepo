@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-nls \
+    --without-libtextstyle-prefix
+
+make
+
+make \
+    install-libLIBRARIES \
+    install-binPROGRAMS \
+    install-nodist_binSCRIPTS \
+    install-dist_m4sugarDATA \
+    install-dist_skeletonsDATA \
+    install-dist_pkgdataDATA \
+    install-aclocalDATA \
+    install-man1

@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -fPIC"
+
+patch -p1 < Fix-CC-logic-in-configure.patch
+
+./configure \
+    --prefix=/usr
+
+make
+make install

@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+meson \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    -Dwith_wayland=yes \
+    -Dwith_x11=no \
+    -Dwith_glx=no \
+    . output
+
+ninja -C output
+ninja -C output install

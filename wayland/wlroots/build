@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+meson \
+    --prefix=/usr \
+    -Ddefault_library=both \
+    -Dexamples=false \
+    -Dxcb-errors=disabled \
+    -Drenderers=gles2 \
+    . build
+
+ninja -C build
+ninja -C build install

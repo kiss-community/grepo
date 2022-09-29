@@ -1,0 +1,54 @@
+#!/bin/sh -e
+
+for patch in patch/*.patch; do
+    patch -p1 < "$patch"
+done
+
+# Remove forced gcc/g++ usage so builds work on gcc-less systems.
+sed -e "s#= g[c+][c+]#= $CC#g" \
+    -e "s#\(\$(CROSS_COMPILE)\)gcc#\1$CC#g" Makefile > _
+mv -f _ Makefile
+
+# Build and install regular busybox.
+# This excludes utilities which require 'suid' to function.
+make HOSTCC="$CC"
+make CONFIG_PREFIX="$1/usr" install
+
+# Rename the binary temporarily.
+mv "$1/usr/bin/busybox" "$1/usr/bin/busybox-nosuid"
+
+# Build and install suid busybox.
+# This _only_ includes utlities which require 'suid' to function.
+cp -f .config-suid .config
+make HOSTCC="$CC"
+make CONFIG_PREFIX="$1/usr" install
+
+# Aptly name the busybox binaries.
+mv -f "$1/usr/bin/busybox"        "$1/usr/bin/busybox-suid"
+mv -f "$1/usr/bin/busybox-nosuid" "$1/usr/bin/busybox"
+
+# Install the non-suid symlinks.
+"$1/usr/bin/busybox" --list | while read -r bin; do
+    ln -s busybox "$1/usr/bin/$bin"
+done
+
+# Install the suid symlinks.
+"$1/usr/bin/busybox-suid" --list | while read -r bin; do
+    ln -s busybox-suid "$1/usr/bin/$bin"
+done
+
+# Set suid on busybox suid.
+chmod u+s "$1/usr/bin/busybox-suid"
+
+# The acpid command requires that this directory exist
+# and does not automatically create it..
+mkdir -p "$1/etc/acpi"
+
+# Install runit services.
+for s in acpid crond syslogd mdev ntpd; do
+    mkdir -p "$1/etc/sv/$s"
+    cp -f "$s.run" "$1/etc/sv/$s/run"
+    ln -sf "/run/runit/supervise.$s" "$1/etc/sv/$s/supervise"
+done
+
+cp -f mdev.conf "$1/etc/mdev.conf"

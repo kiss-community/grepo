@@ -1,0 +1,45 @@
+#!/bin/sh -e
+
+export USE_64=1
+export BUILD_OPT=1
+export FREEBL_NO_DEPEND=0
+export NSS_USE_SYSTEM_SQLITE=1
+export NSS_DISABLE_GTESTS=1
+export NSS_ENABLE_WERROR=0
+export NSS_DISABLE_DEPRECATED_SEED=1
+export NSS_DISABLE_DEPRECATED_RC2=1
+export NSPR_INCLUDE_DIR=/usr/include/nspr
+
+export CCC="$CXX"
+
+patch -p1 < no-perl.patch
+
+make -C nss all
+
+mkdir -p \
+    "$1/usr/include/nss/private" \
+    "$1/usr/lib/pkgconfig"
+
+cp dist/public/nss/*.h "$1/usr/include/nss/"
+cp dist/private/nss/blapi.h dist/private/nss/alghmac.h \
+    "$1/usr/include/nss/private/"
+cp dist/Linux*/lib/*.so "$1/usr/lib/"
+cp dist/Linux*/lib/*.chk "$1/usr/lib/"
+
+nspr_ver="$(nspr-config --version)"
+
+sed nss/pkg/pkg-config/nss.pc.in \
+    -e "s,%libdir%,/usr/lib,g" \
+    -e "s,%prefix%,/usr,g" \
+    -e "s,%exec_prefix%,/usr/bin,g" \
+    -e "s,%includedir%,/usr/include/nss,g" \
+    -e "s,%NSPR_VERSION%,$nspr_ver,g" \
+    -e "s,%NSS_VERSION%,$2,g" > "$1/usr/lib/pkgconfig/nss.pc"
+
+for file in \
+        nss/lib/ckfw/builtins/*/certdata.c \
+        nss/lib/ckfw/builtins/testlib/*/certdata-testlib.c; do
+    git hash-object -t blob "$file" >> build.hash
+done
+
+cmp generated.hash build.hash

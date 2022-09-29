@@ -1,0 +1,48 @@
+diff --git a/security/nss/lib/freebl/Makefile b/security/nss/lib/freebl/Makefile
+--- a/security/nss/lib/freebl/Makefile
++++ b/security/nss/lib/freebl/Makefile
+@@ -753,7 +753,6 @@ $(OBJDIR)/$(PROG_PREFIX)intel-gcm-wrap$(OBJ_SUFFIX): CFLAGS += -mssse3
+ #     .set  Htbl, %rdi
+ # So we can't use Clang's integrated assembler with intel-gcm.s.
+ ifdef CC_IS_CLANG
+-$(OBJDIR)/$(PROG_PREFIX)intel-gcm$(OBJ_SUFFIX): CFLAGS += -no-integrated-as
+ endif
+ endif
+ 
+diff --git a/security/nss/lib/freebl/freebl.gyp b/security/nss/lib/freebl/freebl.gyp
+--- a/security/nss/lib/freebl/freebl.gyp
++++ b/security/nss/lib/freebl/freebl.gyp
+@@ -19,13 +19,10 @@
+       'conditions': [
+         [ 'cc_is_clang==1 and force_integrated_as!=1', {
+           'cflags': [
+-            '-no-integrated-as',
+           ],
+           'cflags_mozilla': [
+-            '-no-integrated-as',
+           ],
+           'asflags_mozilla': [
+-            '-no-integrated-as',
+           ],
+         }],
+       ],
+diff --git a/security/nss/lib/freebl/freebl_base.gypi b/security/nss/lib/freebl/freebl_base.gypi
+--- a/security/nss/lib/freebl/freebl_base.gypi
++++ b/security/nss/lib/freebl/freebl_base.gypi
+@@ -74,13 +74,10 @@
+           'conditions': [
+             [ 'cc_is_clang==1 and fuzz!=1 and coverage!=1 and force_integrated_as!=1', {
+               'cflags': [
+-                '-no-integrated-as',
+               ],
+               'cflags_mozilla': [
+-                '-no-integrated-as',
+               ],
+               'asflags_mozilla': [
+-                '-no-integrated-as',
+               ],
+             }],
+           ],
+-- 
+2.35.1
+

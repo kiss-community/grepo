@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -Wno-error -static"
+
+./configure \
+    --prefix=/usr
+
+make
+make install
+
+cp -f src/grep "$1/usr/bin/ggrep"

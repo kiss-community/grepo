@@ -1,0 +1,13 @@
+diff --git a/main.c b/main.c
+index c5a7cff..5a92c34 100644
+--- a/main.c
++++ b/main.c
+@@ -822,8 +822,6 @@ fs_lookup(const struct manpaths *paths, size_t ipath,
+ 	return globres;
+ 
+ found:
+-	warnx("outdated mandoc.db lacks %s(%s) entry, run %s %s",
+-	    name, sec, BINM_MAKEWHATIS, paths->paths[ipath]);
+ 	if (res == NULL)
+ 		free(file);
+ 	else if (file == NULL)

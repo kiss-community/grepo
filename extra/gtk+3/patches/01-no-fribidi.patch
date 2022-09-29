@@ -1,0 +1,124 @@
+diff --git a/gdk/gdk.c b/gdk/gdk.c
+index f0869a6..2f3c039 100644
+--- a/gdk/gdk.c
++++ b/gdk/gdk.c
+@@ -44,7 +44,6 @@
+ #include <string.h>
+ #include <stdlib.h>
+ 
+-#include <fribidi.h>
+ 
+ 
+ /**
+@@ -1118,17 +1117,6 @@ gdk_disable_multidevice (void)
+ PangoDirection
+ gdk_unichar_direction (gunichar ch)
+ {
+-  FriBidiCharType fribidi_ch_type;
+-
+-  G_STATIC_ASSERT (sizeof (FriBidiChar) == sizeof (gunichar));
+-
+-  fribidi_ch_type = fribidi_get_bidi_type (ch);
+-
+-  if (!FRIBIDI_IS_STRONG (fribidi_ch_type))
+-    return PANGO_DIRECTION_NEUTRAL;
+-  else if (FRIBIDI_IS_RTL (fribidi_ch_type))
+-    return PANGO_DIRECTION_RTL;
+-  else
+     return PANGO_DIRECTION_LTR;
+ }
+ 
+diff --git a/gdk/meson.build b/gdk/meson.build
+index 4bb1bf2..9270c97 100644
+--- a/gdk/meson.build
++++ b/gdk/meson.build
+@@ -202,7 +202,6 @@ gdk_deps = [
+   pixbuf_dep,
+   cairo_dep,
+   pango_dep,
+-  fribidi_dep,
+   cairogobj_dep,
+   glib_dep,
+   epoxy_dep,
+diff --git a/gtk/gtkpango.c b/gtk/gtkpango.c
+index aaac4cc..a76ad57 100644
+--- a/gtk/gtkpango.c
++++ b/gtk/gtkpango.c
+@@ -25,7 +25,6 @@
+ #include "config.h"
+ #include "gtkpango.h"
+ #include <pango/pangocairo.h>
+-#include <fribidi.h>
+ #include "gtkintl.h"
+ 
+ #define GTK_TYPE_FILL_LAYOUT_RENDERER            (_gtk_fill_layout_renderer_get_type())
+@@ -1326,17 +1325,6 @@ _gtk_pango_attr_list_merge (PangoAttrList *into,
+ PangoDirection
+ _gtk_pango_unichar_direction (gunichar ch)
+ {
+-  FriBidiCharType fribidi_ch_type;
+-
+-  G_STATIC_ASSERT (sizeof (FriBidiChar) == sizeof (gunichar));
+-
+-  fribidi_ch_type = fribidi_get_bidi_type (ch);
+-
+-  if (!FRIBIDI_IS_STRONG (fribidi_ch_type))
+-    return PANGO_DIRECTION_NEUTRAL;
+-  else if (FRIBIDI_IS_RTL (fribidi_ch_type))
+-    return PANGO_DIRECTION_RTL;
+-  else
+     return PANGO_DIRECTION_LTR;
+ }
+ 
+diff --git a/gtk/meson.build b/gtk/meson.build
+index 79f4f0d..be51997 100644
+--- a/gtk/meson.build
++++ b/gtk/meson.build
+@@ -836,7 +836,6 @@ gtk_deps = [
+   pango_dep,
+   pangoft_dep,
+   harfbuzz_dep,
+-  fribidi_dep,
+   cairogobj_dep,
+   cairo_dep,
+   fontconfig_dep,
+diff --git a/meson.build b/meson.build
+index c599843..967a022 100644
+--- a/meson.build
++++ b/meson.build
+@@ -25,7 +25,6 @@ endif
+ 
+ glib_req           = '>= @0@.@1@.@2@'.format(glib_major_req, glib_minor_req, glib_micro_req)
+ pango_req          = '>= 1.41.0'
+-fribidi_req        = '>= 0.19.7'
+ atk_req            = '>= 2.35.1'
+ at_spi2_atk_req    = '>= 2.15.1'
+ cairo_req          = '>= 1.14.0'
+@@ -404,8 +403,6 @@ endif
+ 
+ pango_dep      = dependency('pango', version: pango_req,
+                             fallback : ['pango', 'libpango_dep'])
+-fribidi_dep    = dependency('fribidi', version: fribidi_req,
+-                            fallback : ['fribidi', 'libfribidi_dep'])
+ 
+ # Require PangoFT2 if on X11 or wayland
+ require_pangoft2 = wayland_enabled or x11_enabled
+@@ -927,8 +924,7 @@ endif
+ 
+ pkgconf.set('GDK_PRIVATE_PACKAGES',
+             ' '.join(gio_packages + x11_pkgs + wayland_pkgs + cairo_backends +
+-                     ['epoxy', epoxy_req] + cloudproviders_packages +
+-                     ['fribidi', fribidi_req]))
++                     ['epoxy', epoxy_req] + cloudproviders_packages))
+ 
+ gtk_packages = ' '.join([
+     atk_dep.name(), atk_req,
+@@ -941,7 +937,7 @@ pkgconf.set('GTK_PACKAGES', gtk_packages)
+ # Requires.private
+ pc_gdk_extra_libs += cairo_libs
+ 
+-gtk_private_packages = atk_pkgs + wayland_pkgs + ['epoxy', epoxy_req, 'fribidi', fribidi_req]
++gtk_private_packages = atk_pkgs + wayland_pkgs + ['epoxy', epoxy_req]
+ if wayland_enabled or x11_enabled
+   gtk_private_packages += ['pangoft2']
+ endif

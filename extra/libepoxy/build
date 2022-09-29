@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+meson setup \
+    -Dprefix=/usr \
+    -Degl=yes \
+    -Dtests=false \
+    -Dglx=no \
+    -Dx11=false \
+    output
+
+ninja -C output
+meson install -C output

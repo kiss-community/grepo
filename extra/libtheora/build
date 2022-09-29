@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+patch -p1 < libtheora-1.1.1-libpng16.patch
+patch -p1 < fix-theoraenc.patch
+
+./configure \
+    --prefix=/usr
+
+make
+make -C lib     install
+make -C include install
+make install-pkgconfigDATA

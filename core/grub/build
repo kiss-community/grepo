@@ -1,0 +1,69 @@
+#!/bin/sh -e
+
+# Grub expects Python but it isn't actually needed. Give
+# it something fake so that configure passes.
+export PYTHON=/bin/true
+
+# Disable the post-python mv calls as a means of disabling
+# the Python tooling. The /bin/true above will create a
+# blank file, this prevents the blank file from overwriting
+# the existing one.
+for f in ./*/Makefile.in; do
+    sed 's/mv $@.new $@/:/g' "$f" > _
+    mv -f _ "$f"
+done
+
+# Strip '-march' from 'CFLAGS' as per advice from upstream.
+# Fixes build fails on specific hardware.
+export CFLAGS
+CFLAGS=$(printf %s "$CFLAGS" | sed 's/-march=[^ ]*//g')
+
+# Force bfd linker to fix issues with alternative linkers. Mold does not yet
+# have full linker script support and I'm not certain that lld or gold have
+# ever worked to build Grub.
+{
+    mkdir -p .bin
+    bfd_path=$(command -v ld.bfd)
+    ln -s "${bfd_path:?}" .bin/ld
+    export PATH="$PWD/.bin:$PATH"
+
+    # Strip '-B<path>mold' and '--ld-path=<path>mold' from CFLAGS.
+    case $CFLAGS in *mold*)
+        CFLAGS=$(printf %s "$CFLAGS" | sed 's/-B[^ ]*//g;s/--ld-path=[^ ]*//g')
+    esac
+}
+
+build_grub() (
+    cd "grub-${1##*=}"
+
+    ./configure \
+        HELP2MAN="$OLDPWD/help2man" \
+        --prefix=/usr \
+        --sbindir=/usr/bin \
+        --sysconfdir=/etc \
+        --disable-werror \
+        --disable-nls \
+        --disable-grub-mkfont \
+        --disable-grub-mount \
+        "$@"
+
+    make
+    make install
+)
+
+build_grub --with-platform=pc
+build_grub --with-platform=efi --disable-efiemu
+
+mkdir -p "$1/etc/default"
+cp -f grub.default "$1/etc/default/grub"
+
+# Remove gdb debugging files.
+(
+    cd "$1/usr/lib"
+
+    rm -f grub/*/*.module
+    rm -f grub/*/*.image
+    rm -f grub/*/kernel.exec
+    rm -f grub/*/gdb_grub
+    rm -f grub/*/gmodule.pl
+)

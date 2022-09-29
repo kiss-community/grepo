@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+meson \
+    --prefix=/usr \
+    . output
+
+ninja -C output
+ninja -C output install

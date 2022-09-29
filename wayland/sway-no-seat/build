@@ -1,0 +1,32 @@
+#!/bin/sh -e
+
+for p in *.patch; do
+    patch -p1 < "$p"
+done
+
+# Build fails in subprojects/seatd with clang
+# due to -Werror -> -Wsign-compare.
+export CFLAGS="-Wno-error $CFLAGS"
+
+# Default background color.
+sed 's/0.25f, 0.25f, 0.25f/0.929, 0.870, 0.678/' \
+    sway/desktop/render.c > _
+mv -f _ sway/desktop/render.c
+
+meson \
+    --prefix=/usr \
+    -Ddefault-wallpaper=false \
+    -Dzsh-completions=false \
+    -Dbash-completions=false \
+    -Dfish-completions=false \
+    -Dxwayland=disabled \
+    -Dwlroots:examples=false \
+    -Dwlroots:xcb-errors=disabled \
+    -Dwlroots:default_library=static \
+    -Dseatd:libseat-builtin=enabled \
+    -Dseatd:default_library=static \
+    --force-fallback-for=wlroots,seatd \
+    . build
+
+ninja -C build
+meson install -C build --skip-subprojects

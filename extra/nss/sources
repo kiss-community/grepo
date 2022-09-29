@@ -1,0 +1,4 @@
+https://ftp.mozilla.org/pub/security/nss/releases/NSS_MAJOR_MINOR_RTM/src/nss-VERSION.tar.gz
+files/certdata.sh nss/lib/ckfw/builtins
+files/generated.hash
+patches/no-perl.patch

@@ -1,0 +1,28 @@
+#!/bin/sh -e
+
+# Remove the perl requirement from configure.
+# Also fix issue with non-GNU diff.
+sed 's/perl/:/g;s/diff --version/command -v diff/' configure > _
+mv -f _ configure
+
+sh ./configure \
+    --prefix=/usr \
+    --target=x86_64-linux-gcc \
+    --enable-vp8 \
+    --enable-vp9 \
+    --enable-experimental \
+    --enable-runtime-cpu-detect \
+    --enable-shared \
+    --enable-postproc \
+    --enable-pic \
+    --disable-tools \
+    --disable-examples \
+    --disable-docs \
+    --disable-unit-tests \
+    --disable-install-docs \
+    --disable-install-srcs \
+    --disable-install-bins \
+    --as=nasm
+
+make
+make install

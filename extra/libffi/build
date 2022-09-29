@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --disable-exec-static-tramp \
+    --with-pic
+
+make
+make install

@@ -1,0 +1,26 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS -static"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DREDIS_STORAGE_BACKEND=OFF \
+    -DENABLE_TESTING=OFF \
+    -DZSTD_LIBRARY=/usr/lib/libzstd.a
+
+cmake --build   build
+cmake --install build
+
+mkdir -p "$1/usr/lib/ccache/bin"
+host=$(cc -dumpmachine)
+
+for link in \
+    cc  "$host-cc"  \
+    gcc "$host-gcc" \
+    g++ "$host-g++" \
+    cpp "$host-cpp" \
+    c++ "$host-c++"
+do
+    ln -sf /usr/bin/ccache "$1/usr/lib/ccache/bin/$link"
+done

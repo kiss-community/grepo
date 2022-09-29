@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+meson \
+    --prefix=/usr \
+    . output
+
+ninja -C output
+ninja -C output install
+
+# $1 is never unset
+# shellcheck disable=2115
+rm -rf "$1/usr/share"

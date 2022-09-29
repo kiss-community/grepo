@@ -1,0 +1,33 @@
+#!/bin/sh -e
+
+(
+    cd libX11
+
+    patch -p1 < ../compose-only.patch
+
+    ./configure \
+        --prefix=/usr \
+        --disable-specs \
+        --disable-xkb \
+        --without-fop \
+        --without-xmlto
+
+    make -C nls
+    make -C nls install
+)
+
+# Swap to shell script instead of perl script
+# for conversion of rules files. See files/xml2lst.
+sed 's/xml2lst\.pl/xml2lst/' rules/meson.build > _
+mv -f _ rules/meson.build
+
+# Remove po/ dir.
+sed "/subdir('po')/d" meson.build > _
+mv -f _ meson.build
+
+meson setup \
+    -Dprefix=/usr \
+    output
+
+ninja -C output
+ninja -C output install

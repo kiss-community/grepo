@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+# Disable documentation (READMEs and such).
+sed 's/^\(dist_doc_DATA\)/\1_null/' Makefile.in > _
+mv -f _ Makefile.in
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --mandir=/usr/share/man \
+    --enable-compat-symlinks
+
+make
+make install

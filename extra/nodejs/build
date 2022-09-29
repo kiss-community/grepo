@@ -1,0 +1,31 @@
+#!/bin/sh -e
+
+# Fix build when libatomic.so does not exist in the system.
+# This may be provided by compiler-rt which requires no additional
+# linker flags to be used.
+case $("$CC" -print-file-name=libatomic.so) in */*) ;; *)
+    sed 's/-latomic//' node.gyp > _
+    mv -f _ node.gyp
+esac
+
+./configure \
+    --shared-zlib \
+    --shared-openssl \
+    --with-intl=none \
+    --without-etw \
+    --without-dtrace \
+    --without-report \
+    --without-node-snapshot \
+    --without-node-code-cache \
+    --ninja
+
+ninja -C out/Release
+tools/install.py install "$1" /usr
+
+# Remove unneeded files.
+rm -rf \
+    "$1/usr/include/node/openssl" \
+    "$1/usr/share/doc" \
+    "$1/usr/share/systemtap" \
+    "$1/usr/lib/node_modules/npm/scripts" \
+    "$1/usr/lib/node_modules/npm/configure"

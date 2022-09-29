@@ -1,0 +1,40 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS -static"
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --sysconfdir=/etc \
+    --enable-symlink-install \
+    --enable-libuuid \
+    --enable-libblkid \
+    --disable-nls \
+    --disable-uuidd \
+    --disable-fsck \
+    --disable-elf-shlibs
+
+make
+
+set -- \
+    MKDIR_P="mkdir -p" \
+    BLKID_MAN="" \
+    BLKID_PROG="" \
+    FINDFS_LINK="" \
+    FINDFS_MAN="" \
+    UMANPAGES="chattr.1 lsattr.1" \
+    UPROGS="chattr lsattr"
+
+for p in \
+    debugfs \
+    e2fsck \
+    lib/e2p \
+    lib/et \
+    lib/ext2fs \
+    lib/ss \
+    misc \
+    resize \
+    scrub
+do
+    make -C "$p" "$@" install
+done

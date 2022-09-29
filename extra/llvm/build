@@ -1,0 +1,46 @@
+#!/bin/sh -e
+
+mv Modules/* cmake/modules/
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DLLVM_BUILD_LLVM_DYLIB=ON \
+    -DLLVM_LINK_LLVM_DYLIB=ON \
+    -DLLVM_TARGETS_TO_BUILD="host;AMDGPU" \
+    -DLLVM_ENABLE_RTTI=ON \
+    -DLLVM_HOST_TRIPLE="$(cc -dumpmachine)" \
+    -DLLVM_INCLUDE_BENCHMARKS=OFF \
+    -DLLVM_INCLUDE_EXAMPLES=OFF \
+    -DLLVM_INCLUDE_DOCS=OFF \
+    -DLLVM_INCLUDE_TESTS=OFF \
+    -DLLVM_ENABLE_TERMINFO=OFF \
+    -DLLVM_ENABLE_LIBXML2=OFF \
+    -Wno-dev
+
+cmake --build   build
+cmake --install build
+
+# Use new llvm-config to generate a pkg-config file.
+PATH="$1/usr/bin:$PATH"
+mkdir -p "$1/usr/lib/pkgconfig"
+
+# shellcheck disable=2016
+sed -e "s|$1||" -e 's|/usr/include|\${includedir}|' \
+    > "$1/usr/lib/pkgconfig/llvm.pc" <<EOF
+prefix=/usr
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+has_rtti=$(llvm-config --has-rtti)
+
+Name: LLVM
+Description: LLVM compiler infrastructure
+URL: https://llvm.org
+Version: $(llvm-config --version)
+Requires:
+Requires.private: zlib
+Libs: -L\${libdir} $(llvm-config --libs)
+Libs.private: -lstdc++ $(llvm-config --libs --link-static)
+Cflags: $(llvm-config --cflags)
+EOF

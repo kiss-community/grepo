@@ -1,0 +1,6 @@
+fontconfig
+freetype-harfbuzz
+meson   make
+pixman
+pkgconf make
+tllist  make

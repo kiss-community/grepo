@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+meson \
+    --prefix=/usr \
+    --buildtype=release \
+    -Djpeg=enabled \
+    -Dpng=enabled \
+    . output
+
+ninja -C output
+ninja -C output install

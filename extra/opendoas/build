@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+BINOWN="$(id -u)" \
+BINGRP="$(id -g)" \
+./configure \
+    --prefix=/usr \
+    --enable-static \
+    --with-shadow \
+    --with-timestamp \
+    --without-pam
+
+make
+make install
+
+mkdir -p "$1/etc"
+cp -f doas.conf "$1/etc"
+chmod 600 "$1/etc/doas.conf"

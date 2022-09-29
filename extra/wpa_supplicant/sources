@@ -1,0 +1,4 @@
+https://w1.fi/releases/wpa_supplicant-VERSION.tar.gz
+https://git.openwrt.org/?p=project/libnl-tiny.git;a=snapshot;h=8e0555fb39f51a5d6436b4f1370850caa03611ea;sf=tgz
+files/.config wpa_supplicant
+files/wpa_supplicant.run wpa_supplicant

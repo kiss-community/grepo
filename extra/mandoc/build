@@ -1,0 +1,26 @@
+#!/bin/sh -e
+
+patch -p1 < mandoc-no-warn.patch
+
+# Change default pager.
+sed 's,"more -s","less",g' main.c > _
+mv -f _ main.c
+
+# Use CC rather than broken default.
+sed "s/CC=.*/CC=$CC/" configure > _
+mv -f _ configure
+
+cat > configure.local <<EOF
+PREFIX=/usr
+MANDIR=/usr/share/man
+LIBDIR=/usr/lib
+SBINDIR=/usr/bin
+LN="ln -sf"
+EOF
+
+sh ./configure
+
+make
+make -j1 base-install
+
+chmod 755 "$1/usr/bin/"*

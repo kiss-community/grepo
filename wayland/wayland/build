@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+meson \
+    --prefix=/usr \
+    -Ddefault_library=both \
+    -Dtests=false \
+    -Ddocumentation=false \
+    -Ddtd_validation=false \
+    . build
+
+ninja -C build
+ninja -C build install
+

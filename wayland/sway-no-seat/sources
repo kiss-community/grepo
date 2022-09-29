@@ -1,0 +1,6 @@
+https://github.com/swaywm/sway/archive/VERSION.tar.gz
+https://gitlab.freedesktop.org/wlroots/wlroots/-/archive/e5063ef3a3b12d4384595cb0554cf1f84d5be6f8.tar.gz subprojects/wlroots
+https://git.sr.ht/~kennylevinsen/seatd/archive/0.7.0.tar.gz subprojects/seatd
+patches/no-evdev.patch
+patches/pcre2.patch
+patches/sway-static.patch

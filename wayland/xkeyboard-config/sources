@@ -1,0 +1,4 @@
+https://x.org/releases/individual/data/xkeyboard-config/xkeyboard-config-VERSION.tar.xz
+https://x.org/releases/individual/lib/libX11-1.8.1.tar.xz libX11
+files/xml2lst rules
+patches/compose-only.patch

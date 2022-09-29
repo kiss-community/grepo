@@ -1,0 +1,4858 @@
+--- a/gtk/a11y/gtkbooleancellaccessible.h
++++ b/gtk/a11y/gtkbooleancellaccessible.h
+@@ -22,7 +22,6 @@
+ #error "Only <gtk/gtk-a11y.h> can be included directly."
+ #endif
+ 
+-#include <atk/atk.h>
+ #include <gtk/a11y/gtkrenderercellaccessible.h>
+ 
+ G_BEGIN_DECLS
+--- a/gtk/a11y/gtkcellaccessible.h
++++ b/gtk/a11y/gtkcellaccessible.h
+@@ -22,7 +22,6 @@
+ #error "Only <gtk/gtk-a11y.h> can be included directly."
+ #endif
+ 
+-#include <atk/atk.h>
+ #include <gtk/gtk.h>
+ 
+ G_BEGIN_DECLS
+@@ -40,14 +39,11 @@
+ 
+ struct _GtkCellAccessible
+ {
+-  GtkAccessible parent;
+-
+   GtkCellAccessiblePrivate *priv;
+ };
+ 
+ struct _GtkCellAccessibleClass
+ {
+-  GtkAccessibleClass parent_class;
+   void (*update_cache) (GtkCellAccessible *cell,
+                         gboolean           emit_signal);
+ };
+--- a/gtk/a11y/gtkcontaineraccessibleprivate.h
++++ b/gtk/a11y/gtkcontaineraccessibleprivate.h
+@@ -23,10 +23,8 @@
+ G_BEGIN_DECLS
+ 
+ void            _gtk_container_accessible_add_child     (GtkContainerAccessible *accessible,
+-                                                         AtkObject              *child,
+                                                          gint                    index);
+ void            _gtk_container_accessible_remove_child  (GtkContainerAccessible *accessible,
+-                                                         AtkObject              *child,
+                                                          gint                    index);
+ void            _gtk_container_accessible_add           (GtkWidget              *parent,
+                                                          GtkWidget              *child);
+--- a/gtk/a11y/gtkimagecellaccessible.h
++++ b/gtk/a11y/gtkimagecellaccessible.h
+@@ -22,7 +22,6 @@
+ #error "Only <gtk/gtk-a11y.h> can be included directly."
+ #endif
+ 
+-#include <atk/atk.h>
+ #include <gtk/a11y/gtkrenderercellaccessible.h>
+ 
+ G_BEGIN_DECLS
+--- a/gtk/a11y/gtkrenderercellaccessible.h
++++ b/gtk/a11y/gtkrenderercellaccessible.h
+@@ -22,7 +22,6 @@
+ #error "Only <gtk/gtk-a11y.h> can be included directly."
+ #endif
+ 
+-#include <atk/atk.h>
+ #include <gtk/a11y/gtkcellaccessible.h>
+ 
+ G_BEGIN_DECLS
+@@ -52,9 +51,6 @@
+ 
+ GDK_AVAILABLE_IN_ALL
+ GType      gtk_renderer_cell_accessible_get_type     (void);
+-
+-GDK_AVAILABLE_IN_ALL
+-AtkObject *gtk_renderer_cell_accessible_new          (GtkCellRenderer * renderer);
+ 
+ G_END_DECLS
+ 
+--- a/gtk/a11y/gtktextcellaccessible.h
++++ b/gtk/a11y/gtktextcellaccessible.h
+@@ -22,7 +22,6 @@
+ #error "Only <gtk/gtk-a11y.h> can be included directly."
+ #endif
+ 
+-#include <atk/atk.h>
+ #include <gtk/a11y/gtkrenderercellaccessible.h>
+ 
+ G_BEGIN_DECLS
+--- a/gtk/a11y/gtktoplevelaccessible.h
++++ b/gtk/a11y/gtktoplevelaccessible.h
+@@ -22,8 +22,6 @@
+ #error "Only <gtk/gtk-a11y.h> can be included directly."
+ #endif
+ 
+-#include <atk/atk.h>
+-
+ G_BEGIN_DECLS
+ 
+ #define GTK_TYPE_TOPLEVEL_ACCESSIBLE               (gtk_toplevel_accessible_get_type ())
+--- a/gtk/a11y/gtkwidgetaccessible.h
++++ b/gtk/a11y/gtkwidgetaccessible.h
+@@ -39,15 +39,11 @@
+ 
+ struct _GtkWidgetAccessible
+ {
+-  GtkAccessible parent;
+-
+   GtkWidgetAccessiblePrivate *priv;
+ };
+ 
+ struct _GtkWidgetAccessibleClass
+ {
+-  GtkAccessibleClass parent_class;
+-
+   /*
+    * Signal handler for notify signal on GTK widget
+    */
+--- a/gtk/deprecated/gtkarrow.c
++++ b/gtk/deprecated/gtkarrow.c
+@@ -139,8 +139,6 @@
+                                                                P_("Amount of space used up by arrow"),
+                                                                0.0, 1.0, 0.7,
+                                                                GTK_PARAM_READABLE));
+-
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_ARROW_ACCESSIBLE);
+ }
+ 
+ static void
+--- a/gtk/deprecated/gtkcolorsel.c
++++ b/gtk/deprecated/gtkcolorsel.c
+@@ -206,10 +206,6 @@
+ static void     default_change_palette_func             (GdkScreen         *screen,
+                                                          const GdkColor    *colors,
+                                                          gint               n_colors);
+-static void     make_control_relations                  (AtkObject         *atk_obj,
+-                                                         GtkWidget         *widget);
+-static void     make_all_relations                      (AtkObject         *atk_obj,
+-                                                         GtkColorSelectionPrivate *priv);
+ 
+ static void     hsv_changed                             (GtkWidget         *hsv,
+                                                          gpointer           data);
+@@ -398,7 +394,6 @@
+   GtkWidget *picker_image;
+   gint i, j;
+   GtkColorSelectionPrivate *priv;
+-  AtkObject *atk_obj;
+   GList *focus_chain = NULL;
+ 
+   gtk_orientable_set_orientation (GTK_ORIENTABLE (colorsel),
+@@ -572,14 +567,6 @@
+       gtk_widget_hide (priv->palette_frame);
+     }
+ 
+-  atk_obj = gtk_widget_get_accessible (priv->triangle_colorsel);
+-  if (GTK_IS_ACCESSIBLE (atk_obj))
+-    {
+-      atk_object_set_name (atk_obj, _("Color Wheel"));
+-      atk_object_set_role (gtk_widget_get_accessible (GTK_WIDGET (colorsel)), ATK_ROLE_COLOR_CHOOSER);
+-      make_all_relations (atk_obj, priv);
+-    }
+-
+   gtk_widget_pop_composite_child ();
+ }
+ 
+@@ -3056,27 +3043,4 @@
+   change_palette_hook = func;
+ 
+   return old;
+-}
+-
+-static void
+-make_control_relations (AtkObject *atk_obj,
+-                        GtkWidget *widget)
+-{
+-  AtkObject *obj;
+-
+-  obj = gtk_widget_get_accessible (widget);
+-  atk_object_add_relationship (atk_obj, ATK_RELATION_CONTROLLED_BY, obj);
+-  atk_object_add_relationship (obj, ATK_RELATION_CONTROLLER_FOR, atk_obj);
+-}
+-
+-static void
+-make_all_relations (AtkObject                *atk_obj,
+-                    GtkColorSelectionPrivate *priv)
+-{
+-  make_control_relations (atk_obj, priv->hue_spinbutton);
+-  make_control_relations (atk_obj, priv->sat_spinbutton);
+-  make_control_relations (atk_obj, priv->val_spinbutton);
+-  make_control_relations (atk_obj, priv->red_spinbutton);
+-  make_control_relations (atk_obj, priv->green_spinbutton);
+-  make_control_relations (atk_obj, priv->blue_spinbutton);
+ }
+--- a/gtk/deprecated/gtkcolorseldialog.c
++++ b/gtk/deprecated/gtkcolorseldialog.c
+@@ -158,8 +158,6 @@
+ 						     P_("The help button of the dialog."),
+ 						     GTK_TYPE_WIDGET,
+ 						     G_PARAM_READABLE));
+-
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_COLOR_CHOOSER);
+ }
+ 
+ static void
+--- a/gtk/deprecated/gtkfontsel.c
++++ b/gtk/deprecated/gtkfontsel.c
+@@ -35,8 +35,6 @@
+ #include <glib/gprintf.h>
+ #include <string.h>
+ 
+-#include <atk/atk.h>
+-
+ #include "gtkbutton.h"
+ #include "gtkcellrenderertext.h"
+ #include "gtkentry.h"
+@@ -335,7 +333,6 @@
+   GtkListStore *model;
+   GtkTreeViewColumn *column;
+   GList *focus_chain = NULL;
+-  AtkObject *atk_obj;
+ 
+   fontsel->priv = gtk_font_selection_get_instance_private (fontsel);
+   priv = fontsel->priv;
+@@ -528,47 +525,7 @@
+ 
+   g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->size_list)), "changed",
+ 		    G_CALLBACK (gtk_font_selection_select_size), fontsel);
+-  atk_obj = gtk_widget_get_accessible (priv->size_list);
+-  if (GTK_IS_ACCESSIBLE (atk_obj))
+-    {
+-      /* Accessibility support is enabled.
+-       * Make the label ATK_RELATON_LABEL_FOR for the size list as well.
+-       */
+-      AtkObject *atk_label;
+-      AtkRelationSet *relation_set;
+-      AtkRelation *relation;
+-      AtkObject *obj_array[1];
+ 
+-      atk_label = gtk_widget_get_accessible (label);
+-      relation_set = atk_object_ref_relation_set (atk_obj);
+-      relation = atk_relation_set_get_relation_by_type (relation_set, ATK_RELATION_LABELLED_BY);
+-      if (relation)
+-        {
+-          atk_relation_add_target (relation, atk_label);
+-        }
+-      else 
+-        {
+-          obj_array[0] = atk_label;
+-          relation = atk_relation_new (obj_array, 1, ATK_RELATION_LABELLED_BY);
+-          atk_relation_set_add (relation_set, relation);
+-        }
+-      g_object_unref (relation_set);
+-
+-      relation_set = atk_object_ref_relation_set (atk_label);
+-      relation = atk_relation_set_get_relation_by_type (relation_set, ATK_RELATION_LABEL_FOR);
+-      if (relation)
+-        {
+-          atk_relation_add_target (relation, atk_obj);
+-        }
+-      else 
+-        {
+-          obj_array[0] = atk_obj;
+-          relation = atk_relation_new (obj_array, 1, ATK_RELATION_LABEL_FOR);
+-          atk_relation_set_add (relation_set, relation);
+-        }
+-      g_object_unref (relation_set);
+-    }
+-
+   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+   gtk_widget_show (vbox);
+   gtk_box_pack_start (GTK_BOX (fontsel), vbox, FALSE, TRUE, 0);
+@@ -1651,8 +1608,6 @@
+ gtk_font_selection_dialog_class_init (GtkFontSelectionDialogClass *klass)
+ {
+   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+-
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_FONT_CHOOSER);
+ }
+ 
+ static void
+--- a/gtk/deprecated/gtkhsv.c
++++ b/gtk/deprecated/gtkhsv.c
+@@ -160,8 +160,6 @@
+   widget_class->focus = gtk_hsv_focus;
+   widget_class->grab_broken_event = gtk_hsv_grab_broken;
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_COLOR_CHOOSER);
+-
+   hsv_class->move = gtk_hsv_move;
+ 
+   hsv_signals[CHANGED] =
+--- a/gtk/deprecated/gtktearoffmenuitem.c
++++ b/gtk/deprecated/gtktearoffmenuitem.c
+@@ -110,8 +110,6 @@
+   widget_class->get_preferred_height = gtk_tearoff_menu_item_get_preferred_height;
+   widget_class->parent_set = gtk_tearoff_menu_item_parent_set;
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_TEAR_OFF_MENU_ITEM);
+-
+   menu_item_class->activate = gtk_tearoff_menu_item_activate;
+ }
+ 
+--- a/gtk/gtk-autocleanups.h
++++ b/gtk/gtk-autocleanups.h
+@@ -21,7 +21,6 @@
+ 
+ #ifndef __GI_SCANNER__
+ 
+-G_DEFINE_AUTOPTR_CLEANUP_FUNC(GtkAccessible, g_object_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GtkActionBar, g_object_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GtkActionable, g_object_unref)
+ G_DEFINE_AUTOPTR_CLEANUP_FUNC(GtkAdjustment, g_object_unref)
+--- a/gtk/gtk.h
++++ b/gtk/gtk.h
+@@ -32,7 +32,6 @@
+ #include <gtk/gtkaccelgroup.h>
+ #include <gtk/gtkaccellabel.h>
+ #include <gtk/gtkaccelmap.h>
+-#include <gtk/gtkaccessible.h>
+ #include <gtk/gtkactionable.h>
+ #include <gtk/gtkactionbar.h>
+ #include <gtk/gtkadjustment.h>
+--- a/gtk/gtkaccellabel.c
++++ b/gtk/gtkaccellabel.c
+@@ -167,8 +167,6 @@
+   widget_class->get_preferred_width = gtk_accel_label_get_preferred_width;
+   widget_class->destroy = gtk_accel_label_destroy;
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_ACCEL_LABEL);
+-
+   class->signal_quote1 = g_strdup ("<:");
+   class->signal_quote2 = g_strdup (":>");
+ 
+--- a/gtk/gtkaccessible.c
++++ b/gtk/gtkaccessible.c
+@@ -50,177 +50,8 @@
+   PROP_WIDGET
+ };
+ 
+-static void gtk_accessible_real_connect_widget_destroyed (GtkAccessible *accessible);
+ 
+-G_DEFINE_TYPE_WITH_PRIVATE (GtkAccessible, gtk_accessible, ATK_TYPE_OBJECT)
+-
+-static void
+-gtk_accessible_set_property (GObject      *object,
+-                             guint         prop_id,
+-                             const GValue *value,
+-                             GParamSpec   *pspec)
+-{
+-  GtkAccessible *accessible = GTK_ACCESSIBLE (object);
+-
+-  switch (prop_id)
+-    {
+-    case PROP_WIDGET:
+-      gtk_accessible_set_widget (accessible, g_value_get_object (value));
+-      break;
+-    default:
+-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+-      break;
+-    }
+-}
+-
+-static void
+-gtk_accessible_get_property (GObject    *object,
+-                             guint       prop_id,
+-                             GValue     *value,
+-                             GParamSpec *pspec)
+-{
+-  GtkAccessible *accessible = GTK_ACCESSIBLE (object);
+-  GtkAccessiblePrivate *priv = accessible->priv;
+-
+-  switch (prop_id)
+-    {
+-    case PROP_WIDGET:
+-      g_value_set_object (value, priv->widget);
+-      break;
+-    default:
+-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+-      break;
+-    }
+-}
+-
+-static void
+-gtk_accessible_init (GtkAccessible *accessible)
+-{
+-  accessible->priv = gtk_accessible_get_instance_private (accessible);
+-}
+-
+-static AtkStateSet *
+-gtk_accessible_ref_state_set (AtkObject *object)
+-{
+-  GtkAccessible *accessible = GTK_ACCESSIBLE (object);
+-  AtkStateSet *state_set;
+-
+-  state_set = ATK_OBJECT_CLASS (gtk_accessible_parent_class)->ref_state_set (object);
+-
+-  if (accessible->priv->widget == NULL)
+-    atk_state_set_add_state (state_set, ATK_STATE_DEFUNCT);
+-
+-  return state_set;
+-}
+-
+-static void
+-gtk_accessible_real_widget_set (GtkAccessible *accessible)
+-{
+-  atk_object_notify_state_change (ATK_OBJECT (accessible), ATK_STATE_DEFUNCT, FALSE);
+-}
+-
+-static void
+-gtk_accessible_real_widget_unset (GtkAccessible *accessible)
+-{
+-  atk_object_notify_state_change (ATK_OBJECT (accessible), ATK_STATE_DEFUNCT, TRUE);
+-}
+-
+-static void
+-gtk_accessible_dispose (GObject *object)
+-{
+-  GtkAccessible *accessible = GTK_ACCESSIBLE (object);
+-  
+-  gtk_accessible_set_widget (accessible, NULL);
+-
+-  G_OBJECT_CLASS (gtk_accessible_parent_class)->dispose (object);
+-}
+-
+-static void
+-gtk_accessible_class_init (GtkAccessibleClass *klass)
+-{
+-  GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+-  AtkObjectClass *atkobject_class = ATK_OBJECT_CLASS (klass);
+-
+-  klass->connect_widget_destroyed = gtk_accessible_real_connect_widget_destroyed;
+-  klass->widget_set = gtk_accessible_real_widget_set;
+-  klass->widget_unset = gtk_accessible_real_widget_unset;
+-
+-  atkobject_class->ref_state_set = gtk_accessible_ref_state_set;
+-  gobject_class->get_property = gtk_accessible_get_property;
+-  gobject_class->set_property = gtk_accessible_set_property;
+-  gobject_class->dispose = gtk_accessible_dispose;
+-
+-  g_object_class_install_property (gobject_class,
+-				   PROP_WIDGET,
+-				   g_param_spec_object ("widget",
+-							P_("Widget"),
+-							P_("The widget referenced by this accessible."),
+-							GTK_TYPE_WIDGET,
+-							G_PARAM_READWRITE));
+-}
+-
+ /**
+- * gtk_accessible_set_widget:
+- * @accessible: a #GtkAccessible
+- * @widget: (allow-none): a #GtkWidget or %NULL to unset
+- *
+- * Sets the #GtkWidget corresponding to the #GtkAccessible.
+- *
+- * @accessible will not hold a reference to @widget.
+- * It is the caller’s responsibility to ensure that when @widget
+- * is destroyed, the widget is unset by calling this function
+- * again with @widget set to %NULL.
+- *
+- * Since: 2.22
+- */
+-void
+-gtk_accessible_set_widget (GtkAccessible *accessible,
+-                           GtkWidget     *widget)
+-{
+-  GtkAccessiblePrivate *priv;
+-  GtkAccessibleClass *klass;
+-
+-  g_return_if_fail (GTK_IS_ACCESSIBLE (accessible));
+-
+-  priv = accessible->priv;
+-  klass = GTK_ACCESSIBLE_GET_CLASS (accessible);
+-
+-  if (priv->widget == widget)
+-    return;
+-
+-  if (priv->widget)
+-    klass->widget_unset (accessible);
+-
+-  priv->widget = widget;
+-
+-  if (widget)
+-    klass->widget_set (accessible);
+-
+-  g_object_notify (G_OBJECT (accessible), "widget");
+-}
+-
+-/**
+- * gtk_accessible_get_widget:
+- * @accessible: a #GtkAccessible
+- *
+- * Gets the #GtkWidget corresponding to the #GtkAccessible.
+- * The returned widget does not have a reference added, so
+- * you do not need to unref it.
+- *
+- * Returns: (nullable) (transfer none): pointer to the #GtkWidget
+- *     corresponding to the #GtkAccessible, or %NULL.
+- *
+- * Since: 2.22
+- */
+-GtkWidget*
+-gtk_accessible_get_widget (GtkAccessible *accessible)
+-{
+-  g_return_val_if_fail (GTK_IS_ACCESSIBLE (accessible), NULL);
+-
+-  return accessible->priv->widget;
+-}
+-
+-/**
+  * gtk_accessible_connect_widget_destroyed:
+  * @accessible: a #GtkAccessible
+  *
+@@ -242,19 +73,3 @@
+     class->connect_widget_destroyed (accessible);
+ }
+ 
+-static void
+-gtk_accessible_widget_destroyed (GtkWidget     *widget,
+-                                 GtkAccessible *accessible)
+-{
+-  gtk_accessible_set_widget (accessible, NULL);
+-}
+-
+-static void
+-gtk_accessible_real_connect_widget_destroyed (GtkAccessible *accessible)
+-{
+-  GtkAccessiblePrivate *priv = accessible->priv;
+-
+-  if (priv->widget)
+-    g_signal_connect (priv->widget, "destroy",
+-                      G_CALLBACK (gtk_accessible_widget_destroyed), accessible);
+-}
+--- a/gtk/gtkaccessible.h
++++ b/gtk/gtkaccessible.h
+@@ -22,34 +22,22 @@
+ #error "Only <gtk/gtk.h> can be included directly."
+ #endif
+ 
+-#include <atk/atk.h>
+ #include <gtk/gtkwidget.h>
+ 
+ G_BEGIN_DECLS
+ 
+-#define GTK_TYPE_ACCESSIBLE                  (gtk_accessible_get_type ())
+-#define GTK_ACCESSIBLE(obj)                  (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_ACCESSIBLE, GtkAccessible))
+-#define GTK_ACCESSIBLE_CLASS(klass)          (G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_ACCESSIBLE, GtkAccessibleClass))
+-#define GTK_IS_ACCESSIBLE(obj)               (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_ACCESSIBLE))
+-#define GTK_IS_ACCESSIBLE_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_ACCESSIBLE))
+-#define GTK_ACCESSIBLE_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_ACCESSIBLE, GtkAccessibleClass))
+-
+ typedef struct _GtkAccessible        GtkAccessible;
+ typedef struct _GtkAccessiblePrivate GtkAccessiblePrivate;
+ typedef struct _GtkAccessibleClass   GtkAccessibleClass;
+ 
+ struct _GtkAccessible
+ {
+-  AtkObject parent;
+-
+   /*< private >*/
+   GtkAccessiblePrivate *priv;
+ };
+ 
+ struct _GtkAccessibleClass
+ {
+-  AtkObjectClass parent_class;
+-
+   void (*connect_widget_destroyed) (GtkAccessible *accessible);
+ 
+   void (*widget_set)               (GtkAccessible *accessible);
+@@ -58,9 +46,6 @@
+   void (*_gtk_reserved3) (void);
+   void (*_gtk_reserved4) (void);
+ };
+-
+-GDK_AVAILABLE_IN_ALL
+-GType      gtk_accessible_get_type                 (void) G_GNUC_CONST;
+ 
+ GDK_AVAILABLE_IN_ALL
+ void       gtk_accessible_set_widget               (GtkAccessible *accessible,
+--- a/gtk/gtkactionbar.c
++++ b/gtk/gtkactionbar.c
+@@ -351,7 +351,6 @@
+   gtk_widget_class_bind_template_child_private (widget_class, GtkActionBar, box);
+   gtk_widget_class_bind_template_child_private (widget_class, GtkActionBar, revealer);
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_PANEL);
+   gtk_widget_class_set_css_name (widget_class, "actionbar");
+ }
+ 
+--- a/gtk/gtkassistant.c
++++ b/gtk/gtkassistant.c
+@@ -58,8 +58,6 @@
+ 
+ #include "config.h"
+ 
+-#include <atk/atk.h>
+-
+ #include "gtkassistant.h"
+ 
+ #include "gtkbutton.h"
+@@ -405,8 +403,6 @@
+   widget_class->unmap = gtk_assistant_unmap;
+   widget_class->delete_event = gtk_assistant_delete_event;
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, _gtk_assistant_accessible_get_type ());
+-
+   container_class->add = gtk_assistant_add;
+   container_class->remove = gtk_assistant_remove;
+   container_class->set_child_property = gtk_assistant_set_child_property;
+@@ -2534,76 +2530,9 @@
+ typedef GtkWindowAccessible      GtkAssistantAccessible;
+ typedef GtkWindowAccessibleClass GtkAssistantAccessibleClass;
+ 
+-G_DEFINE_TYPE (GtkAssistantAccessible, _gtk_assistant_accessible, GTK_TYPE_WINDOW_ACCESSIBLE);
+-
+-static gint
+-gtk_assistant_accessible_get_n_children (AtkObject *accessible)
+-{
+-  GtkWidget *widget;
+-
+-  widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (accessible));
+-  if (widget == NULL)
+-    return 0;
+-
+-  return g_list_length (GTK_ASSISTANT (widget)->priv->pages) + 2;
+-}
+-
+-static AtkObject *
+-gtk_assistant_accessible_ref_child (AtkObject *accessible,
+-                                    gint       index)
+-{
+-  GtkAssistant *assistant;
+-  GtkAssistantPrivate *priv;
+-  GtkWidget *widget, *child;
+-  gint n_pages;
+-  AtkObject *obj;
+-  const gchar *title;
+-
+-  widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (accessible));
+-  if (widget == NULL)
+-    return NULL;
+-
+-  assistant = GTK_ASSISTANT (widget);
+-  priv = assistant->priv;
+-  n_pages = g_list_length (priv->pages);
+-
+-  if (index < 0)
+-    return NULL;
+-  else if (index < n_pages)
+-    {
+-      GtkAssistantPage *page = g_list_nth_data (priv->pages, index);
+-
+-      child = page->page;
+-      title = gtk_assistant_get_page_title (assistant, child);
+-    }
+-  else if (index == n_pages)
+-    {
+-      child = priv->action_area;
+-      title = NULL;
+-    }
+-  else if (index == n_pages + 1)
+-    {
+-      child = priv->headerbar;
+-      title = NULL;
+-    }
+-  else
+-    return NULL;
+-
+-  obj = gtk_widget_get_accessible (child);
+-
+-  if (title)
+-    atk_object_set_name (obj, title);
+-
+-  return g_object_ref (obj);
+-}
+-
+ static void
+ _gtk_assistant_accessible_class_init (GtkAssistantAccessibleClass *klass)
+ {
+-  AtkObjectClass *atk_class = ATK_OBJECT_CLASS (klass);
+-
+-  atk_class->get_n_children = gtk_assistant_accessible_get_n_children;
+-  atk_class->ref_child = gtk_assistant_accessible_ref_child;
+ }
+ 
+ static void
+--- a/gtk/gtkbox.c
++++ b/gtk/gtkbox.c
+@@ -370,7 +370,6 @@
+ 
+   gtk_container_class_install_child_properties (container_class, LAST_CHILD_PROP, child_props);
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_FILLER);
+   gtk_widget_class_set_css_name (widget_class, "box");
+ }
+ 
+--- a/gtk/gtkbutton.c
++++ b/gtk/gtkbutton.c
+@@ -630,7 +630,6 @@
+ 							     2,
+ 							     GTK_PARAM_READABLE | G_PARAM_DEPRECATED));
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_BUTTON_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "button");
+ }
+ 
+--- a/gtk/gtkcalendar.c
++++ b/gtk/gtkcalendar.c
+@@ -680,7 +680,6 @@
+                   NULL,
+                   G_TYPE_NONE, 0);
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_CALENDAR);
+   gtk_widget_class_set_css_name (widget_class, "calendar");
+ }
+ 
+--- a/gtk/gtkcellrenderer.c
++++ b/gtk/gtkcellrenderer.c
+@@ -443,8 +443,6 @@
+ 
+   if (GtkCellRenderer_private_offset != 0)
+     g_type_class_adjust_private_offset (class, &GtkCellRenderer_private_offset);
+-
+-  gtk_cell_renderer_class_set_accessible_type (class, GTK_TYPE_RENDERER_CELL_ACCESSIBLE);
+ }
+ 
+ static void
+@@ -1848,40 +1846,5 @@
+     state |= GTK_STATE_FLAG_SELECTED;
+ 
+   return state;
+-}
+-
+-/**
+- * gtk_cell_renderer_class_set_accessible_type:
+- * @renderer_class: class to set the accessible type for
+- * @type: The object type that implements the accessible for @widget_class.
+- *     The type must be a subtype of #GtkRendererCellAccessible
+- *
+- * Sets the type to be used for creating accessibles for cells rendered by
+- * cell renderers of @renderer_class. Note that multiple accessibles will
+- * be created.
+- *
+- * This function should only be called from class init functions of cell
+- * renderers.
+- **/
+-void
+-gtk_cell_renderer_class_set_accessible_type (GtkCellRendererClass *renderer_class,
+-                                             GType                 type)
+-{
+-  GtkCellRendererClassPrivate *priv;
+-
+-  g_return_if_fail (GTK_IS_CELL_RENDERER_CLASS (renderer_class));
+-  g_return_if_fail (g_type_is_a (type, GTK_TYPE_RENDERER_CELL_ACCESSIBLE));
+-
+-  priv = renderer_class->priv;
+-
+-  priv->accessible_type = type;
+-}
+-
+-GType
+-_gtk_cell_renderer_get_accessible_type (GtkCellRenderer *renderer)
+-{
+-  g_return_val_if_fail (GTK_IS_CELL_RENDERER (renderer), GTK_TYPE_RENDERER_CELL_ACCESSIBLE);
+-
+-  return GTK_CELL_RENDERER_GET_CLASS (renderer)->priv->accessible_type;
+ }
+ 
+--- a/gtk/gtkcellrendererpixbuf.c
++++ b/gtk/gtkcellrendererpixbuf.c
+@@ -282,10 +282,6 @@
+                                                         P_("The GIcon being displayed"),
+                                                         G_TYPE_ICON,
+                                                         GTK_PARAM_READWRITE));
+-
+-
+-
+-  gtk_cell_renderer_class_set_accessible_type (cell_class, GTK_TYPE_IMAGE_CELL_ACCESSIBLE);
+ }
+ 
+ static void
+--- a/gtk/gtkcellrenderertext.c
++++ b/gtk/gtkcellrenderertext.c
+@@ -692,8 +692,6 @@
+   g_signal_set_va_marshaller (text_cell_renderer_signals [EDITED],
+                               G_OBJECT_CLASS_TYPE (object_class),
+                               _gtk_marshal_VOID__STRING_STRINGv);
+-
+-  gtk_cell_renderer_class_set_accessible_type (cell_class, GTK_TYPE_TEXT_CELL_ACCESSIBLE);
+ }
+ 
+ static void
+--- a/gtk/gtkcellrenderertoggle.c
++++ b/gtk/gtkcellrenderertoggle.c
+@@ -196,8 +196,6 @@
+ 		  NULL,
+ 		  G_TYPE_NONE, 1,
+ 		  G_TYPE_STRING);
+-
+-  gtk_cell_renderer_class_set_accessible_type (cell_class, GTK_TYPE_BOOLEAN_CELL_ACCESSIBLE);
+ }
+ 
+ static void
+--- a/gtk/gtkcheckbutton.c
++++ b/gtk/gtkcheckbutton.c
+@@ -253,7 +253,6 @@
+ 							     INDICATOR_SPACING,
+ 							     GTK_PARAM_READABLE|G_PARAM_DEPRECATED));
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_CHECK_BOX);
+   gtk_widget_class_set_css_name (widget_class, "checkbutton");
+ }
+ 
+--- a/gtk/gtkcheckmenuitem.c
++++ b/gtk/gtkcheckmenuitem.c
+@@ -271,7 +271,6 @@
+                   NULL,
+                   G_TYPE_NONE, 0);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_CHECK_MENU_ITEM_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "menuitem");
+ }
+ 
+--- a/gtk/gtkcolorchooserwidget.c
++++ b/gtk/gtkcolorchooserwidget.c
+@@ -344,7 +344,6 @@
+ {
+   GtkWidget *grid;
+   GtkWidget *p;
+-  AtkObject *atk_obj;
+   gint line, pos;
+   gint i;
+   gint left, right;
+@@ -373,11 +372,8 @@
+   for (i = 0; i < n_colors; i++)
+     {
+       p = gtk_color_swatch_new ();
+-      atk_obj = gtk_widget_get_accessible (p);
+       if (names)
+         {
+-          atk_object_set_name (atk_obj,
+-                               g_dpgettext2 (GETTEXT_PACKAGE, "Color name", names[i]));
+         }
+       else
+         {
+@@ -385,7 +381,6 @@
+ 
+           name = accessible_color_name (&colors[i]);
+           text = g_strdup_printf (_("Color: %s"), name);
+-          atk_object_set_name (atk_obj, text);
+           g_free (text);
+           g_free (name);
+         }
+@@ -513,7 +508,6 @@
+   GVariant *variant;
+   GVariantIter iter;
+   gboolean selected;
+-  AtkObject *atk_obj;
+   gchar *text, *name;
+ 
+   cc->priv = gtk_color_chooser_widget_get_instance_private (cc);
+@@ -537,9 +531,6 @@
+ 
+   cc->priv->button = button = gtk_color_swatch_new ();
+   gtk_widget_set_name (button, "add-color-button");
+-  atk_obj = gtk_widget_get_accessible (button);
+-  atk_object_set_name (atk_obj, _("Custom color"));
+-  atk_object_set_description (atk_obj, _("Create a custom color"));
+   connect_button_signals (button, cc);
+   gtk_color_swatch_set_icon (GTK_COLOR_SWATCH (button), "list-add-symbolic");
+   gtk_color_swatch_set_selectable (GTK_COLOR_SWATCH (button), FALSE);
+@@ -556,10 +547,8 @@
+       p = gtk_color_swatch_new ();
+       gtk_color_swatch_set_rgba (GTK_COLOR_SWATCH (p), &color);
+       gtk_color_swatch_set_can_drop (GTK_COLOR_SWATCH (p), TRUE);
+-      atk_obj = gtk_widget_get_accessible (p);
+       name = accessible_color_name (&color);
+       text = g_strdup_printf (_("Custom color %d: %s"), i, name);
+-      atk_object_set_name (atk_obj, text);
+       g_free (text);
+       g_free (name);
+       connect_custom_signals (p, cc);
+--- a/gtk/gtkcolorplane.c
++++ b/gtk/gtkcolorplane.c
+@@ -392,8 +392,6 @@
+ static void
+ gtk_color_plane_init (GtkColorPlane *plane)
+ {
+-  AtkObject *atk_obj;
+-
+   plane->priv = gtk_color_plane_get_instance_private (plane);
+ 
+   gtk_widget_set_can_focus (GTK_WIDGET (plane), TRUE);
+@@ -402,13 +400,6 @@
+                                              | GDK_BUTTON_PRESS_MASK
+                                              | GDK_BUTTON_RELEASE_MASK
+                                              | GDK_POINTER_MOTION_MASK);
+-
+-  atk_obj = gtk_widget_get_accessible (GTK_WIDGET (plane));
+-  if (GTK_IS_ACCESSIBLE (atk_obj))
+-    {
+-      atk_object_set_name (atk_obj, _("Color Plane"));
+-      atk_object_set_role (atk_obj, ATK_ROLE_COLOR_CHOOSER);
+-    }
+ 
+   plane->priv->drag_gesture = gtk_gesture_drag_new (GTK_WIDGET (plane));
+   g_signal_connect (plane->priv->drag_gesture, "drag-begin",
+--- a/gtk/gtkcolorscale.c
++++ b/gtk/gtkcolorscale.c
+@@ -200,19 +200,7 @@
+ scale_set_type (GtkColorScale     *scale,
+                 GtkColorScaleType  type)
+ {
+-  AtkObject *atk_obj;
+-
+   scale->priv->type = type;
+-
+-  atk_obj = gtk_widget_get_accessible (GTK_WIDGET (scale));
+-  if (GTK_IS_ACCESSIBLE (atk_obj))
+-    {
+-      if (type == GTK_COLOR_SCALE_HUE)
+-        atk_object_set_name (atk_obj, C_("Color channel", "Hue"));
+-      else if (type == GTK_COLOR_SCALE_ALPHA)
+-        atk_object_set_name (atk_obj, C_("Color channel", "Alpha"));
+-      atk_object_set_role (atk_obj, ATK_ROLE_COLOR_CHOOSER);
+-    }
+ }
+ 
+ static void
+--- a/gtk/gtkcolorswatch.c
++++ b/gtk/gtkcolorswatch.c
+@@ -725,7 +725,6 @@
+       g_param_spec_boolean ("has-menu", P_("Has Menu"), P_("Whether the swatch should offer customization"),
+                             TRUE, GTK_PARAM_READWRITE));
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_COLOR_SWATCH_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "colorswatch");
+ }
+ 
+--- a/gtk/gtkcombobox.c
++++ b/gtk/gtkcombobox.c
+@@ -1255,7 +1255,6 @@
+   gtk_widget_class_bind_template_child_internal_private (widget_class, GtkComboBox, arrow);
+   gtk_widget_class_bind_template_callback (widget_class, gtk_combo_box_button_toggled);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_COMBO_BOX_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "combobox");
+ }
+ 
+@@ -4639,35 +4638,6 @@
+   return combo_box->priv->popup_fixed_width;
+ }
+ 
+-
+-/**
+- * gtk_combo_box_get_popup_accessible:
+- * @combo_box: a #GtkComboBox
+- *
+- * Gets the accessible object corresponding to the combo box’s popup.
+- *
+- * This function is mostly intended for use by accessibility technologies;
+- * applications should have little use for it.
+- *
+- * Returns: (transfer none): the accessible object corresponding
+- *     to the combo box’s popup.
+- *
+- * Since: 2.6
+- */
+-AtkObject *
+-gtk_combo_box_get_popup_accessible (GtkComboBox *combo_box)
+-{
+-  GtkComboBoxPrivate *priv;
+-
+-  g_return_val_if_fail (GTK_IS_COMBO_BOX (combo_box), NULL);
+-
+-  priv = combo_box->priv;
+-
+-  if (priv->popup_widget)
+-    return gtk_widget_get_accessible (priv->popup_widget);
+-
+-  return NULL;
+-}
+ 
+ /**
+  * gtk_combo_box_get_row_separator_func: (skip)
+--- a/gtk/gtkcombobox.h
++++ b/gtk/gtkcombobox.h
+@@ -181,8 +181,6 @@
+                                               GdkDevice       *device);
+ GDK_AVAILABLE_IN_ALL
+ void          gtk_combo_box_popdown          (GtkComboBox     *combo_box);
+-GDK_AVAILABLE_IN_ALL
+-AtkObject *   gtk_combo_box_get_popup_accessible (GtkComboBox *combo_box);
+ 
+ GDK_AVAILABLE_IN_ALL
+ gint          gtk_combo_box_get_id_column        (GtkComboBox *combo_box);
+--- a/gtk/gtkcontainer.c
++++ b/gtk/gtkcontainer.c
+@@ -591,8 +591,6 @@
+ 
+   if (GtkContainer_private_offset != 0)
+     g_type_class_adjust_private_offset (class, &GtkContainer_private_offset);
+-
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_CONTAINER_ACCESSIBLE);
+ }
+ 
+ static void
+@@ -1875,8 +1873,6 @@
+     }
+ 
+   g_signal_emit (container, container_signals[ADD], 0, widget);
+-
+-  _gtk_container_accessible_add (GTK_WIDGET (container), widget);
+ }
+ 
+ /**
+@@ -1905,8 +1901,6 @@
+   g_object_ref (widget);
+ 
+   g_signal_emit (container, container_signals[REMOVE], 0, widget);
+-
+-  _gtk_container_accessible_remove (GTK_WIDGET (container), widget);
+ 
+   g_object_unref (widget);
+   g_object_unref (container);
+--- a/gtk/gtkdialog.c
++++ b/gtk/gtkdialog.c
+@@ -533,8 +533,6 @@
+   widget_class->map = gtk_dialog_map;
+   widget_class->style_updated = gtk_dialog_style_updated;
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_DIALOG);
+-
+   class->close = gtk_dialog_close;
+ 
+   /**
+--- a/gtk/gtkdrawingarea.c
++++ b/gtk/gtkdrawingarea.c
+@@ -135,8 +135,6 @@
+   widget_class->realize = gtk_drawing_area_realize;
+   widget_class->size_allocate = gtk_drawing_area_size_allocate;
+   widget_class->style_updated = gtk_drawing_area_style_updated;
+-
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_DRAWING_AREA);
+ }
+ 
+ static void
+--- a/gtk/gtkentry.c
++++ b/gtk/gtkentry.c
+@@ -2125,7 +2125,6 @@
+   gtk_binding_entry_add_signal (binding_set, GDK_KEY_semicolon, GDK_CONTROL_MASK,
+                                 "insert-emoji", 0);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_ENTRY_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "entry");
+ }
+ 
+--- a/gtk/gtkentrycompletion.c
++++ b/gtk/gtkentrycompletion.c
+@@ -2634,30 +2634,12 @@
+ set_accessible_relation (GtkWidget *window,
+                          GtkWidget *entry)
+ {
+-  AtkObject *window_accessible;
+-  AtkObject *entry_accessible;
+-
+-  window_accessible = gtk_widget_get_accessible (window);
+-  entry_accessible = gtk_widget_get_accessible (entry);
+-
+-  atk_object_add_relationship (window_accessible,
+-                               ATK_RELATION_POPUP_FOR,
+-                               entry_accessible);
+ }
+ 
+ static void
+ unset_accessible_relation (GtkWidget *window,
+                            GtkWidget *entry)
+ {
+-  AtkObject *window_accessible;
+-  AtkObject *entry_accessible;
+-
+-  window_accessible = gtk_widget_get_accessible (window);
+-  entry_accessible = gtk_widget_get_accessible (entry);
+-
+-  atk_object_remove_relationship (window_accessible,
+-                                  ATK_RELATION_POPUP_FOR,
+-                                  entry_accessible);
+ }
+ 
+ static void
+--- a/gtk/gtkexpander.c
++++ b/gtk/gtkexpander.c
+@@ -427,7 +427,6 @@
+                   NULL,
+                   G_TYPE_NONE, 0);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_EXPANDER_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "expander");
+ }
+ 
+--- a/gtk/gtkfilechooserdialog.c
++++ b/gtk/gtkfilechooserdialog.c
+@@ -265,8 +265,6 @@
+   widget_class->unmap = gtk_file_chooser_dialog_unmap;
+   widget_class->size_allocate = gtk_file_chooser_dialog_size_allocate;
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_FILE_CHOOSER);
+-
+   _gtk_file_chooser_install_properties (gobject_class);
+ 
+   /* Bind class to template
+--- a/gtk/gtkfilechooserwidget.c
++++ b/gtk/gtkfilechooserwidget.c
+@@ -8753,7 +8753,6 @@
+   gtk_widget_class_bind_template_callback (widget_class, rename_file_rename_clicked);
+   gtk_widget_class_bind_template_callback (widget_class, rename_file_end);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_FILE_CHOOSER_WIDGET_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "filechooser");
+ }
+ 
+@@ -8762,7 +8761,6 @@
+ {
+   GtkTreeSelection *selection;
+   GtkCellRenderer *cell;
+-  AtkObject *atk_obj;
+   GList *cells;
+   GFile *file;
+ 
+@@ -8818,10 +8816,6 @@
+    * that priv->icon_size be already setup.
+    */
+   set_icon_cell_renderer_fixed_size (impl);
+-
+-  atk_obj = gtk_widget_get_accessible (impl->priv->browse_new_folder_button);
+-  if (GTK_IS_ACCESSIBLE (atk_obj))
+-    atk_object_set_name (atk_obj, _("Create Folder"));
+ 
+   gtk_popover_set_default_widget (GTK_POPOVER (impl->priv->new_folder_popover), impl->priv->new_folder_create_button);
+   gtk_popover_set_default_widget (GTK_POPOVER (impl->priv->rename_file_popover), impl->priv->rename_file_rename_button);
+--- a/gtk/gtkflowbox.c
++++ b/gtk/gtkflowbox.c
+@@ -635,7 +635,6 @@
+                   G_TYPE_NONE, 0);
+   widget_class->activate_signal = child_signals[CHILD_ACTIVATE];
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_LIST_ITEM);
+   gtk_widget_class_set_css_name (widget_class, "flowboxchild");
+ }
+ 
+@@ -1025,7 +1024,6 @@
+   BOX_PRIV (box)->cursor_child = child;
+   gtk_widget_grab_focus (GTK_WIDGET (child));
+   gtk_widget_queue_draw (GTK_WIDGET (child));
+-  _gtk_flow_box_accessible_update_cursor (GTK_WIDGET (box), GTK_WIDGET (child));
+ }
+ 
+ static void
+@@ -3645,7 +3643,6 @@
+ static void
+ gtk_flow_box_selected_children_changed (GtkFlowBox *box)
+ {
+-  _gtk_flow_box_accessible_selection_changed (GTK_WIDGET (box));
+ }
+ 
+ /* GObject implementation {{{2 */
+@@ -4100,7 +4097,6 @@
+   gtk_binding_entry_add_signal (binding_set, GDK_KEY_a, GDK_CONTROL_MASK | GDK_SHIFT_MASK,
+                                 "unselect-all", 0);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_FLOW_BOX_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "flowbox");
+ }
+ 
+--- a/gtk/gtkfontchooserdialog.c
++++ b/gtk/gtkfontchooserdialog.c
+@@ -22,8 +22,6 @@
+ #include <glib/gprintf.h>
+ #include <string.h>
+ 
+-#include <atk/atk.h>
+-
+ #include "gtkfontchooserdialog.h"
+ #include "gtkfontchooser.h"
+ #include "gtkfontchooserwidget.h"
+--- a/gtk/gtkfontchooserwidget.c
++++ b/gtk/gtkfontchooserwidget.c
+@@ -21,8 +21,6 @@
+ #include <glib/gprintf.h>
+ #include <string.h>
+ 
+-#include <atk/atk.h>
+-
+ #include "gtkfontchooserwidget.h"
+ #include "gtkfontchooserwidgetprivate.h"
+ 
+--- a/gtk/gtkframe.c
++++ b/gtk/gtkframe.c
+@@ -282,7 +282,6 @@
+ 
+   class->compute_child_allocation = gtk_frame_real_compute_child_allocation;
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_FRAME_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "frame");
+ }
+ 
+--- a/gtk/gtkglarea.c
++++ b/gtk/gtkglarea.c
+@@ -766,8 +766,6 @@
+   widget_class->size_allocate = gtk_gl_area_size_allocate;
+   widget_class->draw = gtk_gl_area_draw;
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_DRAWING_AREA);
+-
+   /**
+    * GtkGLArea:context:
+    *
+--- a/gtk/gtkheaderbar.c
++++ b/gtk/gtkheaderbar.c
+@@ -351,7 +351,6 @@
+             {
+               GtkWidget *button = NULL;
+               GtkWidget *image = NULL;
+-              AtkObject *accessible;
+ 
+               if (strcmp (t[j], "icon") == 0 &&
+                   is_sovereign_window)
+@@ -386,10 +385,6 @@
+                   gtk_widget_set_can_focus (button, FALSE);
+                   gtk_widget_show_all (button);
+ 
+-                  accessible = gtk_widget_get_accessible (button);
+-                  if (GTK_IS_ACCESSIBLE (accessible))
+-                    atk_object_set_name (accessible, _("Application menu"));
+-
+                   priv->titlebar_icon = image;
+                   if (!_gtk_header_bar_update_window_icon (bar, window))
+                     gtk_image_set_from_icon_name (GTK_IMAGE (priv->titlebar_icon),
+@@ -409,10 +404,6 @@
+                   gtk_widget_show_all (button);
+                   g_signal_connect_swapped (button, "clicked",
+                                             G_CALLBACK (gtk_window_iconify), window);
+-
+-                  accessible = gtk_widget_get_accessible (button);
+-                  if (GTK_IS_ACCESSIBLE (accessible))
+-                    atk_object_set_name (accessible, _("Minimize"));
+                 }
+               else if (strcmp (t[j], "maximize") == 0 &&
+                        gtk_window_get_resizable (window) &&
+@@ -433,10 +424,6 @@
+                   gtk_widget_show_all (button);
+                   g_signal_connect_swapped (button, "clicked",
+                                             G_CALLBACK (_gtk_window_toggle_maximized), window);
+-
+-                  accessible = gtk_widget_get_accessible (button);
+-                  if (GTK_IS_ACCESSIBLE (accessible))
+-                    atk_object_set_name (accessible, maximized ? _("Restore") : _("Maximize"));
+                 }
+               else if (strcmp (t[j], "close") == 0 &&
+                        gtk_window_get_deletable (window))
+@@ -452,10 +439,6 @@
+                   gtk_widget_show_all (button);
+                   g_signal_connect_swapped (button, "clicked",
+                                             G_CALLBACK (gtk_window_close), window);
+-
+-                  accessible = gtk_widget_get_accessible (button);
+-                  if (GTK_IS_ACCESSIBLE (accessible))
+-                    atk_object_set_name (accessible, _("Close"));
+                 }
+ 
+               if (button)
+@@ -2118,8 +2101,6 @@
+ 
+   g_object_class_install_properties (object_class, LAST_PROP, header_bar_props);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_HEADER_BAR_ACCESSIBLE);
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_PANEL);
+   gtk_widget_class_set_css_name (widget_class, "headerbar");
+ }
+ 
+--- a/gtk/gtkiconview.c
++++ b/gtk/gtkiconview.c
+@@ -965,7 +965,6 @@
+   gtk_icon_view_add_move_binding (binding_set, GDK_KEY_KP_Left, 0, 
+ 				  GTK_MOVEMENT_VISUAL_POSITIONS, -1);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_ICON_VIEW_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "iconview");
+ }
+ 
+@@ -2125,19 +2124,6 @@
+ gtk_icon_view_item_selected_changed (GtkIconView      *icon_view,
+                                      GtkIconViewItem  *item)
+ {
+-  AtkObject *obj;
+-  AtkObject *item_obj;
+-
+-  obj = gtk_widget_get_accessible (GTK_WIDGET (icon_view));
+-  if (obj != NULL)
+-    {
+-      item_obj = atk_object_ref_accessible_child (obj, item->index);
+-      if (item_obj != NULL)
+-        {
+-          atk_object_notify_state_change (item_obj, ATK_STATE_SELECTED, item->selected);
+-          g_object_unref (item_obj);
+-        }
+-    }
+ }
+ 
+ static void
+@@ -2939,8 +2925,6 @@
+ 
+       if (icon_view->priv->doing_rubberband)
+         gtk_icon_view_update_rubberband (GTK_WIDGET (icon_view));
+-
+-      _gtk_icon_view_accessible_adjustment_changed (icon_view);
+     }
+ }
+ 
+@@ -3238,10 +3222,6 @@
+                                 GtkIconViewItem *item,
+                                 GtkCellRenderer *cursor_cell)
+ {
+-  AtkObject *obj;
+-  AtkObject *item_obj;
+-  AtkObject *cursor_item_obj;
+-
+   /* When hitting this path from keynav, the focus cell is
+    * already set, we dont need to notify the atk object
+    * but we still need to queue the draw here (in the case
+@@ -3253,17 +3233,10 @@
+       (cursor_cell == NULL || cursor_cell == gtk_cell_area_get_focus_cell (icon_view->priv->cell_area)))
+     return;
+ 
+-  obj = gtk_widget_get_accessible (GTK_WIDGET (icon_view));
+   if (icon_view->priv->cursor_item != NULL)
+     {
+       gtk_icon_view_queue_draw_item (icon_view, icon_view->priv->cursor_item);
+-      if (obj != NULL)
+-        {
+-          cursor_item_obj = atk_object_ref_accessible_child (obj, icon_view->priv->cursor_item->index);
+-          if (cursor_item_obj != NULL)
+-            atk_object_notify_state_change (cursor_item_obj, ATK_STATE_FOCUSED, FALSE);
+         }
+-    }
+   icon_view->priv->cursor_item = item;
+ 
+   if (cursor_cell)
+@@ -3273,18 +3246,6 @@
+       /* Make sure there is a cell in focus initially */
+       if (!gtk_cell_area_get_focus_cell (icon_view->priv->cell_area))
+ 	gtk_cell_area_focus (icon_view->priv->cell_area, GTK_DIR_TAB_FORWARD);
+-    }
+-  
+-  /* Notify that accessible focus object has changed */
+-  item_obj = atk_object_ref_accessible_child (obj, item->index);
+-
+-  if (item_obj != NULL)
+-    {
+-      G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
+-      atk_focus_tracker_notify (item_obj);
+-      G_GNUC_END_IGNORE_DEPRECATIONS;
+-      atk_object_notify_state_change (item_obj, ATK_STATE_FOCUSED, TRUE);
+-      g_object_unref (item_obj); 
+     }
+ }
+ 
+--- a/gtk/gtkimage.c
++++ b/gtk/gtkimage.c
+@@ -402,7 +402,6 @@
+ 
+   g_object_class_install_properties (gobject_class, NUM_PROPERTIES, image_props);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_IMAGE_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "image");
+ }
+ 
+--- a/gtk/gtkinfobar.c
++++ b/gtk/gtkinfobar.c
+@@ -1276,7 +1276,6 @@
+   if (priv->message_type != message_type)
+     {
+       GtkStyleContext *context;
+-      AtkObject *atk_obj;
+       const char *type_class[] = {
+         GTK_STYLE_CLASS_INFO,
+         GTK_STYLE_CLASS_WARNING,
+@@ -1293,43 +1292,6 @@
+       priv->message_type = message_type;
+ 
+       gtk_widget_queue_draw (GTK_WIDGET (info_bar));
+-
+-      atk_obj = gtk_widget_get_accessible (GTK_WIDGET (info_bar));
+-      if (GTK_IS_ACCESSIBLE (atk_obj))
+-        {
+-          const char *name = NULL;
+-
+-          atk_object_set_role (atk_obj, ATK_ROLE_INFO_BAR);
+-
+-          switch (message_type)
+-            {
+-            case GTK_MESSAGE_INFO:
+-              name = _("Information");
+-              break;
+-
+-            case GTK_MESSAGE_QUESTION:
+-              name = _("Question");
+-              break;
+-
+-            case GTK_MESSAGE_WARNING:
+-              name = _("Warning");
+-              break;
+-
+-            case GTK_MESSAGE_ERROR:
+-              name = _("Error");
+-              break;
+-
+-            case GTK_MESSAGE_OTHER:
+-              break;
+-
+-            default:
+-              g_warning ("Unknown GtkMessageType %u", message_type);
+-              break;
+-            }
+-
+-          if (name)
+-            atk_object_set_name (atk_obj, name);
+-        }
+ 
+       if (type_class[priv->message_type])
+         gtk_style_context_add_class (context, type_class[priv->message_type]);
+--- a/gtk/gtklabel.c
++++ b/gtk/gtklabel.c
+@@ -1194,8 +1194,6 @@
+   gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Enter, 0,
+ 				"activate-current-link", 0);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_LABEL_ACCESSIBLE);
+-
+   gtk_widget_class_set_css_name (widget_class, "label");
+ 
+   quark_shortcuts_connected = g_quark_from_static_string ("gtk-label-shortcuts-connected");
+@@ -2146,12 +2144,9 @@
+       return;
+     }
+ 
+-  _gtk_label_accessible_text_deleted (label);
+   g_free (priv->text);
+   priv->text = str;
+ 
+-  _gtk_label_accessible_text_inserted (label);
+-
+   gtk_label_select_region_index (label, 0, 0);
+ }
+ 
+@@ -2680,7 +2675,6 @@
+     {
+       gtk_label_ensure_select_info (label);
+       priv->select_info->links = g_list_reverse (links);
+-      _gtk_label_accessible_update_links (label);
+       gtk_label_ensure_has_tooltip (label);
+     }
+ 
+@@ -4818,7 +4812,6 @@
+                 {
+                   priv->select_info->selection_anchor = link->start;
+                   priv->select_info->selection_end = link->start;
+-                  _gtk_label_accessible_focus_link_changed (label);
+                   break;
+                 }
+             }
+@@ -4851,7 +4844,6 @@
+                     {
+                       info->selection_anchor = focus_link->start;
+                       info->selection_end = focus_link->start;
+-                      _gtk_label_accessible_focus_link_changed (label);
+                     }
+                 }
+             }
+@@ -4882,7 +4874,6 @@
+                 if (!range_is_in_ellipsis (label, link->start, link->end))
+                   {
+                     gtk_label_select_region_index (label, link->start, link->start);
+-                    _gtk_label_accessible_focus_link_changed (label);
+                     return TRUE;
+                   }
+               }
+@@ -4897,7 +4888,6 @@
+                 if (!range_is_in_ellipsis (label, link->start, link->end))
+                   {
+                     gtk_label_select_region_index (label, link->start, link->start);
+-                    _gtk_label_accessible_focus_link_changed (label);
+                     return TRUE;
+                   }
+               }
+@@ -4951,7 +4941,6 @@
+           focus_link = l->data;
+           info->selection_anchor = focus_link->start;
+           info->selection_end = focus_link->start;
+-          _gtk_label_accessible_focus_link_changed (label);
+           gtk_widget_queue_draw (widget);
+ 
+           return TRUE;
+@@ -6732,7 +6721,6 @@
+   priv->select_info->links = NULL;
+   priv->select_info->active_link = NULL;
+ 
+-  _gtk_label_accessible_update_links (label);
+ }
+ 
+ static gboolean
+--- a/gtk/gtklevelbar.c
++++ b/gtk/gtklevelbar.c
+@@ -1136,7 +1136,6 @@
+ 
+   g_object_class_install_properties (oclass, LAST_PROPERTY, properties);
+ 
+-  gtk_widget_class_set_accessible_type (wclass, GTK_TYPE_LEVEL_BAR_ACCESSIBLE);
+   gtk_widget_class_set_css_name (wclass, "levelbar");
+ }
+ 
+--- a/gtk/gtklinkbutton.c
++++ b/gtk/gtklinkbutton.c
+@@ -209,7 +209,6 @@
+                   _gtk_marshal_BOOLEAN__VOID,
+                   G_TYPE_BOOLEAN, 0);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_LINK_BUTTON_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "button");
+ }
+ 
+--- a/gtk/gtklistbox.c
++++ b/gtk/gtklistbox.c
+@@ -447,8 +447,6 @@
+   GtkContainerClass *container_class = GTK_CONTAINER_CLASS (klass);
+   GtkBindingSet *binding_set;
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_LIST_BOX_ACCESSIBLE);
+-
+   object_class->get_property = gtk_list_box_get_property;
+   object_class->set_property = gtk_list_box_set_property;
+   object_class->finalize = gtk_list_box_finalize;
+@@ -903,7 +901,6 @@
+ static void
+ gtk_list_box_selected_rows_changed (GtkListBox *box)
+ {
+-  _gtk_list_box_accessible_selection_changed (box);
+ }
+ 
+ /**
+@@ -1559,7 +1556,6 @@
+   if (grab_focus)
+     gtk_widget_grab_focus (GTK_WIDGET (row));
+   gtk_widget_queue_draw (GTK_WIDGET (row));
+-  _gtk_list_box_accessible_update_cursor (box, row);
+ }
+ 
+ static GtkListBox *
+@@ -3865,8 +3861,6 @@
+ {
+   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+-
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_LIST_BOX_ROW_ACCESSIBLE);
+ 
+   object_class->get_property = gtk_list_box_row_get_property;
+   object_class->set_property = gtk_list_box_row_set_property;
+--- a/gtk/gtklockbutton.c
++++ b/gtk/gtklockbutton.c
+@@ -189,12 +189,10 @@
+ 
+     case PROP_TEXT_LOCK:
+       gtk_label_set_text (GTK_LABEL (priv->label_lock), g_value_get_string (value));
+-      _gtk_lock_button_accessible_name_changed (button);
+       break;
+ 
+     case PROP_TEXT_UNLOCK:
+       gtk_label_set_text (GTK_LABEL (priv->label_unlock), g_value_get_string (value));
+-      _gtk_lock_button_accessible_name_changed (button);
+       break;
+ 
+     case PROP_TOOLTIP_LOCK:
+@@ -322,7 +320,6 @@
+   gtk_widget_class_bind_template_child_private (widget_class, GtkLockButton, label_unlock);
+   gtk_widget_class_bind_template_child_private (widget_class, GtkLockButton, stack);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_LOCK_BUTTON_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "button");
+ }
+ 
+@@ -387,7 +384,6 @@
+   gtk_image_set_from_gicon (GTK_IMAGE (priv->image), icon, GTK_ICON_SIZE_MENU);
+   gtk_stack_set_visible_child (GTK_STACK (priv->stack),
+                                allowed ? priv->label_lock : priv->label_unlock);
+-  _gtk_lock_button_accessible_name_changed (button);
+   gtk_widget_set_tooltip_markup (GTK_WIDGET (button), tooltip);
+   gtk_widget_set_sensitive (GTK_WIDGET (button), sensitive);
+   gtk_widget_set_visible (GTK_WIDGET (button), visible);
+--- a/gtk/gtkmain.c
++++ b/gtk/gtkmain.c
+@@ -131,8 +131,6 @@
+ #include "gtkwindowprivate.h"
+ #include "gtkwindowgroup.h"
+ 
+-#include "a11y/gtkaccessibility.h"
+-
+ /* Private type definitions
+  */
+ typedef struct _GtkKeySnooperData        GtkKeySnooperData;
+@@ -712,7 +710,6 @@
+ static void
+ default_display_notify_cb (GdkDisplayManager *dm)
+ {
+-  _gtk_accessibility_init ();
+   debug_flags[0].display = gdk_display_get_default ();
+ }
+ 
+@@ -2434,18 +2431,6 @@
+ {
+   GSList *slist;
+   gint return_val = FALSE;
+-
+-  return_val = _gtk_accessibility_key_snooper (grab_widget, (GdkEventKey *) event);
+-
+-  slist = key_snoopers;
+-  while (slist && !return_val)
+-    {
+-      GtkKeySnooperData *data;
+-
+-      data = slist->data;
+-      slist = slist->next;
+-      return_val = (*data->func) (grab_widget, (GdkEventKey*) event, data->func_data);
+-    }
+ 
+   return return_val;
+ }
+--- a/gtk/gtkmenu.c
++++ b/gtk/gtkmenu.c
+@@ -1090,7 +1090,6 @@
+                                 GTK_TYPE_SCROLL_TYPE,
+                                 GTK_SCROLL_PAGE_DOWN);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_MENU_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "menu");
+ }
+ 
+--- a/gtk/gtkmenubar.c
++++ b/gtk/gtkmenubar.c
+@@ -275,7 +275,6 @@
+                                                              GTK_PARAM_READABLE|G_PARAM_DEPRECATED));
+ 
+   gtk_container_class_handle_border_width (container_class);
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_MENU_BAR);
+   gtk_widget_class_set_css_name (widget_class, "menubar");
+ }
+ 
+--- a/gtk/gtkmenubutton.c
++++ b/gtk/gtkmenubutton.c
+@@ -568,7 +568,6 @@
+ 
+   g_object_class_install_properties (gobject_class, LAST_PROP, menu_button_props);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_MENU_BUTTON_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "button");
+ }
+ 
+--- a/gtk/gtkmenuitem.c
++++ b/gtk/gtkmenuitem.c
+@@ -919,7 +919,6 @@
+                                                              0, G_MAXINT, 12,
+                                                              GTK_PARAM_READABLE|G_PARAM_DEPRECATED));
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_MENU_ITEM_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "menuitem");
+ 
+   gtk_container_class_handle_border_width (container_class);
+--- a/gtk/gtkmenushell.c
++++ b/gtk/gtkmenushell.c
+@@ -420,8 +420,6 @@
+                                                          P_("A boolean that determines whether the menu grabs the keyboard focus"),
+                                                          TRUE,
+                                                          GTK_PARAM_READWRITE|G_PARAM_EXPLICIT_NOTIFY));
+-
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_MENU_SHELL_ACCESSIBLE);
+ }
+ 
+ static GType
+--- a/gtk/gtkmessagedialog.c
++++ b/gtk/gtkmessagedialog.c
+@@ -163,8 +163,6 @@
+   
+   widget_class->style_updated = gtk_message_dialog_style_updated;
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_ALERT);
+-
+   gobject_class->constructed = gtk_message_dialog_constructed;
+   gobject_class->set_property = gtk_message_dialog_set_property;
+   gobject_class->get_property = gtk_message_dialog_get_property;
+@@ -372,7 +370,6 @@
+ {
+   GtkMessageDialogPrivate *priv = dialog->priv;
+   const gchar *name = NULL;
+-  AtkObject *atk_obj;
+ 
+   if (priv->message_type == type)
+     return;
+@@ -403,14 +400,6 @@
+     default:
+       g_warning ("Unknown GtkMessageType %u", type);
+       break;
+-    }
+-
+-  atk_obj = gtk_widget_get_accessible (GTK_WIDGET (dialog));
+-  if (GTK_IS_ACCESSIBLE (atk_obj))
+-    {
+-      atk_object_set_role (atk_obj, ATK_ROLE_ALERT);
+-      if (name)
+-        atk_object_set_name (atk_obj, name);
+     }
+ 
+   g_object_notify (G_OBJECT (dialog), "message-type");
+--- a/gtk/gtkmodelbutton.c
++++ b/gtk/gtkmodelbutton.c
+@@ -247,15 +247,6 @@
+     gtk_css_gadget_set_state (button->gadget, state);
+ 
+   gtk_css_gadget_set_state (button->indicator_gadget, indicator_state);
+-
+-  if (button->role == GTK_BUTTON_ROLE_CHECK ||
+-      button->role == GTK_BUTTON_ROLE_RADIO)
+-    {
+-      AtkObject *object = _gtk_widget_peek_accessible (GTK_WIDGET (button));
+-      if (object)
+-        atk_object_notify_state_change (object, ATK_STATE_CHECKED,
+-                                        (indicator_state & GTK_STATE_FLAG_CHECKED));
+-    }
+ }
+ 
+ static void
+@@ -310,17 +301,13 @@
+ static void
+ update_node_name (GtkModelButton *button)
+ {
+-  AtkObject *accessible;
+-  AtkRole a11y_role;
+   const gchar *indicator_name;
+   gboolean indicator_visible;
+   GtkCssNode *indicator_node;
+ 
+-  accessible = gtk_widget_get_accessible (GTK_WIDGET (button));
+   switch (button->role)
+     {
+     case GTK_BUTTON_ROLE_NORMAL:
+-      a11y_role = ATK_ROLE_PUSH_BUTTON;
+       if (button->menu_name)
+         {
+           indicator_name = I_("arrow");
+@@ -334,13 +321,11 @@
+       break;
+ 
+     case GTK_BUTTON_ROLE_CHECK:
+-      a11y_role = ATK_ROLE_CHECK_BOX;
+       indicator_name = I_("check");
+       indicator_visible = TRUE;
+       break;
+ 
+     case GTK_BUTTON_ROLE_RADIO:
+-      a11y_role = ATK_ROLE_RADIO_BUTTON;
+       indicator_name = I_("radio");
+       indicator_visible = TRUE;
+       break;
+@@ -352,8 +337,6 @@
+   if (button->iconic)
+     indicator_visible = FALSE;
+ 
+-  atk_object_set_role (accessible, a11y_role);
+-
+   indicator_node = gtk_css_gadget_get_node (button->indicator_gadget);
+   gtk_css_node_set_name (indicator_node, indicator_name);
+   gtk_css_node_set_visible (indicator_node, indicator_visible);
+@@ -1099,18 +1082,6 @@
+   G_OBJECT_CLASS (gtk_model_button_parent_class)->finalize (object);
+ }
+ 
+-static AtkObject *
+-gtk_model_button_get_accessible (GtkWidget *widget)
+-{
+-  AtkObject *object;
+-
+-  object = GTK_WIDGET_CLASS (gtk_model_button_parent_class)->get_accessible (widget);
+-
+-  gtk_model_button_update_state (GTK_MODEL_BUTTON (widget));
+-
+-  return object;
+-}
+-
+ static void
+ gtk_model_button_class_init (GtkModelButtonClass *class)
+ {
+@@ -1132,7 +1103,6 @@
+   widget_class->destroy = gtk_model_button_destroy;
+   widget_class->state_flags_changed = gtk_model_button_state_flags_changed;
+   widget_class->direction_changed = gtk_model_button_direction_changed;
+-  widget_class->get_accessible = gtk_model_button_get_accessible;
+ 
+   button_class->clicked = gtk_model_button_clicked;
+ 
+@@ -1276,7 +1246,6 @@
+                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+   g_object_class_install_properties (object_class, LAST_PROPERTY, properties);
+ 
+-  gtk_widget_class_set_accessible_role (GTK_WIDGET_CLASS (class), ATK_ROLE_PUSH_BUTTON);
+   gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (class), "modelbutton");
+ }
+ 
+--- a/gtk/gtkmodelmenuitem.c
++++ b/gtk/gtkmodelmenuitem.c
+@@ -94,35 +94,27 @@
+ gtk_model_menu_item_set_action_role (GtkModelMenuItem       *item,
+                                      GtkMenuTrackerItemRole  role)
+ {
+-  AtkObject *accessible;
+-  AtkRole a11y_role;
+-
+   if (role == item->role)
+     return;
+ 
+   gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (item), role == GTK_MENU_TRACKER_ITEM_ROLE_RADIO);
+   gtk_model_menu_item_set_has_indicator (item, role != GTK_MENU_TRACKER_ITEM_ROLE_NORMAL);
+ 
+-  accessible = gtk_widget_get_accessible (GTK_WIDGET (item));
+   switch (role)
+     {
+     case GTK_MENU_TRACKER_ITEM_ROLE_NORMAL:
+-      a11y_role = ATK_ROLE_MENU_ITEM;
+       break;
+ 
+     case GTK_MENU_TRACKER_ITEM_ROLE_CHECK:
+-      a11y_role = ATK_ROLE_CHECK_MENU_ITEM;
+       break;
+ 
+     case GTK_MENU_TRACKER_ITEM_ROLE_RADIO:
+-      a11y_role = ATK_ROLE_RADIO_MENU_ITEM;
+       break;
+ 
+     default:
+       g_assert_not_reached ();
+     }
+ 
+-  atk_object_set_role (accessible, a11y_role);
+   g_object_notify (G_OBJECT (item), "action-role");
+ }
+ 
+@@ -499,8 +491,6 @@
+   g_object_class_install_property (object_class, PROP_ACCEL,
+                                    g_param_spec_string ("accel", "accel", "accel", NULL,
+                                                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
+-
+-  gtk_widget_class_set_accessible_role (GTK_WIDGET_CLASS (class), ATK_ROLE_MENU_ITEM);
+ }
+ 
+ GtkWidget *
+--- a/gtk/gtknotebook.c
++++ b/gtk/gtknotebook.c
+@@ -1282,7 +1282,6 @@
+ 
+   gtk_container_class_handle_border_width (container_class);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_NOTEBOOK_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "notebook");
+ }
+ 
+--- a/gtk/gtkpaned.c
++++ b/gtk/gtkpaned.c
+@@ -692,7 +692,6 @@
+   add_move_binding (binding_set, GDK_KEY_End, 0, GTK_SCROLL_END);
+   add_move_binding (binding_set, GDK_KEY_KP_End, 0, GTK_SCROLL_END);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_PANED_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "paned");
+ }
+ 
+--- a/gtk/gtkpango.c
++++ b/gtk/gtkpango.c
+@@ -233,301 +233,7 @@
+     cairo_move_to (cr, current_x, current_y);
+ }
+ 
+-static AtkAttributeSet *
+-add_attribute (AtkAttributeSet  *attributes,
+-               AtkTextAttribute  attr,
+-               const gchar      *value)
+-{
+-  AtkAttribute *at;
+-
+-  at = g_new (AtkAttribute, 1);
+-  at->name = g_strdup (atk_text_attribute_get_name (attr));
+-  at->value = g_strdup (value);
+-
+-  return g_slist_prepend (attributes, at);
+-}
+-
+ /*
+- * _gtk_pango_get_default_attributes:
+- * @attributes: a #AtkAttributeSet to add the attributes to
+- * @layout: the #PangoLayout from which to get attributes
+- *
+- * Adds the default text attributes from @layout to @attributes,
+- * after translating them from Pango attributes to ATK attributes.
+- *
+- * This is a convenience function that can be used to implement
+- * support for the #AtkText interface in widgets using Pango
+- * layouts.
+- *
+- * Returns: the modified @attributes
+- */
+-AtkAttributeSet*
+-_gtk_pango_get_default_attributes (AtkAttributeSet *attributes,
+-                                   PangoLayout     *layout)
+-{
+-  PangoContext *context;
+-  gint i;
+-  PangoWrapMode mode;
+-
+-  context = pango_layout_get_context (layout);
+-  if (context)
+-    {
+-      PangoLanguage *language;
+-      PangoFontDescription *font;
+-
+-      language = pango_context_get_language (context);
+-      if (language)
+-        attributes = add_attribute (attributes, ATK_TEXT_ATTR_LANGUAGE,
+-                         pango_language_to_string (language));
+-
+-      font = pango_context_get_font_description (context);
+-      if (font)
+-        {
+-          gchar buf[60];
+-          attributes = add_attribute (attributes, ATK_TEXT_ATTR_STYLE,
+-                           atk_text_attribute_get_value (ATK_TEXT_ATTR_STYLE,
+-                                 pango_font_description_get_style (font)));
+-          attributes = add_attribute (attributes, ATK_TEXT_ATTR_VARIANT,
+-                           atk_text_attribute_get_value (ATK_TEXT_ATTR_VARIANT,
+-                                 pango_font_description_get_variant (font)));
+-          attributes = add_attribute (attributes, ATK_TEXT_ATTR_STRETCH,
+-                           atk_text_attribute_get_value (ATK_TEXT_ATTR_STRETCH,
+-                                 pango_font_description_get_stretch (font)));
+-          attributes = add_attribute (attributes, ATK_TEXT_ATTR_FAMILY_NAME,
+-                           pango_font_description_get_family (font));
+-          g_snprintf (buf, 60, "%d", pango_font_description_get_weight (font));
+-          attributes = add_attribute (attributes, ATK_TEXT_ATTR_WEIGHT, buf);
+-          g_snprintf (buf, 60, "%i", pango_font_description_get_size (font) / PANGO_SCALE);
+-          attributes = add_attribute (attributes, ATK_TEXT_ATTR_SIZE, buf);
+-        }
+-    }
+-  if (pango_layout_get_justify (layout))
+-    {
+-      i = 3;
+-    }
+-  else
+-    {
+-      PangoAlignment align;
+-
+-      align = pango_layout_get_alignment (layout);
+-      if (align == PANGO_ALIGN_LEFT)
+-        i = 0;
+-      else if (align == PANGO_ALIGN_CENTER)
+-        i = 2;
+-      else   /* PANGO_ALIGN_RIGHT */
+-        i = 1;
+-    }
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_JUSTIFICATION,
+-                   atk_text_attribute_get_value (ATK_TEXT_ATTR_JUSTIFICATION, i));
+-  mode = pango_layout_get_wrap (layout);
+-  if (mode == PANGO_WRAP_WORD)
+-    i = 2;
+-  else   /* PANGO_WRAP_CHAR */
+-    i = 1;
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_WRAP_MODE,
+-                   atk_text_attribute_get_value (ATK_TEXT_ATTR_WRAP_MODE, i));
+-
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_STRIKETHROUGH,
+-                   atk_text_attribute_get_value (ATK_TEXT_ATTR_STRIKETHROUGH, 0));
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_UNDERLINE,
+-                   atk_text_attribute_get_value (ATK_TEXT_ATTR_UNDERLINE, 0));
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_RISE, "0");
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_SCALE, "1");
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_BG_FULL_HEIGHT, "0");
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_PIXELS_INSIDE_WRAP, "0");
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_PIXELS_BELOW_LINES, "0");
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_PIXELS_ABOVE_LINES, "0");
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_EDITABLE,
+-                   atk_text_attribute_get_value (ATK_TEXT_ATTR_EDITABLE, 0));
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_INVISIBLE,
+-                   atk_text_attribute_get_value (ATK_TEXT_ATTR_INVISIBLE, 0));
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_INDENT, "0");
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_RIGHT_MARGIN, "0");
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_LEFT_MARGIN, "0");
+-
+-  return attributes;
+-}
+-
+-/*
+- * _gtk_pango_get_run_attributes:
+- * @attributes: a #AtkAttributeSet to add attributes to
+- * @layout: the #PangoLayout to get the attributes from
+- * @offset: the offset at which the attributes are wanted
+- * @start_offset: return location for the starting offset
+- *    of the current run
+- * @end_offset: return location for the ending offset of the
+- *    current run
+- *
+- * Finds the “run” around index (i.e. the maximal range of characters
+- * where the set of applicable attributes remains constant) and
+- * returns the starting and ending offsets for it.
+- *
+- * The attributes for the run are added to @attributes, after
+- * translating them from Pango attributes to ATK attributes.
+- *
+- * This is a convenience function that can be used to implement
+- * support for the #AtkText interface in widgets using Pango
+- * layouts.
+- *
+- * Returns: the modified #AtkAttributeSet
+- */
+-AtkAttributeSet *
+-_gtk_pango_get_run_attributes (AtkAttributeSet *attributes,
+-                               PangoLayout     *layout,
+-                               gint             offset,
+-                               gint            *start_offset,
+-                               gint            *end_offset)
+-{
+-  PangoAttrIterator *iter;
+-  PangoAttrList *attr;
+-  PangoAttrString *pango_string;
+-  PangoAttrInt *pango_int;
+-  PangoAttrColor *pango_color;
+-  PangoAttrLanguage *pango_lang;
+-  PangoAttrFloat *pango_float;
+-  gint index, start_index, end_index;
+-  gboolean is_next;
+-  glong len;
+-  const gchar *text;
+-  gchar *value;
+-
+-  text = pango_layout_get_text (layout);
+-  len = g_utf8_strlen (text, -1);
+-
+-  /* Grab the attributes of the PangoLayout, if any */
+-  attr = pango_layout_get_attributes (layout);
+-
+-  if (attr == NULL)
+-    {
+-      *start_offset = 0;
+-      *end_offset = len;
+-      return attributes;
+-    }
+-
+-  iter = pango_attr_list_get_iterator (attr);
+-  /* Get invariant range offsets */
+-  /* If offset out of range, set offset in range */
+-  if (offset > len)
+-    offset = len;
+-  else if (offset < 0)
+-    offset = 0;
+-
+-  index = g_utf8_offset_to_pointer (text, offset) - text;
+-  pango_attr_iterator_range (iter, &start_index, &end_index);
+-  is_next = TRUE;
+-  while (is_next)
+-    {
+-      if (index >= start_index && index < end_index)
+-        {
+-          *start_offset = g_utf8_pointer_to_offset (text, text + start_index);
+-          if (end_index == G_MAXINT) /* Last iterator */
+-            end_index = len;
+-
+-          *end_offset = g_utf8_pointer_to_offset (text, text + end_index);
+-          break;
+-        }
+-      is_next = pango_attr_iterator_next (iter);
+-      pango_attr_iterator_range (iter, &start_index, &end_index);
+-    }
+-
+-  /* Get attributes */
+-  pango_string = (PangoAttrString*) pango_attr_iterator_get (iter, PANGO_ATTR_FAMILY);
+-  if (pango_string != NULL)
+-    {
+-      value = g_strdup_printf ("%s", pango_string->value);
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_FAMILY_NAME, value);
+-      g_free (value);
+-    }
+-  pango_int = (PangoAttrInt*) pango_attr_iterator_get (iter, PANGO_ATTR_STYLE);
+-  if (pango_int != NULL)
+-    {
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_STYLE,
+-                       atk_text_attribute_get_value (ATK_TEXT_ATTR_STYLE, pango_int->value));
+-    }
+-  pango_int = (PangoAttrInt*) pango_attr_iterator_get (iter, PANGO_ATTR_WEIGHT);
+-  if (pango_int != NULL)
+-    {
+-      value = g_strdup_printf ("%i", pango_int->value);
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_WEIGHT, value);
+-      g_free (value);
+-    }
+-  pango_int = (PangoAttrInt*) pango_attr_iterator_get (iter, PANGO_ATTR_VARIANT);
+-  if (pango_int != NULL)
+-    {
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_VARIANT,
+-                       atk_text_attribute_get_value (ATK_TEXT_ATTR_VARIANT, pango_int->value));
+-    }
+-  pango_int = (PangoAttrInt*) pango_attr_iterator_get (iter, PANGO_ATTR_STRETCH);
+-  if (pango_int != NULL)
+-    {
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_STRETCH,
+-                       atk_text_attribute_get_value (ATK_TEXT_ATTR_STRETCH, pango_int->value));
+-    }
+-  pango_int = (PangoAttrInt*) pango_attr_iterator_get (iter, PANGO_ATTR_SIZE);
+-  if (pango_int != NULL)
+-    {
+-      value = g_strdup_printf ("%i", pango_int->value / PANGO_SCALE);
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_SIZE, value);
+-      g_free (value);
+-    }
+-  pango_int = (PangoAttrInt*) pango_attr_iterator_get (iter, PANGO_ATTR_UNDERLINE);
+-  if (pango_int != NULL)
+-    {
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_UNDERLINE,
+-                       atk_text_attribute_get_value (ATK_TEXT_ATTR_UNDERLINE, pango_int->value));
+-    }
+-  pango_int = (PangoAttrInt*) pango_attr_iterator_get (iter, PANGO_ATTR_STRIKETHROUGH);
+-  if (pango_int != NULL)
+-    {
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_STRIKETHROUGH,
+-                       atk_text_attribute_get_value (ATK_TEXT_ATTR_STRIKETHROUGH, pango_int->value));
+-    }
+-  pango_int = (PangoAttrInt*) pango_attr_iterator_get (iter, PANGO_ATTR_RISE);
+-  if (pango_int != NULL)
+-    {
+-      value = g_strdup_printf ("%i", pango_int->value);
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_RISE, value);
+-      g_free (value);
+-    }
+-  pango_lang = (PangoAttrLanguage*) pango_attr_iterator_get (iter, PANGO_ATTR_LANGUAGE);
+-  if (pango_lang != NULL)
+-    {
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_LANGUAGE,
+-                                  pango_language_to_string (pango_lang->value));
+-    }
+-  pango_float = (PangoAttrFloat*) pango_attr_iterator_get (iter, PANGO_ATTR_SCALE);
+-  if (pango_float != NULL)
+-    {
+-      value = g_strdup_printf ("%g", pango_float->value);
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_SCALE, value);
+-      g_free (value);
+-    }
+-  pango_color = (PangoAttrColor*) pango_attr_iterator_get (iter, PANGO_ATTR_FOREGROUND);
+-  if (pango_color != NULL)
+-    {
+-      value = g_strdup_printf ("%u,%u,%u",
+-                               pango_color->color.red,
+-                               pango_color->color.green,
+-                               pango_color->color.blue);
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_FG_COLOR, value);
+-      g_free (value);
+-    }
+-  pango_color = (PangoAttrColor*) pango_attr_iterator_get (iter, PANGO_ATTR_BACKGROUND);
+-  if (pango_color != NULL)
+-    {
+-      value = g_strdup_printf ("%u,%u,%u",
+-                               pango_color->color.red,
+-                               pango_color->color.green,
+-                               pango_color->color.blue);
+-      attributes = add_attribute (attributes, ATK_TEXT_ATTR_BG_COLOR, value);
+-      g_free (value);
+-    }
+-  pango_attr_iterator_destroy (iter);
+-
+-  return attributes;
+-}
+-
+-/*
+  * _gtk_pango_move_chars:
+  * @layout: a #PangoLayout
+  * @offset: a character offset in @layout
+@@ -793,7 +499,6 @@
+ 
+ static void
+ pango_layout_get_line_before (PangoLayout     *layout,
+-                              AtkTextBoundary  boundary_type,
+                               gint             offset,
+                               gint            *start_offset,
+                               gint            *end_offset)
+@@ -818,23 +523,7 @@
+           /* Found line for offset */
+           if (prev_line)
+             {
+-              switch (boundary_type)
+-                {
+-                case ATK_TEXT_BOUNDARY_LINE_START:
+-                  end_index = start_index;
+-                  start_index = prev_line->start_index;
+-                  break;
+-                case ATK_TEXT_BOUNDARY_LINE_END:
+-                  if (prev_prev_line)
+-                    start_index = prev_prev_line->start_index + prev_prev_line->length;
+-                  else
+-                    start_index = 0;
+-                  end_index = prev_line->start_index + prev_line->length;
+-                  break;
+-                default:
+-                  g_assert_not_reached();
+                 }
+-            }
+           else
+             start_index = end_index = 0;
+ 
+@@ -860,7 +549,6 @@
+ 
+ static void
+ pango_layout_get_line_at (PangoLayout     *layout,
+-                          AtkTextBoundary  boundary_type,
+                           gint             offset,
+                           gint            *start_offset,
+                           gint            *end_offset)
+@@ -882,21 +570,6 @@
+ 
+       if (index >= start_index && index <= end_index)
+         {
+-          /* Found line for offset */
+-          switch (boundary_type)
+-            {
+-            case ATK_TEXT_BOUNDARY_LINE_START:
+-              if (pango_layout_iter_next_line (iter))
+-                end_index = pango_layout_iter_get_line (iter)->start_index;
+-              break;
+-            case ATK_TEXT_BOUNDARY_LINE_END:
+-              if (prev_line)
+-                start_index = prev_line->start_index + prev_line->length;
+-              break;
+-            default:
+-              g_assert_not_reached();
+-            }
+-
+           found = TRUE;
+           break;
+         }
+@@ -918,7 +591,6 @@
+ 
+ static void
+ pango_layout_get_line_after (PangoLayout     *layout,
+-                             AtkTextBoundary  boundary_type,
+                              gint             offset,
+                              gint            *start_offset,
+                              gint            *end_offset)
+@@ -944,23 +616,7 @@
+           if (pango_layout_iter_next_line (iter))
+             {
+               line = pango_layout_iter_get_line (iter);
+-              switch (boundary_type)
+-                {
+-                case ATK_TEXT_BOUNDARY_LINE_START:
+-                  start_index = line->start_index;
+-                  if (pango_layout_iter_next_line (iter))
+-                    end_index = pango_layout_iter_get_line (iter)->start_index;
+-                  else
+-                    end_index = start_index + line->length;
+-                  break;
+-                case ATK_TEXT_BOUNDARY_LINE_END:
+-                  start_index = end_index;
+-                  end_index = line->start_index + line->length;
+-                  break;
+-                default:
+-                  g_assert_not_reached();
+                 }
+-            }
+           else
+             start_index = end_index;
+ 
+@@ -986,23 +642,17 @@
+ /*
+  * _gtk_pango_get_text_before:
+  * @layout: a #PangoLayout
+- * @boundary_type: a #AtkTextBoundary
+  * @offset: a character offset in @layout
+  * @start_offset: return location for the start of the returned text
+  * @end_offset: return location for the end of the return text
+  *
+  * Gets a slice of the text from @layout before @offset.
+  *
+- * The @boundary_type determines the size of the returned slice of
+- * text. For the exact semantics of this function, see
+- * atk_text_get_text_before_offset().
+- *
+  * Returns: a newly allocated string containing a slice of text
+  *     from layout. Free with g_free().
+  */
+ gchar *
+ _gtk_pango_get_text_before (PangoLayout     *layout,
+-                            AtkTextBoundary  boundary_type,
+                             gint             offset,
+                             gint            *start_offset,
+                             gint            *end_offset)
+@@ -1026,56 +676,6 @@
+   start = offset;
+   end = start;
+ 
+-  switch (boundary_type)
+-    {
+-    case ATK_TEXT_BOUNDARY_CHAR:
+-      start = _gtk_pango_move_chars (layout, start, -1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_START:
+-      if (!attrs[start].is_word_start)
+-        start = _gtk_pango_move_words (layout, start, -1);
+-      end = start;
+-      start = _gtk_pango_move_words (layout, start, -1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_END:
+-      if (_gtk_pango_is_inside_word (layout, start) &&
+-          !attrs[start].is_word_start)
+-        start = _gtk_pango_move_words (layout, start, -1);
+-      while (!attrs[start].is_word_end && start > 0)
+-        start = _gtk_pango_move_chars (layout, start, -1);
+-      end = start;
+-      start = _gtk_pango_move_words (layout, start, -1);
+-      while (!attrs[start].is_word_end && start > 0)
+-        start = _gtk_pango_move_chars (layout, start, -1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_START:
+-      if (!attrs[start].is_sentence_start)
+-        start = _gtk_pango_move_sentences (layout, start, -1);
+-      end = start;
+-      start = _gtk_pango_move_sentences (layout, start, -1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_END:
+-      if (_gtk_pango_is_inside_sentence (layout, start) &&
+-          !attrs[start].is_sentence_start)
+-        start = _gtk_pango_move_sentences (layout, start, -1);
+-      while (!attrs[start].is_sentence_end && start > 0)
+-        start = _gtk_pango_move_chars (layout, start, -1);
+-      end = start;
+-      start = _gtk_pango_move_sentences (layout, start, -1);
+-      while (!attrs[start].is_sentence_end && start > 0)
+-        start = _gtk_pango_move_chars (layout, start, -1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_LINE_START:
+-    case ATK_TEXT_BOUNDARY_LINE_END:
+-      pango_layout_get_line_before (layout, boundary_type, offset, &start, &end);
+-      break;
+-    }
+-
+   *start_offset = start;
+   *end_offset = end;
+ 
+@@ -1087,23 +687,17 @@
+ /*
+  * _gtk_pango_get_text_after:
+  * @layout: a #PangoLayout
+- * @boundary_type: a #AtkTextBoundary
+  * @offset: a character offset in @layout
+  * @start_offset: return location for the start of the returned text
+  * @end_offset: return location for the end of the return text
+  *
+  * Gets a slice of the text from @layout after @offset.
+  *
+- * The @boundary_type determines the size of the returned slice of
+- * text. For the exact semantics of this function, see
+- * atk_text_get_text_after_offset().
+- *
+  * Returns: a newly allocated string containing a slice of text
+  *     from layout. Free with g_free().
+  */
+ gchar *
+ _gtk_pango_get_text_after (PangoLayout     *layout,
+-                           AtkTextBoundary  boundary_type,
+                            gint             offset,
+                            gint            *start_offset,
+                            gint            *end_offset)
+@@ -1127,62 +721,6 @@
+   start = offset;
+   end = start;
+ 
+-  switch (boundary_type)
+-    {
+-    case ATK_TEXT_BOUNDARY_CHAR:
+-      start = _gtk_pango_move_chars (layout, start, 1);
+-      end = start;
+-      end = _gtk_pango_move_chars (layout, end, 1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_START:
+-      if (_gtk_pango_is_inside_word (layout, end))
+-        end = _gtk_pango_move_words (layout, end, 1);
+-      while (!attrs[end].is_word_start && end < n_attrs - 1)
+-        end = _gtk_pango_move_chars (layout, end, 1);
+-      start = end;
+-      if (end < n_attrs - 1)
+-        {
+-          end = _gtk_pango_move_words (layout, end, 1);
+-          while (!attrs[end].is_word_start && end < n_attrs - 1)
+-            end = _gtk_pango_move_chars (layout, end, 1);
+-        }
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_END:
+-      end = _gtk_pango_move_words (layout, end, 1);
+-      start = end;
+-      if (end < n_attrs - 1)
+-        end = _gtk_pango_move_words (layout, end, 1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_START:
+-      if (_gtk_pango_is_inside_sentence (layout, end))
+-        end = _gtk_pango_move_sentences (layout, end, 1);
+-      while (!attrs[end].is_sentence_start && end < n_attrs - 1)
+-        end = _gtk_pango_move_chars (layout, end, 1);
+-      start = end;
+-      if (end < n_attrs - 1)
+-        {
+-          end = _gtk_pango_move_sentences (layout, end, 1);
+-          while (!attrs[end].is_sentence_start && end < n_attrs - 1)
+-            end = _gtk_pango_move_chars (layout, end, 1);
+-        }
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_END:
+-      end = _gtk_pango_move_sentences (layout, end, 1);
+-      start = end;
+-      if (end < n_attrs - 1)
+-        end = _gtk_pango_move_sentences (layout, end, 1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_LINE_START:
+-    case ATK_TEXT_BOUNDARY_LINE_END:
+-      pango_layout_get_line_after (layout, boundary_type, offset, &start, &end);
+-      break;
+-    }
+-
+   *start_offset = start;
+   *end_offset = end;
+ 
+@@ -1194,23 +732,17 @@
+ /*
+  * _gtk_pango_get_text_at:
+  * @layout: a #PangoLayout
+- * @boundary_type: a #AtkTextBoundary
+  * @offset: a character offset in @layout
+  * @start_offset: return location for the start of the returned text
+  * @end_offset: return location for the end of the return text
+  *
+  * Gets a slice of the text from @layout at @offset.
+  *
+- * The @boundary_type determines the size of the returned slice of
+- * text. For the exact semantics of this function, see
+- * atk_text_get_text_after_offset().
+- *
+  * Returns: a newly allocated string containing a slice of text
+  *     from layout. Free with g_free().
+  */
+ gchar *
+ _gtk_pango_get_text_at (PangoLayout     *layout,
+-                        AtkTextBoundary  boundary_type,
+                         gint             offset,
+                         gint            *start_offset,
+                         gint            *end_offset)
+@@ -1233,54 +765,6 @@
+ 
+   start = offset;
+   end = start;
+-
+-  switch (boundary_type)
+-    {
+-    case ATK_TEXT_BOUNDARY_CHAR:
+-      end = _gtk_pango_move_chars (layout, end, 1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_START:
+-      if (!attrs[start].is_word_start)
+-        start = _gtk_pango_move_words (layout, start, -1);
+-      if (_gtk_pango_is_inside_word (layout, end))
+-        end = _gtk_pango_move_words (layout, end, 1);
+-      while (!attrs[end].is_word_start && end < n_attrs - 1)
+-        end = _gtk_pango_move_chars (layout, end, 1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_END:
+-      if (_gtk_pango_is_inside_word (layout, start) &&
+-          !attrs[start].is_word_start)
+-        start = _gtk_pango_move_words (layout, start, -1);
+-      while (!attrs[start].is_word_end && start > 0)
+-        start = _gtk_pango_move_chars (layout, start, -1);
+-      end = _gtk_pango_move_words (layout, end, 1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_START:
+-      if (!attrs[start].is_sentence_start)
+-        start = _gtk_pango_move_sentences (layout, start, -1);
+-      if (_gtk_pango_is_inside_sentence (layout, end))
+-        end = _gtk_pango_move_sentences (layout, end, 1);
+-      while (!attrs[end].is_sentence_start && end < n_attrs - 1)
+-        end = _gtk_pango_move_chars (layout, end, 1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_END:
+-      if (_gtk_pango_is_inside_sentence (layout, start) &&
+-          !attrs[start].is_sentence_start)
+-        start = _gtk_pango_move_sentences (layout, start, -1);
+-      while (!attrs[start].is_sentence_end && start > 0)
+-        start = _gtk_pango_move_chars (layout, start, -1);
+-      end = _gtk_pango_move_sentences (layout, end, 1);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_LINE_START:
+-    case ATK_TEXT_BOUNDARY_LINE_END:
+-      pango_layout_get_line_at (layout, boundary_type, offset, &start, &end);
+-      break;
+-    }
+ 
+   *start_offset = start;
+   *end_offset = end;
+--- a/gtk/gtkpango.h
++++ b/gtk/gtkpango.h
+@@ -27,7 +27,6 @@
+ 
+ 
+ #include <pango/pangocairo.h>
+-#include <atk/atk.h>
+ 
+ G_BEGIN_DECLS
+ 
+@@ -35,15 +34,6 @@
+                                                     PangoLayout     *layout);
+ 
+ 
+-AtkAttributeSet *_gtk_pango_get_default_attributes (AtkAttributeSet *attributes,
+-                                                    PangoLayout     *layout);
+-
+-AtkAttributeSet *_gtk_pango_get_run_attributes     (AtkAttributeSet *attributes,
+-                                                    PangoLayout     *layout,
+-                                                    gint             offset,
+-                                                    gint            *start_offset,
+-                                                    gint            *end_offset);
+-
+ gint _gtk_pango_move_chars     (PangoLayout  *layout,
+                                 gint          offset,
+                                 gint          count);
+@@ -64,17 +54,14 @@
+ 
+ 
+ gchar *_gtk_pango_get_text_before (PangoLayout     *layout,
+-                                   AtkTextBoundary  boundary_type,
+                                    gint             offset,
+                                    gint            *start_offset,
+                                    gint            *end_offset);
+ gchar *_gtk_pango_get_text_at     (PangoLayout     *layout,
+-                                   AtkTextBoundary  boundary_type,
+                                    gint             offset,
+                                    gint            *start_offset,
+                                    gint            *end_offset);
+ gchar *_gtk_pango_get_text_after  (PangoLayout     *layout,
+-                                   AtkTextBoundary  boundary_type,
+                                    gint             offset,
+                                    gint            *start_offset,
+                                    gint            *end_offset);
+--- a/gtk/gtkpathbar.c
++++ b/gtk/gtkpathbar.c
+@@ -1549,7 +1549,6 @@
+ 		       gboolean     current_dir,
+ 		       gboolean     file_is_hidden)
+ {
+-  AtkObject *atk_obj;
+   GtkWidget *child = NULL;
+   ButtonData *button_data;
+ 
+@@ -1558,7 +1557,6 @@
+   button_data = g_new0 (ButtonData, 1);
+   button_data->type = find_button_type (path_bar, file);
+   button_data->button = gtk_toggle_button_new ();
+-  atk_obj = gtk_widget_get_accessible (button_data->button);
+   gtk_widget_set_focus_on_click (button_data->button, FALSE);
+   gtk_widget_add_events (button_data->button, GDK_SCROLL_MASK);
+ 
+@@ -1568,7 +1566,6 @@
+       button_data->image = gtk_image_new ();
+       child = button_data->image;
+       button_data->label = NULL;
+-      atk_object_set_name (atk_obj, _("File System Root"));
+       break;
+     case HOME_BUTTON:
+     case DESKTOP_BUTTON:
+--- a/gtk/gtkpopover.c
++++ b/gtk/gtkpopover.c
+@@ -1835,7 +1835,6 @@
+                   G_TYPE_NONE, 0);
+ 
+   quark_widget_popovers = g_quark_from_static_string ("gtk-quark-widget-popovers");
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_POPOVER_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "popover");
+ }
+ 
+--- a/gtk/gtkprogressbar.c
++++ b/gtk/gtkprogressbar.c
+@@ -427,7 +427,6 @@
+                                                              1, G_MAXINT, MIN_VERTICAL_BAR_HEIGHT,
+                                                              G_PARAM_READWRITE|G_PARAM_DEPRECATED));
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_PROGRESS_BAR_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "progressbar");
+ }
+ 
+--- a/gtk/gtkradiobutton.c
++++ b/gtk/gtkradiobutton.c
+@@ -216,7 +216,6 @@
+ 				       NULL,
+ 				       G_TYPE_NONE, 0);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_RADIO_BUTTON_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "radiobutton");
+ }
+ 
+--- a/gtk/gtkradiomenuitem.c
++++ b/gtk/gtkradiomenuitem.c
+@@ -407,8 +407,6 @@
+ 
+   widget_class->destroy = gtk_radio_menu_item_destroy;
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_RADIO_MENU_ITEM_ACCESSIBLE);
+-
+   menu_item_class->activate = gtk_radio_menu_item_activate;
+ 
+   /**
+--- a/gtk/gtkrange.c
++++ b/gtk/gtkrange.c
+@@ -657,8 +657,6 @@
+ 							       P_("Arrow scaling with regard to scroll button size"),
+ 							       0.0, 1.0, 0.5,
+ 							       GTK_PARAM_READABLE|G_PARAM_DEPRECATED));
+-
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_RANGE_ACCESSIBLE);
+ }
+ 
+ static void
+--- a/gtk/gtkscale.c
++++ b/gtk/gtkscale.c
+@@ -944,7 +944,6 @@
+   add_slider_binding (binding_set, GDK_KEY_KP_End, 0,
+                       GTK_SCROLL_END);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_SCALE_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "scale");
+ }
+ 
+--- a/gtk/gtkscalebutton.c
++++ b/gtk/gtkscalebutton.c
+@@ -343,7 +343,6 @@
+   gtk_widget_class_bind_template_callback (widget_class, cb_scale_value_changed);
+   gtk_widget_class_bind_template_callback (widget_class, cb_popup_mapped);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_SCALE_BUTTON_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "button");
+ }
+ 
+--- a/gtk/gtkscrollbar.c
++++ b/gtk/gtkscrollbar.c
+@@ -145,7 +145,6 @@
+                                                                  FALSE,
+                                                                  GTK_PARAM_READABLE));
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_SCROLL_BAR);
+   gtk_widget_class_set_css_name (widget_class, "scrollbar");
+ }
+ 
+--- a/gtk/gtkscrolledwindow.c
++++ b/gtk/gtkscrolledwindow.c
+@@ -896,7 +896,6 @@
+   add_tab_bindings (binding_set, GDK_CONTROL_MASK, GTK_DIR_TAB_FORWARD);
+   add_tab_bindings (binding_set, GDK_CONTROL_MASK | GDK_SHIFT_MASK, GTK_DIR_TAB_BACKWARD);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_SCROLLED_WINDOW_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "scrolledwindow");
+ }
+ 
+--- a/gtk/gtksearchentry.c
++++ b/gtk/gtksearchentry.c
+@@ -358,17 +358,11 @@
+ static void
+ gtk_search_entry_init (GtkSearchEntry *entry)
+ {
+-  AtkObject *atk_obj;
+-
+   g_object_set (entry,
+                 "primary-icon-name", "edit-find-symbolic",
+                 "primary-icon-activatable", FALSE,
+                 "primary-icon-sensitive", FALSE,
+                 NULL);
+-
+-  atk_obj = gtk_widget_get_accessible (GTK_WIDGET (entry));
+-  if (GTK_IS_ACCESSIBLE (atk_obj))
+-    atk_object_set_name (atk_obj, _("Search"));
+ 
+   gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (entry)), "search");
+ }
+--- a/gtk/gtkseparator.c
++++ b/gtk/gtkseparator.c
+@@ -211,7 +211,6 @@
+ 
+   g_object_class_override_property (object_class, PROP_ORIENTATION, "orientation");
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_SEPARATOR);
+   gtk_widget_class_set_css_name (widget_class, "separator");
+ }
+ 
+--- a/gtk/gtkseparatormenuitem.c
++++ b/gtk/gtkseparatormenuitem.c
+@@ -58,7 +58,6 @@
+ 
+   GTK_MENU_ITEM_CLASS (class)->get_label = gtk_separator_menu_item_get_label;
+ 
+-  gtk_widget_class_set_accessible_role (GTK_WIDGET_CLASS (class), ATK_ROLE_SEPARATOR);
+   gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (class), "separator");
+ }
+ 
+--- a/gtk/gtkspinbutton.c
++++ b/gtk/gtkspinbutton.c
+@@ -592,7 +592,6 @@
+   add_spin_binding (binding_set, GDK_KEY_Page_Up, GDK_CONTROL_MASK, GTK_SCROLL_END);
+   add_spin_binding (binding_set, GDK_KEY_Page_Down, GDK_CONTROL_MASK, GTK_SCROLL_START);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_SPIN_BUTTON_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "spinbutton");
+ }
+ 
+--- a/gtk/gtkspinner.c
++++ b/gtk/gtkspinner.c
+@@ -223,7 +223,6 @@
+                                                          FALSE,
+                                                          GTK_PARAM_READWRITE|G_PARAM_EXPLICIT_NOTIFY));
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_SPINNER_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "spinner");
+ }
+ 
+--- a/gtk/gtkstack.c
++++ b/gtk/gtkstack.c
+@@ -559,7 +559,6 @@
+ 
+   gtk_container_class_install_child_properties (container_class, LAST_CHILD_PROP, stack_child_props);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_STACK_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "stack");
+ }
+ 
+@@ -1118,10 +1117,6 @@
+           gtk_widget_set_child_visible (priv->visible_child->widget, FALSE);
+         }
+     }
+-
+-  gtk_stack_accessible_update_visible_child (stack,
+-                                             priv->visible_child ? priv->visible_child->widget : NULL,
+-                                             child_info ? child_info->widget : NULL);
+ 
+   priv->visible_child = child_info;
+ 
+--- a/gtk/gtkstatusbar.c
++++ b/gtk/gtkstatusbar.c
+@@ -187,7 +187,6 @@
+   gtk_widget_class_bind_template_child_private (widget_class, GtkStatusbar, frame);
+   gtk_widget_class_bind_template_child_private (widget_class, GtkStatusbar, label);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_STATUSBAR_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "statusbar");
+ }
+ 
+--- a/gtk/gtkstylecontext.c
++++ b/gtk/gtkstylecontext.c
+@@ -3079,63 +3079,6 @@
+   return gtk_css_style_get_pango_attributes (gtk_style_context_lookup_style (context));
+ }
+ 
+-static AtkAttributeSet *
+-add_attribute (AtkAttributeSet  *attributes,
+-               AtkTextAttribute  attr,
+-               const gchar      *value)
+-{
+-  AtkAttribute *at;
+-
+-  at = g_new (AtkAttribute, 1);
+-  at->name = g_strdup (atk_text_attribute_get_name (attr));
+-  at->value = g_strdup (value);
+-
+-  return g_slist_prepend (attributes, at);
+-}
+-
+-/*
+- * _gtk_style_context_get_attributes:
+- * @attributes: a #AtkAttributeSet to add attributes to
+- * @context: the #GtkStyleContext to get attributes from
+- * @flags: the state to use with @context
+- *
+- * Adds the foreground and background color from @context to
+- * @attributes, after translating them to ATK attributes.
+- *
+- * This is a convenience function that can be used in
+- * implementing the #AtkText interface in widgets.
+- *
+- * Returns: the modified #AtkAttributeSet
+- */
+-AtkAttributeSet *
+-_gtk_style_context_get_attributes (AtkAttributeSet *attributes,
+-                                   GtkStyleContext *context,
+-                                   GtkStateFlags    flags)
+-{
+-  GdkRGBA color;
+-  gchar *value;
+-
+-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+-  gtk_style_context_get_background_color (context, flags, &color);
+-G_GNUC_END_IGNORE_DEPRECATIONS
+-  value = g_strdup_printf ("%u,%u,%u",
+-                           (guint) ceil (color.red * 65536 - color.red),
+-                           (guint) ceil (color.green * 65536 - color.green),
+-                           (guint) ceil (color.blue * 65536 - color.blue));
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_BG_COLOR, value);
+-  g_free (value);
+-
+-  gtk_style_context_get_color (context, flags, &color);
+-  value = g_strdup_printf ("%u,%u,%u",
+-                           (guint) ceil (color.red * 65536 - color.red),
+-                           (guint) ceil (color.green * 65536 - color.green),
+-                           (guint) ceil (color.blue * 65536 - color.blue));
+-  attributes = add_attribute (attributes, ATK_TEXT_ATTR_FG_COLOR, value);
+-  g_free (value);
+-
+-  return attributes;
+-}
+-
+ cairo_pattern_t *
+ gtk_gradient_resolve_for_context (GtkGradient     *gradient,
+                                   GtkStyleContext *context)
+--- a/gtk/gtkstylecontext.h
++++ b/gtk/gtkstylecontext.h
+@@ -26,7 +26,6 @@
+ #include <gtk/gtkcsssection.h>
+ #include <gtk/gtkstyleprovider.h>
+ #include <gtk/gtktypes.h>
+-#include <atk/atk.h>
+ 
+ G_BEGIN_DECLS
+ 
+--- a/gtk/gtkstylecontextprivate.h
++++ b/gtk/gtkstylecontextprivate.h
+@@ -72,11 +72,6 @@
+ 
+ PangoAttrList *_gtk_style_context_get_pango_attributes       (GtkStyleContext *context);
+ 
+-/* Accessibility support */
+-AtkAttributeSet *_gtk_style_context_get_attributes           (AtkAttributeSet    *attributes,
+-                                                              GtkStyleContext    *context,
+-                                                              GtkStateFlags       flags);
+-
+ G_END_DECLS
+ 
+ #endif /* __GTK_STYLE_CONTEXT_PRIVATE_H__ */
+--- a/gtk/gtkswitch.c
++++ b/gtk/gtkswitch.c
+@@ -1008,9 +1008,6 @@
+   g_object_class_override_property (gobject_class, PROP_ACTION_NAME, "action-name");
+   g_object_class_override_property (gobject_class, PROP_ACTION_TARGET, "action-target");
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_SWITCH_ACCESSIBLE);
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_TOGGLE_BUTTON);
+-
+   gtk_widget_class_set_css_name (widget_class, "switch");
+ }
+ 
+@@ -1120,7 +1117,6 @@
+ 
+   if (priv->is_active != is_active)
+     {
+-      AtkObject *accessible;
+       gboolean handled;
+ 
+       priv->is_active = is_active;
+@@ -1133,9 +1129,6 @@
+       g_signal_emit (sw, signals[STATE_SET], 0, is_active, &handled);
+ 
+       g_object_notify_by_pspec (G_OBJECT (sw), switch_props[PROP_ACTIVE]);
+-
+-      accessible = gtk_widget_get_accessible (GTK_WIDGET (sw));
+-      atk_object_notify_state_change (accessible, ATK_STATE_CHECKED, priv->is_active);
+ 
+       gtk_widget_queue_allocate (GTK_WIDGET (sw));
+     }
+--- a/gtk/gtktextbuffer.c
++++ b/gtk/gtktextbuffer.c
+@@ -4478,7 +4478,6 @@
+ 
+ void
+ _gtk_text_buffer_get_text_before (GtkTextBuffer   *buffer,
+-                                  AtkTextBoundary  boundary_type,
+                                   GtkTextIter     *position,
+                                   GtkTextIter     *start,
+                                   GtkTextIter     *end)
+@@ -4487,103 +4486,10 @@
+ 
+   *start = *position;
+   *end = *start;
+-
+-  switch (boundary_type)
+-    {
+-    case ATK_TEXT_BOUNDARY_CHAR:
+-      gtk_text_iter_backward_char (start);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_START:
+-      if (!gtk_text_iter_starts_word (start))
+-        gtk_text_iter_backward_word_start (start);
+-      *end = *start;
+-      gtk_text_iter_backward_word_start (start);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_END:
+-      if (gtk_text_iter_inside_word (start) &&
+-          !gtk_text_iter_starts_word (start))
+-        gtk_text_iter_backward_word_start (start);
+-      while (!gtk_text_iter_ends_word (start))
+-        {
+-          if (!gtk_text_iter_backward_char (start))
+-            break;
+-        }
+-      *end = *start;
+-      gtk_text_iter_backward_word_start (start);
+-      while (!gtk_text_iter_ends_word (start))
+-        {
+-          if (!gtk_text_iter_backward_char (start))
+-            break;
+-        }
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_START:
+-      if (!gtk_text_iter_starts_sentence (start))
+-        gtk_text_iter_backward_sentence_start (start);
+-      *end = *start;
+-      gtk_text_iter_backward_sentence_start (start);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_END:
+-      if (gtk_text_iter_inside_sentence (start) &&
+-          !gtk_text_iter_starts_sentence (start))
+-        gtk_text_iter_backward_sentence_start (start);
+-      while (!gtk_text_iter_ends_sentence (start))
+-        {
+-          if (!gtk_text_iter_backward_char (start))
+-            break;
+-        }
+-      *end = *start;
+-      gtk_text_iter_backward_sentence_start (start);
+-      while (!gtk_text_iter_ends_sentence (start))
+-        {
+-          if (!gtk_text_iter_backward_char (start))
+-            break;
+-        }
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_LINE_START:
+-      line_number = gtk_text_iter_get_line (start);
+-      if (line_number == 0)
+-        {
+-          gtk_text_buffer_get_iter_at_offset (buffer, start, 0);
+-        }
+-      else
+-        {
+-          gtk_text_iter_backward_line (start);
+-          gtk_text_iter_forward_line (start);
+-        }
+-      *end = *start;
+-      gtk_text_iter_backward_line (start);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_LINE_END:
+-      line_number = gtk_text_iter_get_line (start);
+-      if (line_number == 0)
+-        {
+-          gtk_text_buffer_get_iter_at_offset (buffer, start, 0);
+-          *end = *start;
+-        }
+-      else
+-        {
+-          gtk_text_iter_backward_line (start);
+-          *end = *start;
+-          while (!gtk_text_iter_ends_line (start))
+-            {
+-              if (!gtk_text_iter_backward_char (start))
+-                break;
+-            }
+-          gtk_text_iter_forward_to_line_end (end);
+-        }
+-      break;
+-    }
+ }
+ 
+ void
+ _gtk_text_buffer_get_text_at (GtkTextBuffer   *buffer,
+-                              AtkTextBoundary  boundary_type,
+                               GtkTextIter     *position,
+                               GtkTextIter     *start,
+                               GtkTextIter     *end)
+@@ -4592,187 +4498,16 @@
+ 
+   *start = *position;
+   *end = *start;
+-
+-  switch (boundary_type)
+-    {
+-    case ATK_TEXT_BOUNDARY_CHAR:
+-      gtk_text_iter_forward_char (end);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_START:
+-      if (!gtk_text_iter_starts_word (start))
+-        gtk_text_iter_backward_word_start (start);
+-      if (gtk_text_iter_inside_word (end))
+-        gtk_text_iter_forward_word_end (end);
+-      while (!gtk_text_iter_starts_word (end))
+-        {
+-          if (!gtk_text_iter_forward_char (end))
+-            break;
+-        }
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_END:
+-      if (gtk_text_iter_inside_word (start) &&
+-          !gtk_text_iter_starts_word (start))
+-        gtk_text_iter_backward_word_start (start);
+-      while (!gtk_text_iter_ends_word (start))
+-        {
+-          if (!gtk_text_iter_backward_char (start))
+-            break;
+-        }
+-      gtk_text_iter_forward_word_end (end);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_START:
+-      if (!gtk_text_iter_starts_sentence (start))
+-        gtk_text_iter_backward_sentence_start (start);
+-      if (gtk_text_iter_inside_sentence (end))
+-        gtk_text_iter_forward_sentence_end (end);
+-      while (!gtk_text_iter_starts_sentence (end))
+-        {
+-          if (!gtk_text_iter_forward_char (end))
+-            break;
+-        }
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_END:
+-      if (gtk_text_iter_inside_sentence (start) &&
+-          !gtk_text_iter_starts_sentence (start))
+-        gtk_text_iter_backward_sentence_start (start);
+-      while (!gtk_text_iter_ends_sentence (start))
+-        {
+-          if (!gtk_text_iter_backward_char (start))
+-            break;
+-        }
+-      gtk_text_iter_forward_sentence_end (end);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_LINE_START:
+-      line_number = gtk_text_iter_get_line (start);
+-      if (line_number == 0)
+-        {
+-          gtk_text_buffer_get_iter_at_offset (buffer, start, 0);
+-        }
+-      else
+-        {
+-          gtk_text_iter_backward_line (start);
+-          gtk_text_iter_forward_line (start);
+-        }
+-      gtk_text_iter_forward_line (end);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_LINE_END:
+-      line_number = gtk_text_iter_get_line (start);
+-      if (line_number == 0)
+-        {
+-          gtk_text_buffer_get_iter_at_offset (buffer, start, 0);
+-        }
+-      else
+-        {
+-          gtk_text_iter_backward_line (start);
+-          gtk_text_iter_forward_line (start);
+-        }
+-      while (!gtk_text_iter_ends_line (start))
+-        {
+-          if (!gtk_text_iter_backward_char (start))
+-            break;
+-        }
+-      gtk_text_iter_forward_to_line_end (end);
+-      break;
+-   }
+ }
+ 
+ void
+ _gtk_text_buffer_get_text_after (GtkTextBuffer   *buffer,
+-                                 AtkTextBoundary  boundary_type,
+                                  GtkTextIter     *position,
+                                  GtkTextIter     *start,
+                                  GtkTextIter     *end)
+ {
+   *start = *position;
+   *end = *start;
+-
+-  switch (boundary_type)
+-    {
+-    case ATK_TEXT_BOUNDARY_CHAR:
+-      gtk_text_iter_forward_char (start);
+-      gtk_text_iter_forward_chars (end, 2);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_START:
+-      if (gtk_text_iter_inside_word (end))
+-        gtk_text_iter_forward_word_end (end);
+-      while (!gtk_text_iter_starts_word (end))
+-        {
+-          if (!gtk_text_iter_forward_char (end))
+-            break;
+-        }
+-      *start = *end;
+-      if (!gtk_text_iter_is_end (end))
+-        {
+-          gtk_text_iter_forward_word_end (end);
+-          while (!gtk_text_iter_starts_word (end))
+-            {
+-              if (!gtk_text_iter_forward_char (end))
+-                break;
+-            }
+-        }
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_WORD_END:
+-      gtk_text_iter_forward_word_end (end);
+-      *start = *end;
+-      if (!gtk_text_iter_is_end (end))
+-        gtk_text_iter_forward_word_end (end);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_START:
+-      if (gtk_text_iter_inside_sentence (end))
+-        gtk_text_iter_forward_sentence_end (end);
+-      while (!gtk_text_iter_starts_sentence (end))
+-        {
+-          if (!gtk_text_iter_forward_char (end))
+-            break;
+-        }
+-      *start = *end;
+-      if (!gtk_text_iter_is_end (end))
+-        {
+-          gtk_text_iter_forward_sentence_end (end);
+-          while (!gtk_text_iter_starts_sentence (end))
+-            {
+-              if (!gtk_text_iter_forward_char (end))
+-                break;
+-            }
+-        }
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_SENTENCE_END:
+-      gtk_text_iter_forward_sentence_end (end);
+-      *start = *end;
+-      if (!gtk_text_iter_is_end (end))
+-        gtk_text_iter_forward_sentence_end (end);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_LINE_START:
+-      gtk_text_iter_forward_line (end);
+-      *start = *end;
+-      gtk_text_iter_forward_line (end);
+-      break;
+-
+-    case ATK_TEXT_BOUNDARY_LINE_END:
+-      gtk_text_iter_forward_line (start);
+-      *end = *start;
+-      if (!gtk_text_iter_is_end (start))
+-        {
+-          while (!gtk_text_iter_ends_line (start))
+-            {
+-              if (!gtk_text_iter_backward_char (start))
+-                break;
+-            }
+-          gtk_text_iter_forward_to_line_end (end);
+-        }
+-      break;
+-    }
+ }
+ 
+ static GtkTextTag *
+--- a/gtk/gtktextbufferprivate.h
++++ b/gtk/gtktextbufferprivate.h
+@@ -35,17 +35,14 @@
+                                               GtkTextTag    *tag);
+ 
+ void _gtk_text_buffer_get_text_before (GtkTextBuffer   *buffer,
+-                                       AtkTextBoundary  boundary_type,
+                                        GtkTextIter     *position,
+                                        GtkTextIter     *start,
+                                        GtkTextIter     *end);
+ void _gtk_text_buffer_get_text_at     (GtkTextBuffer   *buffer,
+-                                       AtkTextBoundary  boundary_type,
+                                        GtkTextIter     *position,
+                                        GtkTextIter     *start,
+                                        GtkTextIter     *end);
+ void _gtk_text_buffer_get_text_after  (GtkTextBuffer   *buffer,
+-                                       AtkTextBoundary  boundary_type,
+                                        GtkTextIter     *position,
+                                        GtkTextIter     *start,
+                                        GtkTextIter     *end);
+--- a/gtk/gtktextview.c
++++ b/gtk/gtktextview.c
+@@ -1706,7 +1706,6 @@
+ 				"move-focus", 1,
+ 				GTK_TYPE_DIRECTION_TYPE, GTK_DIR_TAB_BACKWARD);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_TEXT_VIEW_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "textview");
+ 
+   quark_text_selection_data = g_quark_from_static_string ("gtk-text-view-text-selection-data");
+@@ -2016,7 +2015,6 @@
+         gtk_text_view_update_handles (text_view, GTK_TEXT_HANDLE_MODE_NONE);
+     }
+ 
+-  _gtk_text_view_accessible_set_buffer (text_view, old_buffer);
+   if (old_buffer)
+     g_object_unref (old_buffer);
+ 
+--- a/gtk/gtktogglebutton.c
++++ b/gtk/gtktogglebutton.c
+@@ -222,7 +222,6 @@
+ 		  NULL,
+ 		  G_TYPE_NONE, 0);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_TOGGLE_BUTTON_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "button");
+ }
+ 
+--- a/gtk/gtktoolbar.c
++++ b/gtk/gtktoolbar.c
+@@ -413,8 +413,6 @@
+   widget_class->style_updated = gtk_toolbar_style_updated;
+   widget_class->focus = gtk_toolbar_focus;
+ 
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_TOOL_BAR);
+-
+   /* need to override the base class function via override_class_handler,
+    * because the signal slot is not available in GtkWidgetClass
+    */
+--- a/gtk/gtktoolbutton.c
++++ b/gtk/gtktoolbutton.c
+@@ -1193,7 +1193,6 @@
+ {
+   gchar *old_label;
+   gchar *elided_label;
+-  AtkObject *accessible;
+   
+   g_return_if_fail (GTK_IS_TOOL_BUTTON (button));
+ 
+@@ -1205,8 +1204,6 @@
+   if (label)
+     {
+       elided_label = _gtk_toolbar_elide_underscores (label);
+-      accessible = gtk_widget_get_accessible (GTK_WIDGET (button->priv->button));
+-      atk_object_set_name (accessible, elided_label);
+       g_free (elided_label);
+     }
+ 
+--- a/gtk/gtktooltipwindow.c
++++ b/gtk/gtktooltipwindow.c
+@@ -64,7 +64,6 @@
+   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+ 
+   gtk_widget_class_set_css_name (widget_class, I_("tooltip"));
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_TOOL_TIP);
+   gtk_widget_class_set_template_from_resource (widget_class, "/org/gtk/libgtk/ui/gtktooltipwindow.ui");
+ 
+   gtk_widget_class_bind_template_child (widget_class, GtkTooltipWindow, box);
+--- a/gtk/gtktreeselection.c
++++ b/gtk/gtktreeselection.c
+@@ -1638,12 +1638,10 @@
+       if (!GTK_RBNODE_FLAG_SET (node, GTK_RBNODE_IS_SELECTED))
+         {
+           GTK_RBNODE_SET_FLAG (node, GTK_RBNODE_IS_SELECTED);
+-          _gtk_tree_view_accessible_add_state (priv->tree_view, tree, node, GTK_CELL_RENDERER_SELECTED);
+         }
+       else
+         {
+           GTK_RBNODE_UNSET_FLAG (node, GTK_RBNODE_IS_SELECTED);
+-          _gtk_tree_view_accessible_remove_state (priv->tree_view, tree, node, GTK_CELL_RENDERER_SELECTED);
+         }
+ 
+       _gtk_tree_view_queue_draw_node (priv->tree_view, tree, node, NULL);
+--- a/gtk/gtktreeview.c
++++ b/gtk/gtktreeview.c
+@@ -1811,7 +1811,6 @@
+ 
+   gtk_binding_entry_add_signal (binding_set, GDK_KEY_F, GDK_CONTROL_MASK, "start-interactive-search", 0);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_TREE_VIEW_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "treeview");
+ }
+ 
+@@ -9029,8 +9028,6 @@
+   if (tree == NULL)
+     goto done;
+ 
+-  _gtk_tree_view_accessible_changed (tree_view, tree, node);
+-
+   if (tree_view->priv->fixed_height_mode
+       && tree_view->priv->fixed_height >= 0)
+     {
+@@ -9159,8 +9156,6 @@
+       tmpnode = _gtk_rbtree_insert_after (tree, tmpnode, height, FALSE);
+     }
+ 
+-  _gtk_tree_view_accessible_add (tree_view, tree, tmpnode);
+-
+  done:
+   if (height > 0)
+     {
+@@ -9223,12 +9218,10 @@
+   if (has_child)
+     {
+       GTK_RBNODE_SET_FLAG (node, GTK_RBNODE_IS_PARENT);
+-      _gtk_tree_view_accessible_add_state (tree_view, tree, node, GTK_CELL_RENDERER_EXPANDABLE);
+     }
+   else
+     {
+       GTK_RBNODE_UNSET_FLAG (node, GTK_RBNODE_IS_PARENT);
+-      _gtk_tree_view_accessible_remove_state (tree_view, tree, node, GTK_CELL_RENDERER_EXPANDABLE);
+     }
+ 
+   if (has_child && tree_view->priv->is_list)
+@@ -9378,15 +9371,10 @@
+       if (tree_view->priv->tree == tree)
+ 	tree_view->priv->tree = NULL;
+ 
+-      _gtk_tree_view_accessible_remove_state (tree_view,
+-                                              tree->parent_tree, tree->parent_node,
+-                                              GTK_CELL_RENDERER_EXPANDED);
+-      _gtk_tree_view_accessible_remove (tree_view, tree, NULL);
+       _gtk_rbtree_remove (tree);
+     }
+   else
+     {
+-      _gtk_tree_view_accessible_remove (tree_view, tree, node);
+       _gtk_rbtree_remove_node (tree, node);
+     }
+ 
+@@ -9460,8 +9448,6 @@
+ 
+   _gtk_rbtree_reorder (tree, new_order, len);
+ 
+-  _gtk_tree_view_accessible_reorder (tree_view);
+-
+   gtk_widget_queue_draw (GTK_WIDGET (tree_view));
+ 
+   gtk_tree_view_dy_to_top_row (tree_view);
+@@ -10293,9 +10279,6 @@
+ 
+   tree_view->priv->focus_column = column;
+ 
+-  _gtk_tree_view_accessible_update_focus_column (tree_view, 
+-                                                 old_column,
+-                                                 column);
+ }
+ 
+ 
+@@ -11593,7 +11576,6 @@
+ 	{
+ 	  tree_view->priv->tree = _gtk_rbtree_new ();
+ 	  gtk_tree_view_build_tree (tree_view, tree_view->priv->tree, &iter, 1, FALSE);
+-          _gtk_tree_view_accessible_add (tree_view, tree_view->priv->tree, NULL);
+ 	}
+       gtk_tree_path_free (path);
+ 
+@@ -12145,8 +12127,6 @@
+       gtk_widget_queue_resize (GTK_WIDGET (tree_view));
+     }
+ 
+-  _gtk_tree_view_accessible_remove_column (tree_view, column, position);
+-
+   g_object_unref (column);
+   g_signal_emit (tree_view, tree_view_signals[COLUMNS_CHANGED], 0);
+ 
+@@ -12217,8 +12197,6 @@
+       gtk_widget_queue_resize (GTK_WIDGET (tree_view));
+     }
+ 
+-  _gtk_tree_view_accessible_add_column (tree_view, column, position);
+-
+   g_signal_emit (tree_view, tree_view_signals[COLUMNS_CHANGED], 0);
+ 
+   return tree_view->priv->n_columns;
+@@ -12436,8 +12414,6 @@
+       gtk_tree_view_size_allocate_columns (GTK_WIDGET (tree_view), NULL);
+     }
+ 
+-  _gtk_tree_view_accessible_reorder_column (tree_view, column);
+-
+   g_signal_emit (tree_view, tree_view_signals[COLUMNS_CHANGED], 0);
+ }
+ 
+@@ -12910,11 +12886,6 @@
+ 			    gtk_tree_path_get_depth (path) + 1,
+ 			    open_all);
+ 
+-  _gtk_tree_view_accessible_add (tree_view, node->children, NULL);
+-  _gtk_tree_view_accessible_add_state (tree_view,
+-                                       tree, node,
+-                                       GTK_CELL_RENDERER_EXPANDED);
+-
+   install_presize_handler (tree_view);
+ 
+   g_signal_emit (tree_view, tree_view_signals[ROW_EXPANDED], 0, &iter, path);
+@@ -13061,11 +13032,6 @@
+   /* Stop a pending double click */
+   gtk_event_controller_reset (GTK_EVENT_CONTROLLER (tree_view->priv->multipress_gesture));
+ 
+-  _gtk_tree_view_accessible_remove (tree_view, node->children, NULL);
+-  _gtk_tree_view_accessible_remove_state (tree_view,
+-                                          tree, node,
+-                                          GTK_CELL_RENDERER_EXPANDED);
+-
+   _gtk_rbtree_remove (node->children);
+ 
+   if (cursor_changed)
+@@ -13284,10 +13250,6 @@
+ {
+   if (!(flags & CURSOR_INVALID) && tree_view->priv->cursor_node)
+     {
+-      _gtk_tree_view_accessible_remove_state (tree_view,
+-                                              tree_view->priv->cursor_tree,
+-                                              tree_view->priv->cursor_node,
+-                                              GTK_CELL_RENDERER_FOCUSED);
+       _gtk_tree_view_queue_draw_node (tree_view,
+                                       tree_view->priv->cursor_tree,
+                                       tree_view->priv->cursor_node,
+@@ -13352,10 +13314,6 @@
+                                           NULL);
+ 	}
+ 
+-      _gtk_tree_view_accessible_add_state (tree_view,
+-                                           tree_view->priv->cursor_tree,
+-                                           tree_view->priv->cursor_node,
+-                                           GTK_CELL_RENDERER_FOCUSED);
+     }
+ 
+   if (!gtk_widget_in_destruction (GTK_WIDGET (tree_view)))
+--- a/gtk/gtktreeviewcolumn.c
++++ b/gtk/gtktreeviewcolumn.c
+@@ -1889,12 +1889,6 @@
+   if (priv->visible)
+     _gtk_tree_view_column_cell_set_dirty (tree_column, TRUE);
+ 
+-  if (priv->tree_view)
+-    {
+-      _gtk_tree_view_accessible_toggle_visibility (GTK_TREE_VIEW (priv->tree_view),
+-                                                   tree_column);
+-    }
+-
+   gtk_tree_view_column_update_button (tree_column);
+   g_object_notify_by_pspec (G_OBJECT (tree_column), tree_column_props[PROP_VISIBLE]);
+ }
+--- a/gtk/gtkviewport.c
++++ b/gtk/gtkviewport.c
+@@ -390,8 +390,6 @@
+   widget_class->get_preferred_height_for_width = gtk_viewport_get_preferred_height_for_width;
+   widget_class->queue_draw_region = gtk_viewport_queue_draw_region;
+   
+-  gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_VIEWPORT);
+-
+   container_class->remove = gtk_viewport_remove;
+   container_class->add = gtk_viewport_add;
+   gtk_container_class_handle_border_width (container_class);
+--- a/gtk/gtkvolumebutton.c
++++ b/gtk/gtkvolumebutton.c
+@@ -183,10 +183,6 @@
+   GtkWidget *widget = GTK_WIDGET (button);
+ 
+   gtk_widget_init_template (widget);
+-
+-  /* The atk action description is not supported by GtkBuilder */
+-  atk_action_set_description (ATK_ACTION (gtk_widget_get_accessible (GTK_WIDGET (widget))),
+-			      1, _("Adjusts the volume"));
+ }
+ 
+ /**
+@@ -220,10 +216,7 @@
+   GtkAdjustment *adjustment;
+   gdouble val;
+   char *str;
+-  AtkImage *image;
+ 
+-  image = ATK_IMAGE (gtk_widget_get_accessible (button));
+-
+   adjustment = gtk_scale_button_get_adjustment (scale_button);
+   val = gtk_scale_button_get_value (scale_button);
+ 
+@@ -250,7 +243,6 @@
+     }
+ 
+   gtk_tooltip_set_text (tooltip, str);
+-  atk_image_set_image_description (image, str);
+   g_free (str);
+ 
+   return TRUE;
+--- a/gtk/gtkwidget.c
++++ b/gtk/gtkwidget.c
+@@ -496,8 +496,6 @@
+ struct _GtkWidgetClassPrivate
+ {
+   GtkWidgetTemplate *template;
+-  GType accessible_type;
+-  AtkRole accessible_role;
+   const char *css_name;
+ };
+ 
+@@ -738,9 +736,6 @@
+                                                                  GtkStateFlags     old_state);
+ static void             gtk_widget_real_queue_draw_region       (GtkWidget         *widget,
+ 								 const cairo_region_t *region);
+-static AtkObject*	gtk_widget_real_get_accessible		(GtkWidget	  *widget);
+-static void		gtk_widget_accessible_interface_init	(AtkImplementorIface *iface);
+-static AtkObject*	gtk_widget_ref_accessible		(AtkImplementor *implementor);
+ static void             gtk_widget_invalidate_widget_windows    (GtkWidget        *widget,
+ 								 cairo_region_t        *region);
+ static GdkScreen *      gtk_widget_get_screen_unchecked         (GtkWidget        *widget);
+@@ -878,13 +873,6 @@
+ 	NULL,		/* value_table */
+       };
+ 
+-      const GInterfaceInfo accessibility_info =
+-      {
+-	(GInterfaceInitFunc) gtk_widget_accessible_interface_init,
+-	(GInterfaceFinalizeFunc) NULL,
+-	NULL /* interface data */
+-      };
+-
+       const GInterfaceInfo buildable_info =
+       {
+ 	(GInterfaceInitFunc) gtk_widget_buildable_interface_init,
+@@ -900,8 +888,6 @@
+       GtkWidget_private_offset =
+         g_type_add_instance_private (widget_type, sizeof (GtkWidgetPrivate));
+ 
+-      g_type_add_interface_static (widget_type, ATK_TYPE_IMPLEMENTOR,
+-                                   &accessibility_info) ;
+       g_type_add_interface_static (widget_type, GTK_TYPE_BUILDABLE,
+                                    &buildable_info) ;
+     }
+@@ -1106,11 +1092,6 @@
+ 
+   klass->show_help = gtk_widget_real_show_help;
+ 
+-  /* Accessibility support */
+-  klass->priv->accessible_type = GTK_TYPE_ACCESSIBLE;
+-  klass->priv->accessible_role = ATK_ROLE_INVALID;
+-  klass->get_accessible = gtk_widget_real_get_accessible;
+-
+   klass->adjust_size_request = gtk_widget_real_adjust_size_request;
+   klass->adjust_baseline_request = gtk_widget_real_adjust_baseline_request;
+   klass->adjust_size_allocation = gtk_widget_real_adjust_size_allocation;
+@@ -3722,7 +3703,6 @@
+                                                              1, G_MAXINT, 20,
+                                                              GTK_PARAM_READABLE));
+ 
+-  gtk_widget_class_set_accessible_type (klass, GTK_TYPE_WIDGET_ACCESSIBLE);
+   gtk_widget_class_set_css_name (klass, "widget");
+ }
+ 
+@@ -12332,13 +12312,6 @@
+ 	}
+     }
+ 
+-  if (priv->accessible)
+-    {
+-      gtk_accessible_set_widget (GTK_ACCESSIBLE (priv->accessible), NULL);
+-      g_object_unref (priv->accessible);
+-      priv->accessible = NULL;
+-    }
+-
+   /* wipe accelerator closures (keep order) */
+   g_object_set_qdata (G_OBJECT (widget), quark_accel_path, NULL);
+   g_object_set_qdata (G_OBJECT (widget), quark_accel_closures, NULL);
+@@ -12371,8 +12344,6 @@
+ 
+   g_free (priv->name);
+ 
+-  g_clear_object (&priv->accessible);
+-
+   gtk_widget_clear_path (widget);
+ 
+   gtk_css_widget_node_widget_destroyed (GTK_CSS_WIDGET_NODE (priv->cssnode));
+@@ -13420,191 +13391,7 @@
+                      gtk_requisition_copy,
+                      gtk_requisition_free)
+ 
+-/**
+- * gtk_widget_class_set_accessible_type:
+- * @widget_class: class to set the accessible type for
+- * @type: The object type that implements the accessible for @widget_class
+- *
+- * Sets the type to be used for creating accessibles for widgets of
+- * @widget_class. The given @type must be a subtype of the type used for
+- * accessibles of the parent class.
+- *
+- * This function should only be called from class init functions of widgets.
+- *
+- * Since: 3.2
+- **/
+-void
+-gtk_widget_class_set_accessible_type (GtkWidgetClass *widget_class,
+-                                      GType           type)
+-{
+-  GtkWidgetClassPrivate *priv;
+-
+-  g_return_if_fail (GTK_IS_WIDGET_CLASS (widget_class));
+-  g_return_if_fail (g_type_is_a (type, widget_class->priv->accessible_type));
+-
+-  priv = widget_class->priv;
+-
+-  priv->accessible_type = type;
+-  /* reset this - honoring the type's role is better. */
+-  priv->accessible_role = ATK_ROLE_INVALID;
+-}
+-
+-/**
+- * gtk_widget_class_set_accessible_role:
+- * @widget_class: class to set the accessible role for
+- * @role: The role to use for accessibles created for @widget_class
+- *
+- * Sets the default #AtkRole to be set on accessibles created for
+- * widgets of @widget_class. Accessibles may decide to not honor this
+- * setting if their role reporting is more refined. Calls to 
+- * gtk_widget_class_set_accessible_type() will reset this value.
+- *
+- * In cases where you want more fine-grained control over the role of
+- * accessibles created for @widget_class, you should provide your own
+- * accessible type and use gtk_widget_class_set_accessible_type()
+- * instead.
+- *
+- * If @role is #ATK_ROLE_INVALID, the default role will not be changed
+- * and the accessible’s default role will be used instead.
+- *
+- * This function should only be called from class init functions of widgets.
+- *
+- * Since: 3.2
+- **/
+-void
+-gtk_widget_class_set_accessible_role (GtkWidgetClass *widget_class,
+-                                      AtkRole         role)
+-{
+-  GtkWidgetClassPrivate *priv;
+-
+-  g_return_if_fail (GTK_IS_WIDGET_CLASS (widget_class));
+-
+-  priv = widget_class->priv;
+-
+-  priv->accessible_role = role;
+-}
+-
+-/**
+- * _gtk_widget_peek_accessible:
+- * @widget: a #GtkWidget
+- *
+- * Gets the accessible for @widget, if it has been created yet.
+- * Otherwise, this function returns %NULL. If the @widget’s implementation
+- * does not use the default way to create accessibles, %NULL will always be
+- * returned.
+- *
+- * Returns: (nullable): the accessible for @widget or %NULL if none has been
+- *     created yet.
+- **/
+-AtkObject *
+-_gtk_widget_peek_accessible (GtkWidget *widget)
+-{
+-  return widget->priv->accessible;
+-}
+-
+-/**
+- * gtk_widget_get_accessible:
+- * @widget: a #GtkWidget
+- *
+- * Returns the accessible object that describes the widget to an
+- * assistive technology.
+- *
+- * If accessibility support is not available, this #AtkObject
+- * instance may be a no-op. Likewise, if no class-specific #AtkObject
+- * implementation is available for the widget instance in question,
+- * it will inherit an #AtkObject implementation from the first ancestor
+- * class for which such an implementation is defined.
+- *
+- * The documentation of the
+- * [ATK](http://developer.gnome.org/atk/stable/)
+- * library contains more information about accessible objects and their uses.
+- *
+- * Returns: (transfer none): the #AtkObject associated with @widget
+- */
+-AtkObject*
+-gtk_widget_get_accessible (GtkWidget *widget)
+-{
+-  g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
+-
+-  return GTK_WIDGET_GET_CLASS (widget)->get_accessible (widget);
+-}
+-
+-static AtkObject*
+-gtk_widget_real_get_accessible (GtkWidget *widget)
+-{
+-  AtkObject* accessible;
+-
+-  accessible = widget->priv->accessible;
+-
+-  if (!accessible)
+-    {
+-      GtkWidgetClass *widget_class;
+-      GtkWidgetClassPrivate *priv;
+-      AtkObjectFactory *factory;
+-      AtkRegistry *default_registry;
+-
+-      widget_class = GTK_WIDGET_GET_CLASS (widget);
+-      priv = widget_class->priv;
+-
+-      if (priv->accessible_type == GTK_TYPE_ACCESSIBLE)
+-        {
+-          default_registry = atk_get_default_registry ();
+-          factory = atk_registry_get_factory (default_registry,
+-                                              G_TYPE_FROM_INSTANCE (widget));
+-          accessible = atk_object_factory_create_accessible (factory, G_OBJECT (widget));
+-
+-          if (priv->accessible_role != ATK_ROLE_INVALID)
+-            atk_object_set_role (accessible, priv->accessible_role);
+-
+-          widget->priv->accessible = accessible;
+-        }
+-      else
+-        {
+-          accessible = g_object_new (priv->accessible_type,
+-                                     "widget", widget,
+-                                     NULL);
+-          if (priv->accessible_role != ATK_ROLE_INVALID)
+-            atk_object_set_role (accessible, priv->accessible_role);
+-
+-          widget->priv->accessible = accessible;
+-
+-          atk_object_initialize (accessible, widget);
+-
+-          /* Set the role again, since we don't want a role set
+-           * in some parent initialize() function to override
+-           * our own.
+-           */
+-          if (priv->accessible_role != ATK_ROLE_INVALID)
+-            atk_object_set_role (accessible, priv->accessible_role);
+-        }
+-
+-    }
+-
+-  return accessible;
+-}
+-
+ /*
+- * Initialize a AtkImplementorIface instance’s virtual pointers as
+- * appropriate to this implementor’s class (GtkWidget).
+- */
+-static void
+-gtk_widget_accessible_interface_init (AtkImplementorIface *iface)
+-{
+-  iface->ref_accessible = gtk_widget_ref_accessible;
+-}
+-
+-static AtkObject*
+-gtk_widget_ref_accessible (AtkImplementor *implementor)
+-{
+-  AtkObject *accessible;
+-
+-  accessible = gtk_widget_get_accessible (GTK_WIDGET (implementor));
+-  if (accessible)
+-    g_object_ref (accessible);
+-  return accessible;
+-}
+-
+-/*
+  * Expand flag management
+  */
+ 
+@@ -14072,9 +13859,6 @@
+   GSList *l;
+   GType internal_child_type = 0;
+ 
+-  if (strcmp (childname, "accessible") == 0)
+-    return G_OBJECT (gtk_widget_get_accessible (GTK_WIDGET (buildable)));
+-
+   /* Find a widget type which has declared an automated child as internal by
+    * the name 'childname', if any.
+    */
+@@ -14122,44 +13906,10 @@
+     g_object_set_property (G_OBJECT (buildable), name, value);
+ }
+ 
+-typedef struct
+-{
+-  gchar *action_name;
+-  GString *description;
+-  gchar *context;
+-  gboolean translatable;
+-} AtkActionData;
+-
+-typedef struct
+-{
+-  gchar *target;
+-  AtkRelationType type;
+-  gint line;
+-  gint col;
+-} AtkRelationData;
+-
+ static void
+-free_action (AtkActionData *data, gpointer user_data)
+-{
+-  g_free (data->action_name);
+-  g_string_free (data->description, TRUE);
+-  g_free (data->context);
+-  g_slice_free (AtkActionData, data);
+-}
+-
+-static void
+-free_relation (AtkRelationData *data, gpointer user_data)
+-{
+-  g_free (data->target);
+-  g_slice_free (AtkRelationData, data);
+-}
+-
+-static void
+ gtk_widget_buildable_parser_finished (GtkBuildable *buildable,
+ 				      GtkBuilder   *builder)
+ {
+-  GSList *atk_relations;
+-
+   if (g_object_get_qdata (G_OBJECT (buildable), quark_builder_has_default))
+     {
+       gtk_widget_grab_default (GTK_WIDGET (buildable));
+@@ -14171,37 +13921,6 @@
+       gtk_widget_grab_focus (GTK_WIDGET (buildable));
+       g_object_steal_qdata (G_OBJECT (buildable), quark_builder_has_focus);
+     }
+-
+-  atk_relations = g_object_get_qdata (G_OBJECT (buildable),
+-				      quark_builder_atk_relations);
+-  if (atk_relations)
+-    {
+-      AtkObject *accessible;
+-      AtkRelationSet *relation_set;
+-      GSList *l;
+-      GObject *target;
+-      AtkObject *target_accessible;
+-
+-      accessible = gtk_widget_get_accessible (GTK_WIDGET (buildable));
+-      relation_set = atk_object_ref_relation_set (accessible);
+-
+-      for (l = atk_relations; l; l = l->next)
+-	{
+-	  AtkRelationData *relation = (AtkRelationData*)l->data;
+-
+-	  target = _gtk_builder_lookup_object (builder, relation->target, relation->line, relation->col);
+-	  if (!target)
+-	    continue;
+-	  target_accessible = gtk_widget_get_accessible (GTK_WIDGET (target));
+-	  g_assert (target_accessible != NULL);
+-
+-	  atk_relation_set_add_relation_by_type (relation_set, relation->type, target_accessible);
+-	}
+-      g_object_unref (relation_set);
+-
+-      g_slist_free_full (atk_relations, (GDestroyNotify) free_relation);
+-      g_object_steal_qdata (G_OBJECT (buildable), quark_builder_atk_relations);
+-    }
+ }
+ 
+ typedef struct
+@@ -14211,125 +13930,6 @@
+   GSList *relations;
+ } AccessibilitySubParserData;
+ 
+-static void
+-accessibility_start_element (GMarkupParseContext  *context,
+-                             const gchar          *element_name,
+-                             const gchar         **names,
+-                             const gchar         **values,
+-                             gpointer              user_data,
+-                             GError              **error)
+-{
+-  AccessibilitySubParserData *data = (AccessibilitySubParserData*)user_data;
+-
+-  if (strcmp (element_name, "relation") == 0)
+-    {
+-      gchar *target = NULL;
+-      gchar *type = NULL;
+-      AtkRelationData *relation;
+-      AtkRelationType relation_type;
+-
+-      if (!_gtk_builder_check_parent (data->builder, context, "accessibility", error))
+-        return;
+-
+-      if (!g_markup_collect_attributes (element_name, names, values, error,
+-                                        G_MARKUP_COLLECT_STRING, "target", &target,
+-                                        G_MARKUP_COLLECT_STRING, "type", &type,
+-                                        G_MARKUP_COLLECT_INVALID))
+-        {
+-          _gtk_builder_prefix_error (data->builder, context, error);
+-          return;
+-        }
+-
+-      relation_type = atk_relation_type_for_name (type);
+-      if (relation_type == ATK_RELATION_NULL)
+-        {
+-          g_set_error (error,
+-                       GTK_BUILDER_ERROR,
+-                       GTK_BUILDER_ERROR_INVALID_VALUE,
+-                       "No such relation type: '%s'", type);
+-          _gtk_builder_prefix_error (data->builder, context, error);
+-          return;
+-        }
+-
+-      relation = g_slice_new (AtkRelationData);
+-      relation->target = g_strdup (target);
+-      relation->type = relation_type;
+-
+-      data->relations = g_slist_prepend (data->relations, relation);
+-    }
+-  else if (strcmp (element_name, "action") == 0)
+-    {
+-      const gchar *action_name;
+-      const gchar *description = NULL;
+-      const gchar *msg_context = NULL;
+-      gboolean translatable = FALSE;
+-      AtkActionData *action;
+-
+-      if (!_gtk_builder_check_parent (data->builder, context, "accessibility", error))
+-        return;
+-
+-      if (!g_markup_collect_attributes (element_name, names, values, error,
+-                                        G_MARKUP_COLLECT_STRING, "action_name", &action_name,
+-                                        G_MARKUP_COLLECT_STRING|G_MARKUP_COLLECT_OPTIONAL, "description", &description,
+-                                        G_MARKUP_COLLECT_STRING|G_MARKUP_COLLECT_OPTIONAL, "comments", NULL,
+-                                        G_MARKUP_COLLECT_STRING|G_MARKUP_COLLECT_OPTIONAL, "context", &msg_context,
+-                                        G_MARKUP_COLLECT_BOOLEAN|G_MARKUP_COLLECT_OPTIONAL, "translatable", &translatable,
+-                                        G_MARKUP_COLLECT_INVALID))
+-        {
+-          _gtk_builder_prefix_error (data->builder, context, error);
+-          return;
+-        }
+-
+-      action = g_slice_new (AtkActionData);
+-      action->action_name = g_strdup (action_name);
+-      action->description = g_string_new (description);
+-      action->context = g_strdup (msg_context);
+-      action->translatable = translatable;
+-
+-      data->actions = g_slist_prepend (data->actions, action);
+-    }
+-  else if (strcmp (element_name, "accessibility") == 0)
+-    {
+-      if (!_gtk_builder_check_parent (data->builder, context, "object", error))
+-        return;
+-
+-      if (!g_markup_collect_attributes (element_name, names, values, error,
+-                                        G_MARKUP_COLLECT_INVALID, NULL, NULL,
+-                                        G_MARKUP_COLLECT_INVALID))
+-        _gtk_builder_prefix_error (data->builder, context, error);
+-    }
+-  else
+-    {
+-      _gtk_builder_error_unhandled_tag (data->builder, context,
+-                                        "GtkWidget", element_name,
+-                                        error);
+-    }
+-}
+-
+-static void
+-accessibility_text (GMarkupParseContext  *context,
+-                    const gchar          *text,
+-                    gsize                 text_len,
+-                    gpointer              user_data,
+-                    GError              **error)
+-{
+-  AccessibilitySubParserData *data = (AccessibilitySubParserData*)user_data;
+-
+-  if (strcmp (g_markup_parse_context_get_element (context), "action") == 0)
+-    {
+-      AtkActionData *action = data->actions->data;
+-
+-      g_string_append_len (action->description, text, text_len);
+-    }
+-}
+-
+-static const GMarkupParser accessibility_parser =
+-  {
+-    accessibility_start_element,
+-    NULL,
+-    accessibility_text,
+-  };
+-
+ typedef struct
+ {
+   GObject *object;
+@@ -14492,19 +14092,6 @@
+       return TRUE;
+     }
+ 
+-  if (strcmp (tagname, "accessibility") == 0)
+-    {
+-      AccessibilitySubParserData *data;
+-
+-      data = g_slice_new0 (AccessibilitySubParserData);
+-      data->builder = builder;
+-
+-      *parser = accessibility_parser;
+-      *parser_data = data;
+-
+-      return TRUE;
+-    }
+-
+   if (strcmp (tagname, "style") == 0)
+     {
+       StyleParserData *data;
+@@ -14577,62 +14164,6 @@
+       toplevel = _gtk_widget_get_toplevel (GTK_WIDGET (accel_data->object));
+ 
+       _gtk_widget_buildable_finish_accelerator (GTK_WIDGET (buildable), toplevel, user_data);
+-    }
+-  else if (strcmp (tagname, "accessibility") == 0)
+-    {
+-      AccessibilitySubParserData *a11y_data;
+-
+-      a11y_data = (AccessibilitySubParserData*)user_data;
+-
+-      if (a11y_data->actions)
+-	{
+-	  AtkObject *accessible;
+-	  AtkAction *action;
+-	  gint i, n_actions;
+-	  GSList *l;
+-
+-	  accessible = gtk_widget_get_accessible (GTK_WIDGET (buildable));
+-
+-          if (ATK_IS_ACTION (accessible))
+-            {
+-	      action = ATK_ACTION (accessible);
+-	      n_actions = atk_action_get_n_actions (action);
+-
+-	      for (l = a11y_data->actions; l; l = l->next)
+-	        {
+-	          AtkActionData *action_data = (AtkActionData*)l->data;
+-
+-	          for (i = 0; i < n_actions; i++)
+-		    if (strcmp (atk_action_get_name (action, i),
+-		  	        action_data->action_name) == 0)
+-		      break;
+-
+-	          if (i < n_actions)
+-                    {
+-                      const gchar *description;
+-
+-                      if (action_data->translatable && action_data->description->len)
+-                        description = _gtk_builder_parser_translate (gtk_builder_get_translation_domain (builder),
+-                                                                     action_data->context,
+-                                                                     action_data->description->str);
+-                      else
+-                        description = action_data->description->str;
+-
+-		      atk_action_set_description (action, i, description);
+-                    }
+-                }
+-	    }
+-          else
+-            g_warning ("accessibility action on a widget that does not implement AtkAction");
+-
+-	  g_slist_free_full (a11y_data->actions, (GDestroyNotify) free_action);
+-	}
+-
+-      if (a11y_data->relations)
+-	g_object_set_qdata (G_OBJECT (buildable), quark_builder_atk_relations,
+-			    a11y_data->relations);
+-
+-      g_slice_free (AccessibilitySubParserData, a11y_data);
+     }
+   else if (strcmp (tagname, "style") == 0)
+     {
+--- a/gtk/gtkwidget.h
++++ b/gtk/gtkwidget.h
+@@ -33,7 +33,6 @@
+ #include <gtk/gtkaccelgroup.h>
+ #include <gtk/gtkborder.h>
+ #include <gtk/gtktypes.h>
+-#include <atk/atk.h>
+ 
+ G_BEGIN_DECLS
+ 
+@@ -305,8 +304,6 @@
+  * @popup_menu: Signal emitted whenever a widget should pop up a
+  *   context menu.
+  * @show_help:
+- * @get_accessible: Returns the accessible object that describes the
+- *   widget to an assistive technology.
+  * @screen_changed: Signal emitted when the screen of a widget has
+  *   changed.
+  * @can_activate_accel: Signal allows applications and derived widgets
+@@ -549,8 +546,6 @@
+ 
+   /* accessibility support
+    */
+-  AtkObject *  (* get_accessible)     (GtkWidget *widget);
+-
+   void         (* screen_changed)     (GtkWidget *widget,
+                                        GdkScreen *previous_screen);
+   gboolean     (* can_activate_accel) (GtkWidget *widget,
+@@ -1055,16 +1050,6 @@
+ GDK_AVAILABLE_IN_ALL
+ void             gtk_widget_set_support_multidevice (GtkWidget      *widget,
+                                                      gboolean        support_multidevice);
+-
+-/* Accessibility support */
+-GDK_AVAILABLE_IN_3_2
+-void             gtk_widget_class_set_accessible_type    (GtkWidgetClass     *widget_class,
+-                                                          GType               type);
+-GDK_AVAILABLE_IN_3_2
+-void             gtk_widget_class_set_accessible_role    (GtkWidgetClass     *widget_class,
+-                                                          AtkRole             role);
+-GDK_AVAILABLE_IN_ALL
+-AtkObject*       gtk_widget_get_accessible               (GtkWidget          *widget);
+ 
+ 
+ /* Margin and alignment */
+--- a/gtk/gtkwidgetprivate.h
++++ b/gtk/gtkwidgetprivate.h
+@@ -158,8 +158,6 @@
+   GtkWidget *parent;
+ 
+   GList *event_controllers;
+-
+-  AtkObject *accessible;
+ };
+ 
+ GtkCssNode *  gtk_widget_get_css_node       (GtkWidget *widget);
+@@ -212,8 +210,6 @@
+ 
+ const gchar*      _gtk_widget_get_accel_path               (GtkWidget *widget,
+                                                             gboolean  *locked);
+-
+-AtkObject *       _gtk_widget_peek_accessible              (GtkWidget *widget);
+ 
+ void              _gtk_widget_set_has_default              (GtkWidget *widget,
+                                                             gboolean   has_default);
+--- a/gtk/gtkwindow.c
++++ b/gtk/gtkwindow.c
+@@ -60,7 +60,6 @@
+ #include "gtkheaderbarprivate.h"
+ #include "gtkpopoverprivate.h"
+ #include "a11y/gtkwindowaccessible.h"
+-#include "a11y/gtkcontaineraccessibleprivate.h"
+ #include "gtkapplicationprivate.h"
+ #include "gtkgestureprivate.h"
+ #include "inspector/init.h"
+@@ -1270,7 +1269,6 @@
+   add_tab_bindings (binding_set, GDK_SHIFT_MASK, GTK_DIR_TAB_BACKWARD);
+   add_tab_bindings (binding_set, GDK_CONTROL_MASK | GDK_SHIFT_MASK, GTK_DIR_TAB_BACKWARD);
+ 
+-  gtk_widget_class_set_accessible_type (widget_class, GTK_TYPE_WINDOW_ACCESSIBLE);
+   gtk_widget_class_set_css_name (widget_class, "window");
+ }
+ 
+@@ -12478,7 +12476,6 @@
+ {
+   GtkWindowPrivate *priv;
+   GtkWindowPopover *data;
+-  AtkObject *accessible;
+ 
+   g_return_if_fail (GTK_IS_WINDOW (window));
+   g_return_if_fail (GTK_IS_WIDGET (popover));
+@@ -12501,10 +12498,6 @@
+     popover_realize (popover, data, window);
+ 
+   gtk_widget_set_parent (popover, GTK_WIDGET (window));
+-
+-  accessible = gtk_widget_get_accessible (GTK_WIDGET (window));
+-  _gtk_container_accessible_add_child (GTK_CONTAINER_ACCESSIBLE (accessible),
+-                                       gtk_widget_get_accessible (popover), -1);
+ }
+ 
+ void
+@@ -12513,7 +12506,6 @@
+ {
+   GtkWindowPrivate *priv;
+   GtkWindowPopover *data;
+-  AtkObject *accessible;
+ 
+   g_return_if_fail (GTK_IS_WINDOW (window));
+   g_return_if_fail (GTK_IS_WIDGET (popover));
+@@ -12535,9 +12527,6 @@
+ 
+   priv->popovers = g_list_remove (priv->popovers, data);
+ 
+-  accessible = gtk_widget_get_accessible (GTK_WIDGET (window));
+-  _gtk_container_accessible_remove_child (GTK_CONTAINER_ACCESSIBLE (accessible),
+-                                          gtk_widget_get_accessible (popover), -1);
+   popover_destroy (data);
+   g_object_unref (popover);
+ }
+--- a/gtk/inspector/misc-info.c
++++ b/gtk/inspector/misc-info.c
+@@ -68,12 +68,6 @@
+   GtkWidget *framerate;
+   GtkWidget *framecount_row;
+   GtkWidget *framecount;
+-  GtkWidget *accessible_role_row;
+-  GtkWidget *accessible_role;
+-  GtkWidget *accessible_name_row;
+-  GtkWidget *accessible_name;
+-  GtkWidget *accessible_description_row;
+-  GtkWidget *accessible_description;
+   GtkWidget *mapped_row;
+   GtkWidget *mapped;
+   GtkWidget *realized_row;
+@@ -337,8 +331,6 @@
+ 
+   if (GTK_IS_WIDGET (sl->priv->object))
+     {
+-      AtkObject *accessible;
+-      AtkRole role;
+       GList *list, *l;
+ 
+       gtk_container_forall (GTK_CONTAINER (sl->priv->mnemonic_label), (GtkCallback)gtk_widget_destroy, NULL);
+@@ -359,11 +351,6 @@
+ 
+       gtk_widget_set_visible (sl->priv->tick_callback, gtk_widget_has_tick_callback (GTK_WIDGET (sl->priv->object)));
+ 
+-      accessible = ATK_OBJECT (gtk_widget_get_accessible (GTK_WIDGET (sl->priv->object)));
+-      role = atk_object_get_role (accessible);
+-      gtk_label_set_text (GTK_LABEL (sl->priv->accessible_role), atk_role_get_name (role));
+-      gtk_label_set_text (GTK_LABEL (sl->priv->accessible_name), atk_object_get_name (accessible));
+-      gtk_label_set_text (GTK_LABEL (sl->priv->accessible_description), atk_object_get_description (accessible));
+       gtk_widget_set_visible (sl->priv->mapped, gtk_widget_get_mapped (GTK_WIDGET (sl->priv->object)));
+       gtk_widget_set_visible (sl->priv->realized, gtk_widget_get_realized (GTK_WIDGET (sl->priv->object)));
+       gtk_widget_set_visible (sl->priv->is_toplevel, gtk_widget_is_toplevel (GTK_WIDGET (sl->priv->object)));
+@@ -454,9 +441,6 @@
+       gtk_widget_show (sl->priv->clip_area_row);
+       gtk_widget_show (sl->priv->mnemonic_label_row);
+       gtk_widget_show (sl->priv->tick_callback_row);
+-      gtk_widget_show (sl->priv->accessible_role_row);
+-      gtk_widget_show (sl->priv->accessible_name_row);
+-      gtk_widget_show (sl->priv->accessible_description_row);
+       gtk_widget_show (sl->priv->mapped_row);
+       gtk_widget_show (sl->priv->realized_row);
+       gtk_widget_show (sl->priv->is_toplevel_row);
+@@ -478,9 +462,6 @@
+       gtk_widget_hide (sl->priv->baseline_row);
+       gtk_widget_hide (sl->priv->clip_area_row);
+       gtk_widget_hide (sl->priv->tick_callback_row);
+-      gtk_widget_hide (sl->priv->accessible_role_row);
+-      gtk_widget_hide (sl->priv->accessible_name_row);
+-      gtk_widget_hide (sl->priv->accessible_description_row);
+       gtk_widget_hide (sl->priv->mapped_row);
+       gtk_widget_hide (sl->priv->realized_row);
+       gtk_widget_hide (sl->priv->is_toplevel_row);
+@@ -642,12 +623,6 @@
+   gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, framecount);
+   gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, framerate_row);
+   gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, framerate);
+-  gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, accessible_role_row);
+-  gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, accessible_role);
+-  gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, accessible_name_row);
+-  gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, accessible_name);
+-  gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, accessible_description_row);
+-  gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, accessible_description);
+   gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, mapped_row);
+   gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, mapped);
+   gtk_widget_class_bind_template_child_private (widget_class, GtkInspectorMiscInfo, realized_row);
+--- a/gtk/meson.build
++++ b/gtk/meson.build
+@@ -1,5 +1,4 @@
+ subdir('deprecated')
+-subdir('a11y')
+ subdir('inspector')
+ 
+ gtk_cargs = [
+@@ -32,7 +31,6 @@
+   'gtkaccelgroup.c',
+   'gtkaccellabel.c',
+   'gtkaccelmap.c',
+-  'gtkaccessible.c',
+   'gtkactionbar.c',
+   'gtkactionhelper.c',
+   'gtkadjustment.c',
+@@ -396,12 +394,10 @@
+   'gtk.h',
+   'gtk-autocleanups.h',
+   'gtkx-autocleanups.h',
+-  'gtk-a11y.h',
+   'gtkaboutdialog.h',
+   'gtkaccelgroup.h',
+   'gtkaccellabel.h',
+   'gtkaccelmap.h',
+-  'gtkaccessible.h',
+   'gtkactionable.h',
+   'gtkactionbar.h',
+   'gtkadjustment.h',
+@@ -761,7 +757,7 @@
+ gtkmarshal_h = gtkmarshalers[1]
+ 
+ gtktypebuiltins = gnome.mkenums('gtktypebuiltins',
+-                                sources: gtk_public_headers + gtk_deprecated_headers + a11y_headers,
++                                sources: gtk_public_headers + gtk_deprecated_headers,
+                                 c_template: 'gtktypebuiltins.c.template',
+                                 h_template: 'gtktypebuiltins.h.template',
+                                 install_dir: join_paths(gtk_includedir, 'gtk-3.0/gtk'),
+@@ -820,7 +816,6 @@
+   gtk_dbus_src,
+   gtk_deprecated_sources,
+   inspector_sources,
+-  a11y_sources,
+   gtkresources,
+   gtkmarshalers,
+   gtkprivatetypebuiltins,
+@@ -840,7 +835,6 @@
+   cairo_dep,
+   fontconfig_dep,
+   pixbuf_dep,
+-  atk_dep,
+   epoxy_dep,
+   libm,
+ ]
+@@ -896,8 +890,6 @@
+            )
+   gtk_res = import('windows').compile_resources(gtk_rc)
+   gtk_sources += gtk_res
+-else
+-  gtk_deps += [ atkbridge_dep, ]
+ endif
+ 
+ if quartz_enabled
+@@ -991,15 +983,12 @@
+     gtk_gir_public_headers,
+     gtk_deprecated_headers,
+     gtk_sources,
+-    a11y_headers,
+-    a11y_sources,
+     gtktypebuiltins_h,
+     gtkversion,
+   ]
+ 
+-  gtk_gir_includes = [gdk_gir[0], 'Atk-1.0']
+-  gtk_gir_extra_args = gir_args + ['-DGTK_COMPILATION',
+-                                   '--c-include=gtk/gtk-a11y.h']
++  gtk_gir_includes = gdk_gir[0]
++  gtk_gir_extra_args = gir_args + ['-DGTK_COMPILATION']
+   if x11_enabled
+     gtk_gir_includes += ['xlib-2.0']
+     gtk_gir_extra_args += ['--c-include=gtk/gtkx.h']
+--- a/gtk/ui/gtkcoloreditor.ui
++++ b/gtk/ui/gtkcoloreditor.ui
+@@ -84,11 +84,6 @@
+                 <property name="visible">1</property>
+                 <property name="can-focus">1</property>
+                 <property name="invisible-char">•</property>
+-                <child internal-child="accessible">
+-                  <object class="AtkObject" id="entry-atkobject">
+-                    <property name="AtkObject::accessible-name" translatable="yes">Color Name</property>
+-                  </object>
+-                </child>
+                 <signal name="activate" handler="entry_apply" swapped="no"/>
+                 <signal name="focus-out-event" handler="entry_focus_out" swapped="no"/>
+                 <signal name="notify::text" handler="entry_text_changed" swapped="no"/>
+@@ -191,11 +186,6 @@
+             <property name="width-chars">2</property>
+             <property name="max-width-chars">2</property>
+             <property name="climb-rate">1</property>
+-            <child internal-child="accessible">
+-              <object class="AtkObject" id="a_entry-atkobject">
+-                <property name="AtkObject::accessible-name" translatable="yes">Alpha</property>
+-              </object>
+-            </child>
+             <signal name="key-press-event" handler="popup_key_press" swapped="no"/>
+           </object>
+           <packing>
+@@ -238,11 +228,6 @@
+             <property name="width-chars">2</property>
+             <property name="max-width-chars">2</property>
+             <property name="climb-rate">1</property>
+-            <child internal-child="accessible">
+-              <object class="AtkObject" id="h_entry-atkobject">
+-                <property name="AtkObject::accessible-name" translatable="yes">Hue</property>
+-              </object>
+-            </child>
+             <signal name="key-press-event" handler="popup_key_press" swapped="no"/>
+           </object>
+           <packing>
+@@ -296,11 +281,6 @@
+             <property name="width-chars">2</property>
+             <property name="max-width-chars">2</property>
+             <property name="climb-rate">1</property>
+-            <child internal-child="accessible">
+-              <object class="AtkObject" id="s_entry-atkobject">
+-                <property name="AtkObject::accessible-name" translatable="yes">Saturation</property>
+-              </object>
+-            </child>
+             <signal name="key-press-event" handler="popup_key_press" swapped="no"/>
+           </object>
+           <packing>
+@@ -315,11 +295,6 @@
+             <property name="width-chars">2</property>
+             <property name="max-width-chars">2</property>
+             <property name="climb-rate">1</property>
+-            <child internal-child="accessible">
+-              <object class="AtkObject" id="v_entry-atkobject">
+-                <property name="AtkObject::accessible-name" translatable="yes">Value</property>
+-              </object>
+-            </child>
+             <signal name="key-press-event" handler="popup_key_press" swapped="no"/>
+           </object>
+           <packing>
+--- a/gtk/ui/gtkfilechooserdialog.ui
++++ b/gtk/ui/gtkfilechooserdialog.ui
+@@ -27,11 +27,6 @@
+             <signal name="file-activated" handler="file_chooser_widget_file_activated" swapped="no"/>
+             <signal name="response-requested" handler="file_chooser_widget_response_requested" swapped="no"/>
+             <signal name="selection-changed" handler="file_chooser_widget_selection_changed" swapped="no"/>
+-            <child internal-child="accessible">
+-              <object class="AtkObject">
+-                <property name="AtkObject::accessible-name" translatable="yes">File Chooser Widget</property>
+-              </object>
+-            </child>
+           </object>
+           <packing>
+             <property name="expand">1</property>
+--- a/gtk/ui/gtkfilechooserwidget.ui
++++ b/gtk/ui/gtkfilechooserwidget.ui
+@@ -17,11 +17,6 @@
+                 <property name="hscrollbar-policy">never</property>
+                 <property name="local-only">1</property>
+                 <property name="show-other-locations">1</property>
+-                <child internal-child="accessible">
+-                  <object class="AtkObject">
+-                    <property name="AtkObject::accessible-name" translatable="yes">Places</property>
+-                  </object>
+-                </child>
+                 <style>
+                   <class name="sidebar"/>
+                 </style>
+@@ -42,11 +37,6 @@
+                   <object class="GtkRevealer" id="browse_header_revealer">
+                     <property name="visible">1</property>
+                     <property name="hexpand">1</property>
+-                    <child internal-child="accessible">
+-                      <object class="AtkObject">
+-                        <property name="AtkObject::accessible-name" translatable="yes">Browse Header Revealer</property>
+-                      </object>
+-                    </child>
+                     <child>
+                       <object class="GtkBox">
+                         <property name="visible">1</property>
+@@ -60,21 +50,11 @@
+                           <object class="GtkStack" id="browse_header_stack">
+                             <property name="visible">1</property>
+                             <property name="transition-type">crossfade</property>
+-                            <child internal-child="accessible">
+-                              <object class="AtkObject">
+-                                <property name="AtkObject::accessible-name" translatable="yes">Browse Header Stack</property>
+-                              </object>
+-                            </child>
+                             <child>
+                               <object class="GtkBox">
+                                 <property name="visible">1</property>
+                                 <property name="spacing">6</property>
+                                 <property name="border-width">6</property>
+-                                <child internal-child="accessible">
+-                                  <object class="AtkObject">
+-                                    <property name="AtkObject::accessible-name" translatable="yes">PathBar Layer</property>
+-                                  </object>
+-                                </child>
+                                 <child>
+                                   <object class="GtkPathBar" id="browse_path_bar">
+                                     <property name="visible">True</property>
+@@ -116,12 +96,7 @@
+                                 <property name="no-show-all">1</property>
+                                 <property name="spacing">6</property>
+                                 <property name="border-width">6</property>
+-                                <child internal-child="accessible">
+-                                  <object class="AtkObject">
+-                                    <property name="AtkObject::accessible-name" translatable="yes">Location Layer</property>
+                                   </object>
+-                                </child>
+-                              </object>
+                               <packing>
+                                 <property name="name">location</property>
+                               </packing>
+@@ -132,11 +107,6 @@
+                                 <property name="no-show-all">1</property>
+                                 <property name="spacing">6</property>
+                                 <property name="border-width">6</property>
+-                                <child internal-child="accessible">
+-                                  <object class="AtkObject">
+-                                    <property name="AtkObject::accessible-name" translatable="yes">Search Layer</property>
+-                                  </object>
+-                                </child>
+                                 <child type="center">
+                                   <object class="GtkSearchEntry" id="search_entry">
+                                     <property name="visible">1</property>
+@@ -194,11 +164,6 @@
+                                     <property name="visible">1</property>
+                                     <property name="has-tooltip">1</property>
+                                     <property name="enable-search">0</property>
+-                                    <child internal-child="accessible">
+-                                      <object class="AtkObject" id="browse_files_tree_view-atkobject">
+-                                        <property name="AtkObject::accessible-name" translatable="yes">Files</property>
+-                                      </object>
+-                                    </child>
+                                     <signal name="button-press-event" handler="list_button_press_event_cb" swapped="no"/>
+                                     <signal name="drag-data-received" handler="file_list_drag_data_received_cb" swapped="no"/>
+                                     <signal name="drag-drop" handler="file_list_drag_drop_cb" swapped="no"/>
+--- a/gtk/ui/gtkpathbar.ui
++++ b/gtk/ui/gtkpathbar.ui
+@@ -6,11 +6,6 @@
+     <property name="can-focus">1</property>
+     <property name="receives-default">1</property>
+     <property name="focus-on-click">0</property>
+-    <child internal-child="accessible">
+-      <object class="AtkObject" id="down_slider_button-atkobject">
+-        <property name="AtkObject::accessible-name" translatable="yes">Down Path</property>
+-      </object>
+-    </child>
+     <signal name="button-press-event" handler="gtk_path_bar_slider_button_press" swapped="no"/>
+     <signal name="button-release-event" handler="gtk_path_bar_slider_button_release" swapped="no"/>
+     <signal name="focus-out-event" handler="gtk_path_bar_slider_down_defocus" swapped="no"/>
+@@ -31,11 +26,6 @@
+     <property name="can-focus">1</property>
+     <property name="receives-default">1</property>
+     <property name="focus-on-click">0</property>
+-    <child internal-child="accessible">
+-      <object class="AtkObject" id="up_slider_button-atkobject">
+-        <property name="AtkObject::accessible-name" translatable="yes">Up Path</property>
+-      </object>
+-    </child>
+     <signal name="button-press-event" handler="gtk_path_bar_slider_button_press" swapped="no"/>
+     <signal name="button-release-event" handler="gtk_path_bar_slider_button_release" swapped="no"/>
+     <signal name="focus-out-event" handler="gtk_path_bar_slider_up_defocus" swapped="no"/>
+--- a/gtk/ui/gtkprintunixdialog.ui
++++ b/gtk/ui/gtkprintunixdialog.ui
+@@ -182,9 +182,6 @@
+                                 <attributes>
+                                   <attribute name="weight" value="bold"/>
+                                 </attributes>
+-                                <accessibility>
+-                                  <relation type="label-for" target="range_table"/>
+-                                </accessibility>
+                               </object>
+                               <packing>
+                                 <property name="fill">0</property>
+@@ -271,22 +268,12 @@
+  e.g. 1–3, 7, 11</property>
+                                     <property name="invisible-char">•</property>
+                                     <property name="activates-default">1</property>
+-                                    <child internal-child="accessible">
+-                                      <object class="AtkObject" id="page_range_entry-atkobject">
+-                                        <property name="AtkObject::accessible-name" translatable="yes">Pages</property>
+-                                        <property name="AtkObject::accessible-description" translatable="yes">Specify one or more page ranges,
+- e.g. 1–3, 7, 11</property>
+-                                      </object>
+-                                    </child>
+                                   </object>
+                                   <packing>
+                                     <property name="left-attach">1</property>
+                                     <property name="top-attach">3</property>
+                                   </packing>
+                                 </child>
+-                                <accessibility>
+-                                  <relation type="labelled-by" target="label_widget1"/>
+-                                </accessibility>
+                               </object>
+                               <packing>
+                                 <property name="fill">0</property>
+@@ -312,9 +299,6 @@
+                                 <attributes>
+                                   <attribute name="weight" value="bold"/>
+                                 </attributes>
+-                                <accessibility>
+-                                  <relation type="label-for" target="grid1"/>
+-                                </accessibility>
+                               </object>
+                               <packing>
+                                 <property name="fill">0</property>
+@@ -397,9 +381,6 @@
+                                     <property name="height">2</property>
+                                   </packing>
+                                 </child>
+-                                <accessibility>
+-                                  <relation type="labelled-by" target="label_widget2"/>
+-                                </accessibility>
+                               </object>
+                               <packing>
+                                 <property name="fill">0</property>
+@@ -453,9 +434,6 @@
+                                 <attributes>
+                                   <attribute name="weight" value="bold"/>
+                                 </attributes>
+-                                <accessibility>
+-                                  <relation type="label-for" target="grid2"/>
+-                                </accessibility>
+                               </object>
+                               <packing>
+                                 <property name="fill">0</property>
+@@ -622,9 +600,6 @@
+                                     <property name="top-attach">4</property>
+                                   </packing>
+                                 </child>
+-                                <accessibility>
+-                                  <relation type="labelled-by" target="label_widget3"/>
+-                                </accessibility>
+                               </object>
+                               <packing>
+                                 <property name="fill">0</property>
+@@ -650,9 +625,6 @@
+                                 <attributes>
+                                   <attribute name="weight" value="bold"/>
+                                 </attributes>
+-                                <accessibility>
+-                                  <relation type="label-for" target="grid3"/>
+-                                </accessibility>
+                               </object>
+                               <packing>
+                                 <property name="fill">0</property>
+@@ -802,9 +774,6 @@
+                                     <property name="top-attach">4</property>
+                                   </packing>
+                                 </child>
+-                                <accessibility>
+-                                  <relation type="labelled-by" target="label_widget4"/>
+-                                </accessibility>
+                               </object>
+                               <packing>
+                                 <property name="fill">0</property>
+@@ -877,9 +846,6 @@
+                             <attributes>
+                               <attribute name="weight" value="bold"/>
+                             </attributes>
+-                            <accessibility>
+-                              <relation type="label-for" target="grid5"/>
+-                            </accessibility>
+                           </object>
+                           <packing>
+                             <property name="fill">0</property>
+@@ -939,9 +905,6 @@
+                                 <property name="top-attach">1</property>
+                               </packing>
+                             </child>
+-                            <accessibility>
+-                              <relation type="labelled-by" target="label_widget5"/>
+-                            </accessibility>
+                           </object>
+                           <packing>
+                             <property name="fill">0</property>
+@@ -968,9 +931,6 @@
+                             <attributes>
+                               <attribute name="weight" value="bold"/>
+                             </attributes>
+-                            <accessibility>
+-                              <relation type="label-for" target="grid6"/>
+-                            </accessibility>
+                           </object>
+                           <packing>
+                             <property name="fill">0</property>
+@@ -1031,13 +991,6 @@
+  e.g. 15∶30, 2∶35 pm, 14∶15∶20, 11∶46∶30 am, 4 pm</property>
+                                 <property name="invisible-char">•</property>
+                                 <property name="invisible-char-set">1</property>
+-                                <child internal-child="accessible">
+-                                  <object class="AtkObject" id="print_at_entry-atkobject">
+-                                    <property name="AtkObject::accessible-name" translatable="yes">Time of print</property>
+-                                    <property name="AtkObject::accessible-description" translatable="yes">Specify the time of print,
+- e.g. 15∶30, 2∶35 pm, 14∶15∶20, 11∶46∶30 am, 4 pm</property>
+-                                  </object>
+-                                </child>
+                                 <signal name="changed" handler="update_print_at_option" object="GtkPrintUnixDialog" swapped="yes"/>
+                               </object>
+                               <packing>
+@@ -1064,9 +1017,6 @@
+                                 <property name="width">2</property>
+                               </packing>
+                             </child>
+-                            <accessibility>
+-                              <relation type="labelled-by" target="label_widget6"/>
+-                            </accessibility>
+                           </object>
+                           <packing>
+                             <property name="fill">0</property>
+@@ -1093,9 +1043,6 @@
+                             <attributes>
+                               <attribute name="weight" value="bold"/>
+                             </attributes>
+-                            <accessibility>
+-                              <relation type="label-for" target="grid7"/>
+-                            </accessibility>
+                           </object>
+                           <packing>
+                             <property name="fill">0</property>
+@@ -1155,9 +1102,6 @@
+                                 <property name="top-attach">1</property>
+                               </packing>
+                             </child>
+-                            <accessibility>
+-                              <relation type="labelled-by" target="label_widget7"/>
+-                            </accessibility>
+                           </object>
+                           <packing>
+                             <property name="fill">0</property>
+--- a/gtk/ui/gtkvolumebutton.ui
++++ b/gtk/ui/gtkvolumebutton.ui
+@@ -19,32 +19,14 @@
+ audio-volume-high
+ audio-volume-low
+ audio-volume-medium</property>
+-    <child internal-child="accessible">
+-      <object class="AtkObject" id="GtkVolumeButton-atkobject">
+-        <property name="AtkObject::accessible-name" translatable="yes">Volume</property>
+-        <property name="AtkObject::accessible-description" translatable="yes">Turns volume up or down</property>
+-      </object>
+-    </child>
+     <signal name="query-tooltip" handler="cb_query_tooltip" swapped="no"/>
+     <signal name="value-changed" handler="cb_value_changed" swapped="no"/>
+     <child internal-child="plus_button">
+       <object class="GtkButton" id="scalebutton-plus_button1">
+-        <child internal-child="accessible">
+-          <object class="AtkObject" id="scalebutton-plus_button1-atkobject">
+-            <property name="AtkObject::accessible-name" translatable="yes">Volume Up</property>
+-            <property name="AtkObject::accessible-description" translatable="yes">Increases the volume</property>
+           </object>
+         </child>
+-      </object>
+-    </child>
+     <child internal-child="minus_button">
+       <object class="GtkButton" id="scalebutton-minus_button1">
+-        <child internal-child="accessible">
+-          <object class="AtkObject" id="scalebutton-minus_button1-atkobject">
+-            <property name="AtkObject::accessible-name" translatable="yes">Volume Down</property>
+-            <property name="AtkObject::accessible-description" translatable="yes">Decreases the volume</property>
+-          </object>
+-        </child>
+       </object>
+     </child>
+   </template>
+--- a/meson.build
++++ b/meson.build
+@@ -25,8 +25,6 @@
+ 
+ glib_req           = '>= @0@.@1@.@2@'.format(glib_major_req, glib_minor_req, glib_micro_req)
+ pango_req          = '>= 1.41.0'
+-atk_req            = '>= 2.35.1'
+-at_spi2_atk_req    = '>= 2.15.1'
+ cairo_req          = '>= 1.14.0'
+ gdk_pixbuf_req     = '>= 2.30.0'
+ introspection_req  = '>= 1.39.0'
+@@ -289,7 +287,7 @@
+   test_cflags = [
+     '-fno-strict-aliasing',
+     '-Wpointer-arith',
+-    '-Wimplicit-function-declaration',
++    '-Werror=implicit-function-declaration',
+     '-Wformat=2',
+     '-Wformat-security',
+     '-Wnested-externs',
+@@ -354,7 +352,6 @@
+ confinc = include_directories('.')
+ gdkinc = include_directories('gdk')
+ gtkinc = include_directories('gtk')
+-libgailutilinc = include_directories('libgail-util')
+ testinc = include_directories('tests')
+ 
+ # Dependencies
+@@ -449,8 +446,6 @@
+                             fallback : ['gdk-pixbuf', 'gdkpixbuf_dep'])
+ epoxy_dep      = dependency('epoxy', version: epoxy_req,
+                             fallback: ['libepoxy', 'libepoxy_dep'])
+-atk_dep        = dependency('atk', version: atk_req,
+-                            fallback : ['atk', 'libatk_dep'])
+ 
+ # Update once Meson can have deps declared in a declarative manner or can
+ # find deps properly with CMake again
+@@ -459,7 +454,6 @@
+ iso_codes_dep  = dependency('iso-codes', required: false)
+ 
+ fontconfig_dep = [] # only used in x11 backend
+-atkbridge_dep  = [] # only used in x11 backend
+ 
+ if os_win32
+   platform_gio_dep = giowin32_dep
+@@ -548,8 +542,6 @@
+ cdata.set('HAVE_HARFBUZZ', harfbuzz_dep.found() ? 1 : false)
+ cdata.set('HAVE_PANGOFT', pangoft_dep.found() ? 1 : false)
+ 
+-atk_pkgs = ['atk']
+-
+ wayland_pkgs = []
+ if wayland_enabled
+   wlclientdep    = dependency('wayland-client', version:  wayland_req)
+@@ -579,7 +571,6 @@
+   xfixes_dep     = dependency('xfixes', required: false)
+   xcomposite_dep = dependency('xcomposite', required: false)
+   fontconfig_dep = dependency('fontconfig', fallback: ['fontconfig', 'fontconfig_dep'])
+-  atkbridge_dep  = dependency('atk-bridge-2.0', version: at_spi2_atk_req)
+ 
+   backend_immodules += ['xim']
+ 
+@@ -598,8 +589,6 @@
+     x11_pkgs += ['xdamage']
+   endif
+ 
+-  atk_pkgs += ['atk-bridge-2.0']
+-
+   cdata.set('HAVE_XDAMAGE', xdamage_dep.found() ? 1 : false)
+   cdata.set('HAVE_XCURSOR', xcursor_dep.found() ? 1 : false)
+   cdata.set('HAVE_XCOMPOSITE', xcomposite_dep.found() ? 1 : false)
+@@ -866,7 +855,6 @@
+ subdir('gdk')
+ subdir('gtk')
+ subdir('modules')
+-subdir('libgail-util')
+ if get_option('demos')
+   subdir('demos')
+ endif
+@@ -928,7 +916,6 @@
+                      ['epoxy', epoxy_req] + cloudproviders_packages))
+ 
+ gtk_packages = ' '.join([
+-    atk_dep.name(), atk_req,
+     cairo_packages,
+     pixbuf_dep.name(), gdk_pixbuf_req,
+     'gio-2.0', glib_req,
+@@ -938,7 +925,7 @@
+ # Requires.private
+ pc_gdk_extra_libs += cairo_libs
+ 
+-gtk_private_packages = atk_pkgs + wayland_pkgs + ['epoxy', epoxy_req]
++gtk_private_packages = wayland_pkgs + ['epoxy', epoxy_req]
+ if wayland_enabled or x11_enabled
+   gtk_private_packages += ['pangoft2']
+ endif

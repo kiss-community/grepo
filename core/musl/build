@@ -1,0 +1,27 @@
+#!/bin/sh -e
+
+# Uncomment if using valgrind or similar.
+# :>nostrip
+
+./configure \
+    --prefix=/usr \
+    --syslibdir=/usr/lib \
+# Uncomment if using valgrind or similar.
+#   --enable-debug
+
+make
+make install
+
+mkdir -p "$1/usr/bin"
+ln -s  /usr/lib/ld-musl-x86_64.so.1 "$1/usr/bin/ldd"
+
+# Fix incorrect symlink to libc.so.
+ln -sf libc.so "$1/usr/lib/ld-musl-x86_64.so.1"
+
+# Install BSD compatibility headers.
+cp -f cdefs.h queue.h tree.h \
+    "$1/usr/include/sys"
+
+# Install getconf.
+cc getconf.c -o "$1/usr/bin/getconf"
+cc getent.c  -o "$1/usr/bin/getent"

@@ -1,0 +1,56 @@
+diff -r fc5ee47dac3e toolkit/components/remote/moz.build
+--- a/toolkit/components/remote/moz.build	Tue Jun 28 12:00:27 2022 -0500
++++ b/toolkit/components/remote/moz.build	Thu Jun 30 00:35:24 2022 -0500
+@@ -26,7 +26,7 @@
+             "nsUnixRemoteServer.h",
+             "RemoteUtils.h",
+         ]
+-    else:
++    elif CONFIG["MOZ_X11"]:
+         SOURCES += [
+             "nsGTKRemoteServer.cpp",
+             "nsXRemoteClient.cpp",
+diff -r fc5ee47dac3e toolkit/components/remote/nsRemoteService.cpp
+--- a/toolkit/components/remote/nsRemoteService.cpp	Tue Jun 28 12:00:27 2022 -0500
++++ b/toolkit/components/remote/nsRemoteService.cpp	Thu Jun 30 00:35:24 2022 -0500
+@@ -6,12 +6,14 @@
+  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ 
+ #ifdef MOZ_WIDGET_GTK
+-#  ifdef MOZ_ENABLE_DBUS
++#  if defined(MOZ_ENABLE_DBUS)
+ #    include "nsDBusRemoteServer.h"
+ #    include "nsDBusRemoteClient.h"
+-#  else
++#  elif defined(MOZ_X11)
+ #    include "nsGTKRemoteServer.h"
+ #    include "nsXRemoteClient.h"
++#  else
++#    include "nsRemoteClient.h"
+ #  endif
+ #elif defined(XP_WIN)
+ #  include "nsWinRemoteServer.h"
+@@ -94,8 +96,10 @@
+ #ifdef MOZ_WIDGET_GTK
+ #  if defined(MOZ_ENABLE_DBUS)
+   client = MakeUnique<nsDBusRemoteClient>();
++#  elif defined(MOZ_X11)
++  client = MakeUnique<nsXRemoteClient>();
+ #  else
+-  client = MakeUnique<nsXRemoteClient>();
++  return REMOTE_NOT_FOUND;
+ #  endif
+ #elif defined(XP_WIN)
+   client = MakeUnique<nsWinRemoteClient>();
+@@ -138,8 +142,10 @@
+ #ifdef MOZ_WIDGET_GTK
+ #  if defined(MOZ_ENABLE_DBUS)
+   mRemoteServer = MakeUnique<nsDBusRemoteServer>();
++#  elif defined(MOZ_X11)
++  mRemoteServer = MakeUnique<nsGTKRemoteServer>();
+ #  else
+-  mRemoteServer = MakeUnique<nsGTKRemoteServer>();
++  return;
+ #  endif
+ #elif defined(XP_WIN)
+   mRemoteServer = MakeUnique<nsWinRemoteServer>();

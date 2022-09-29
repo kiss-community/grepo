@@ -1,0 +1,4 @@
+cairo
+pkgconf make
+wayland
+wayland-protocols make

@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+make
+make \
+    PREFIX=/usr \
+    BINOWN="$(id -u)" \
+    BINGRP="$(id -g)" \
+    install

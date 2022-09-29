@@ -1,0 +1,5 @@
+libdrm
+linux-headers make
+meson         make
+pkgconf       make
+wayland
