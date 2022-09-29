@@ -6,7 +6,7 @@ printf 'makeinfo (GNU texinfo) 5.2\n'
 EOF
 
 chmod +x makeinfo
-export PATH=$PATH:$PWD
+export PATH="$PATH:$PWD"
 
 ./configure \
     --prefix=/usr \

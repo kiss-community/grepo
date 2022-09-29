@@ -13,7 +13,7 @@
     PYTHONPATH=$PWD:$(python -c "import sys;print(':'.join(sys.path))")
 
     cd -; cd ..
-    export PATH=$PWD/dist/usr/bin:$PATH
+    export PATH="$PWD/dist/usr/bin:$PATH"
     export PYTHONPATH
 }
 
