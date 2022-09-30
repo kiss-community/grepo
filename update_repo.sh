@@ -4,6 +4,10 @@ set -eu
 
 BASEDIR="${0%/*}"
 
+REMOVE="
+core/musl
+"
+
 cd "$BASEDIR"
 
 [ -z "$(git status -s)" ] || {
@@ -21,6 +25,10 @@ ret=0
 
     for repo in core extra wayland; do
         cp -LR "$PWD/kiss-repo/$repo" "$repo"
+    done
+
+    for pkg in $REMOVE; do
+        rm -rf "$PWD/$pkg"
     done
 
     for repo in overrides/*; do
