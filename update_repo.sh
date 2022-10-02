@@ -21,7 +21,7 @@ hash="$(git -C kiss-repo rev-parse HEAD)"
 ret=0
 
 {
-    rm -rf core extra wayland nvidia
+    rm -rf core extra wayland
 
     for repo in core extra wayland; do
         cp -LR "$PWD/kiss-repo/$repo" "$repo"
