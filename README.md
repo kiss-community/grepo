@@ -15,7 +15,6 @@ REPODIR="$HOME/Repos" # Example, set this accordingly
 
 export KISS_PATH=""
 KISS_PATH="$KISS_PATH:$REPODIR/grepo/core"
-KISS_PATH="$KISS_PATH:$REPODIR/grepo/nvidia" # Important, must be placed before all other repos (only required on NVIDIA systems)
 KISS_PATH="$KISS_PATH:$REPODIR/grepo/extra"
 KISS_PATH="$KISS_PATH:$REPODIR/grepo/wayland"
 KISS_PATH="$KISS_PATH:$REPODIR/community/community"
@@ -28,12 +27,6 @@ KISS_PATH="$KISS_PATH:$REPODIR/community/community"
 ## NVIDIA
 
 **TIP:** `mesa` can be built without `llvm` on NVIDIA systems, look [here](https://codeberg.org/git-bruh/kiss-repo/src/branch/master/overrides/mesa/build) for an example.
-
-* Modify `KISS_PATH` such that the `nvidia` repository takes priority over other repositories since some Wayland packages like `wlroots` are forked here to add NVIDIA support:
-
-```sh
-export KISS_PATH=/path/to/grepo/nvidia:$KISS_PATH
-```
 
 * Install the nvidia drivers by building the `nvidia` package.
 
