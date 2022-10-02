@@ -3,10 +3,6 @@
 # Build cannot happen without optimizations.
 export CFLAGS="${CFLAGS:--Os}"
 
-for p in *.patch; do
-    patch -p1 < "$p"
-done
-
 # Build must happen outside of glibc source.
 mkdir -p glibc-build
 cd glibc-build
@@ -15,6 +11,8 @@ cd glibc-build
     --prefix=/usr \
     --libdir=/usr/lib \
     --libexecdir=/usr/lib \
+    --enable-bind-now \
+    --enable-stack-protector=strong \
     --disable-werror \
     libc_cv_include_x86_isa_level=no
 
@@ -22,9 +20,20 @@ printf "%s\n" \
     "slibdir=/usr/lib" \
     "rtlddir=/usr/lib" \
     "sbindir=/usr/bin" \
-    "rootsbindir=/usr/bin" > configparms
+    "rootsbindir=/usr/bin" > defconfigparms
 
-make
+cp defconfigparms configparms
+echo "build-programs=no" >> configparms
+
+# Build libs without fortify
+CFLAGS="$CFLAGS -U_FORTIFY_SOURCE" \
+CPPFLAGS="$CPPFLAGS -U_FORTIFY_SOURCE" \
+    make -O
+
+cp defconfigparms configparms
+echo "build-programs=yes" >> configparms
+
+make -O
 make DESTDIR="$1" install
 
 rm -f "$1/var/db/Makefile" \
@@ -35,6 +44,6 @@ mkdir -p "$1/usr/lib/locale"
 printf "en_US.UTF-8 UTF-8\n" > "$1/etc/locale.gen"
 
 for script in ldd locale-gen sotruss; do
-    cp -f "../glibc/$script" "$1/usr/bin/$script"
+    cp -f "../sh-alternatives/$script" "$1/usr/bin/$script"
     chmod +x "$1/usr/bin/$script"
 done

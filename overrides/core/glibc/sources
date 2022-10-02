@@ -1,4 +1,4 @@
-https://ftp.gnu.org/gnu/libc/glibc-2.36.tar.xz
-https://github.com/gkisslinux/sh-alternatives/archive/2.36-2.tar.gz
-patches/fix-sys-mount-h.patch
-patches/reenable_DT_HASH.patch
+https://github.com/bminor/glibc/archive/da5f134f6d59701a3a6119309ae91c93c3fa5b51.tar.gz
+files/ldd sh-alternatives/
+files/locale-gen sh-alternatives/
+files/sotruss sh-alternatives/

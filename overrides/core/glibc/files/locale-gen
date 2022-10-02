@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+: "${KISS_ROOT:=/}"
+
+[ -r "$KISS_ROOT/etc/locale.gen" ] || {
+    printf "%s: error, cannot read '$KISS_ROOT/etc/locale.gen'\n" "$0" >&2
+    exit 1
+}
+
+while read -r line; do
+    INPUTFILE="${line%% *}"
+    INPUTFILE="${INPUTFILE%%.*}"
+    CHARMAPFILE="${line##* }"
+    printf "Generating locale %s.%s\n" "$INPUTFILE" "$CHARMAPFILE"
+    localedef -i "$INPUTFILE" -f "$CHARMAPFILE" "$INPUTFILE.$CHARMAPFILE" --prefix="$KISS_ROOT" || {
+        printf "%s: error, generating locale %s.%s failed\n" "$0" "$INPUTFILE" "$CHARMAPFILE"
+        exit 1
+    }
+done < "$KISS_ROOT/etc/locale.gen"
