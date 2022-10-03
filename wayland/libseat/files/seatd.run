@@ -1,2 +1,2 @@
 #!/bin/sh
-exec seatd -g video
+exec seatd -g video 2>&1

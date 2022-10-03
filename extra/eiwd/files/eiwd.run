@@ -1,2 +1,2 @@
 #!/bin/sh
-exec iwd -d
+exec iwd -d 2>&1

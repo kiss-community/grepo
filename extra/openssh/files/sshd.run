@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /usr/bin/sshd -D
+exec /usr/bin/sshd -D 2>&1
