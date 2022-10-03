@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < rwx.patch
+
 mkdir -p \
     "$1/usr/bin" \
     "$1/usr/share/doc/kiss"

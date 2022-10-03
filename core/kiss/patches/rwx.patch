@@ -1,0 +1,28 @@
+From 7de9d70fe4a2813546bbc697e0dcd7d549a4c71c Mon Sep 17 00:00:00 2001
+From: phoebos <phoebos@noreply.codeberg.org>
+Date: Mon, 3 Oct 2022 13:47:38 +0200
+Subject: [PATCH] kiss: preserve sticky bit in file_rwx (#80)
+
+Co-authored-by: aabacchus <ben@bvnf.space>
+Reviewed-on: https://codeberg.org/kiss-community/kiss/pulls/80
+Co-authored-by: phoebos <phoebos@noreply.codeberg.org>
+Co-committed-by: phoebos <phoebos@noreply.codeberg.org>
+---
+ kiss | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/kiss b/kiss
+index 2a8c176..f7dc66c 100755
+--- a/kiss
++++ b/kiss
+@@ -1356,6 +1356,10 @@ file_rwx() {
+              [st]*) o=$((o + 1)) ;;
+         esac
+ 
++        case $rwx in
++            [tT]*) oct=1$oct
++        esac
++
+         case $((${c%?} % 3)) in 0)
+             oct=$oct$o
+             o=0
