@@ -36,9 +36,7 @@ echo "build-programs=yes" >> configparms
 make -O
 make DESTDIR="$1" install
 
-rm -f "$1/var/db/Makefile" \
-      "$1/usr/bin/xtrace" \
-      "$1/usr/bin/tzselect"
+rm -f "$1/var/db/Makefile"
 
 mkdir -p "$1/usr/lib/locale"
 printf "en_US.UTF-8 UTF-8\n" > "$1/etc/locale.gen"
