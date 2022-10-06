@@ -14,7 +14,8 @@
     --with-ssl-engine \
     --with-pid-dir=/run \
     --disable-wtmp \
-    --disable-utmp
+    --disable-utmp \
+    --disable-security-key
 
 make
 make DESTDIR="$1" install

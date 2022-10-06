@@ -8,8 +8,6 @@ make DESTDIR="$1" \
     install_ssldirs \
     install_man_docs
 
-cp -f update-certdata.sh "$1/etc/ssl"
-
 # Libretls is LibreSSL's libtls library for OpenSSL.
 (
     cd libretls
