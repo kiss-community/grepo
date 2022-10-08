@@ -1,3 +1,3 @@
 gawk          make
-linux-headers make
+linux-headers
 python        make
