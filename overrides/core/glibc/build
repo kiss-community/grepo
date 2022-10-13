@@ -13,8 +13,12 @@ cd glibc-build
     --libexecdir=/usr/lib \
     --enable-bind-now \
     --enable-stack-protector=strong \
+    --disable-nscd \
+    --disable-profile \
     --disable-werror \
-    libc_cv_include_x86_isa_level=no
+    libc_cv_include_x86_isa_level=no \
+    libc_cv_have_x86_lahf_sahf=no \
+    libc_cv_have_x86_movbe=no
 
 printf "%s\n" \
     "slibdir=/usr/lib" \
@@ -36,12 +40,19 @@ echo "build-programs=yes" >> configparms
 make -O
 make DESTDIR="$1" install
 
-rm -f "$1/var/db/Makefile"
+rm -f "$1/var/db/Makefile" "$1/etc/ld.so.cache"
 
 mkdir -p "$1/usr/lib/locale"
 printf "en_US.UTF-8 UTF-8\n" > "$1/etc/locale.gen"
 
+cd ..
+
+cp \
+    posix/gai.conf \
+    nss/nsswitch.conf \
+    "$1/etc/"
+
 for script in ldd locale-gen sotruss; do
-    cp -f "../sh-alternatives/$script" "$1/usr/bin/$script"
+    cp -f "sh-alternatives/$script" "$1/usr/bin/$script"
     chmod +x "$1/usr/bin/$script"
 done
