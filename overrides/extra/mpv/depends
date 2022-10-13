@@ -1,10 +1,9 @@
 alsa-lib
 ffmpeg
 ffnvcodec-headers make
-freetype-harfbuzz
 libass
 libxkbcommon
-linux-headers     make
+linux-headers make
 mesa
 meson   make
 pkgconf make
