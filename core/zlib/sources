@@ -1,2 +1,5 @@
 https://zlib.net/fossils/zlib-VERSION.tar.gz
+patches/0001-CVE-2022-37434.patch
+patches/0002-CVE-2022-37434.patch
 patches/Fix-CC-logic-in-configure.patch
+patches/crc32.patch

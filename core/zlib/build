@@ -2,7 +2,9 @@
 
 export CFLAGS="$CFLAGS -fPIC"
 
-patch -p1 < Fix-CC-logic-in-configure.patch
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
 
 ./configure \
     --prefix=/usr
