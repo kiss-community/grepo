@@ -7,15 +7,3 @@ make DESTDIR="$1" \
     install_sw \
     install_ssldirs \
     install_man_docs
-
-# Libretls is LibreSSL's libtls library for OpenSSL.
-(
-    cd libretls
-
-    ./configure \
-        --prefix=/usr \
-        --with-openssl="$1/usr"
-
-    make
-    make install
-)

@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -fPIC"
-
 ./configure \
     --prefix=/usr
 
