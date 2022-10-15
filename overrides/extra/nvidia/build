@@ -12,8 +12,8 @@ mkdir -p \
     "$1/usr/share/egl/egl_external_platform.d" \
     "$1/usr/share/glvnd/egl_vendor.d" \
     "$1/usr/share/nvidia" \
-    "$1/etc/vulkan/icd.d" \
-    "$1/etc/vulkan/implicit_layer.d" \
+    "$1/usr/share/vulkan/icd.d" \
+    "$1/usr/share/vulkan/implicit_layer.d" \
     "$1/etc/OpenCL/vendors/"
 
 bins="
@@ -62,10 +62,8 @@ done
 ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so.1"
 ln -s "libnvidia-vulkan-producer.so.$2" "$1/usr/lib/libnvidia-vulkan-producer.so"
 
-mkdir -p "$1/usr/include/EGL" "$1/usr/lib/pkgconfig"
-
-cp nvidia_icd.json "$1/etc/vulkan/icd.d/"
-cp nvidia_layers.json "$1/etc/vulkan/implicit_layer.d/"
+cp nvidia_icd.json "$1/usr/share/vulkan/icd.d/"
+cp nvidia_layers.json "$1/usr/share/vulkan/implicit_layer.d/"
 
 cp 10_nvidia.json "$1/usr/share/glvnd/egl_vendor.d/"
 
