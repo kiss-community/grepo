@@ -9,8 +9,8 @@ for i in 0p 1p 3p; do
     cp -Rf "posix/man$i" "$1/usr/share/man/man${i%%p}"
 done
 
-for i in 1 2 3 4 5 7 8; do
-    cp -Rf "man$i" "$1/usr/share/man"
+for i in man*; do
+    cp -Rf "$i" "$1/usr/share/man"
 done
 
 # Provided by mandoc.
