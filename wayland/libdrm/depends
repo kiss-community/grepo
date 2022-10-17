@@ -2,3 +2,4 @@ libpciaccess
 linux-headers make
 meson         make
 pkgconf       make
+python-docutils make

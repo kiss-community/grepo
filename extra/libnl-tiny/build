@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+make ALL_LIBS=libnl-tiny.a DESTDIR="$1" prefix=/usr install

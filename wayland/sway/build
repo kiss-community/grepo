@@ -3,7 +3,6 @@
 # Build fails with gcc 12 due to -Werror.
 export CFLAGS="$CFLAGS -Wno-error"
 
-patch -p1 < no-evdev.patch
 patch -p1 < pcre2.patch
 
 # Default background color.

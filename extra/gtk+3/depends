@@ -11,3 +11,4 @@ pango
 pkgconf make
 python  make
 wayland
+wayland-protocols make

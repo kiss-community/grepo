@@ -1,25 +1,8 @@
 #!/bin/sh -e
 
-mkdir -p junk
-
-(
-    cd skalibs
-
-    ./configure \
-        --prefix=/usr \
-        --disable-shared
-
-    make
-    make DESTDIR="$PWD/../junk" install
-)
-
 ./configure \
     --prefix=/usr \
-    --enable-static-libc \
-    --disable-shared \
-    --with-sysdeps="$PWD/junk/usr/lib/skalibs/sysdeps" \
-    --with-lib="$PWD/junk/usr/lib/skalibs" \
-    --with-include="$PWD/junk/usr/include"
+    --enable-static-libc
 
 make
 make install
