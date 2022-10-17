@@ -1,4 +1,7 @@
 binutils
 bison  make
 flex   make
+gmp
+libmpc
+mpfr
 zlib
