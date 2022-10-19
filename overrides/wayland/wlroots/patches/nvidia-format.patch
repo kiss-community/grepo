@@ -1,0 +1,26 @@
+diff --git a/render/gles2/pixel_format.c b/render/gles2/pixel_format.c
+index acaac5c..ba97d35 100644
+--- a/render/gles2/pixel_format.c
++++ b/render/gles2/pixel_format.c
+@@ -34,7 +35,7 @@ static const struct wlr_gles2_pixel_format formats[] = {
+ 	},
+ 	{
+ 		.drm_format = DRM_FORMAT_BGR888,
+-		.gl_format = GL_RGB,
++		.gl_format = GL_BGRA_EXT,
+ 		.gl_type = GL_UNSIGNED_BYTE,
+ 		.has_alpha = false,
+ 	},
+diff --git a/render/pixel_format.c b/render/pixel_format.c
+index e6417fd..03bf884 100644
+--- a/render/pixel_format.c
++++ b/render/pixel_format.c
+@@ -53,7 +54,7 @@ static const struct wlr_pixel_format_info pixel_format_info[] = {
+ 	{
+ 		.drm_format = DRM_FORMAT_BGR888,
+ 		.opaque_substitute = DRM_FORMAT_INVALID,
+-		.bpp = 24,
++		.bpp = 32,
+ 		.has_alpha = false,
+ 	},
+ 	{

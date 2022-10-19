@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < nvidia-format.patch
+
 meson \
     --prefix=/usr \
     -Ddefault_library=both \
