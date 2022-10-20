@@ -9,6 +9,8 @@
     --enable-libuuid \
     --enable-libblkid \
     --enable-fsck \
+    --enable-chfn-chsh \
+    --disable-chfn-chsh-password \
     --disable-makeinstall-chown \
     --disable-rpath \
     --without-udev \
