@@ -10,6 +10,7 @@ for i in 0p 1p 3p; do
 done
 
 for i in man*; do
+    [ -d "$i" ] || continue
     cp -Rf "$i" "$1/usr/share/man"
 done
 

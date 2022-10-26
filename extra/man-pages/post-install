@@ -1,0 +1,3 @@
+#!/bin/sh
+
+makewhatis /usr/share/man
