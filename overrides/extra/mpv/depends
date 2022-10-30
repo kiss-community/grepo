@@ -7,6 +7,6 @@ linux-headers make
 mesa
 meson   make
 pkgconf make
-python  make
+python-docutils  make
 wayland
 wayland-protocols make
