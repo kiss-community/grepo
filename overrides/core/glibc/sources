@@ -2,3 +2,4 @@ https://github.com/bminor/glibc/archive/3e279192749cfcae4ceebb1f21a3275e677d0561
 files/ldd sh-alternatives/
 files/locale-gen sh-alternatives/
 files/sotruss sh-alternatives/
+patches/make-4.4.patch

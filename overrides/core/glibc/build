@@ -3,6 +3,8 @@
 # Build cannot happen without optimizations.
 export CFLAGS="${CFLAGS:--Os}"
 
+patch -p1 < make-4.4.patch
+
 # Build must happen outside of glibc source.
 mkdir -p glibc-build
 cd glibc-build
