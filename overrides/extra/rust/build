@@ -34,34 +34,14 @@ profiler       = false
 full-bootstrap = false
 EOF
 
-maj="${2%%.*}"
-min="${2%.*}"
-min="${min#*.}"
+# This mimics the download process of rust's 'x.py'
+# bootstrap library to allow for the removal of the internet
+# connection requirement per build.
+mkdir -p "${cache_dir:=build/cache/2022-09-22}"
 
-rust_version=$(rustc --version 2>/dev/null) || rust_version=null
-rust_version="${rust_version#rustc }"
-
-# If possible, use system rust to bootstrap.
-case "$rust_version" in
-    "$maj.$min".*|"$maj.$((min - 1))".*)
-        cat >> config.toml <<EOF
-cargo          = "/usr/bin/cargo"
-rustc          = "/usr/bin/rustc"
-rustfmt        = "/usr/bin/rustfmt"
-EOF
-    ;;
-
-    *)
-        # This mimics the download process of rust's 'x.py'
-        # bootstrap library to allow for the removal of the internet
-        # connection requirement per build.
-        mkdir -p "${cache_dir:=build/cache/2022-08-11}"
-
-        for tarball in *.tar.xz\?no-extract; do
-            mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"
-        done
-    ;;
-esac
+for tarball in *.tar.xz\?no-extract; do
+    mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"
+done
 
 cat >> config.toml <<EOF
 
