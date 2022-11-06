@@ -2,11 +2,17 @@
 
 set -eu
 
-BASEDIR="${0%/*}"
+BASEDIR=${0%/*}
 
-REMOVE="
-core/musl
-"
+EXCLUDE='
+:^core/musl
+'
+
+INCLUDE='
+core
+extra
+wayland
+'
 
 cd "$BASEDIR"
 
@@ -15,40 +21,20 @@ cd "$BASEDIR"
     exit 1
 }
 
-git clone --depth=1 https://codeberg.org/kiss-community/repo kiss-repo
-hash="$(git -C kiss-repo rev-parse HEAD)"
+# exclude overrides
+cd overrides
+for pkg in */*; do
+    EXCLUDE="$EXCLUDE :^$pkg"
+done
+cd "$OLDPWD"
 
-ret=0
+git fetch https://codeberg.org/kiss-community/repo
 
-{
-    rm -rf core extra wayland
+# need to find common ancestor because grepo repo has unrelated commit history.
+# 'bump to' grep can be dropped once first cherry-picked commit is added.
+ancestor=$(git log --grep='\*: bump to' --grep='(cherry picked from commit' -1 --format=%B |
+    sed -n 's@.* \([a-f0-9]\{40\}\).*@\1@p')
 
-    for repo in core extra wayland; do
-        cp -LR "$PWD/kiss-repo/$repo" "$repo"
-    done
-
-    for pkg in $REMOVE; do
-        rm -rf "$PWD/$pkg"
-    done
-
-    for repo in overrides/*; do
-        dest="$BASEDIR/${repo##*/}"
-        mkdir -p "$dest"
-
-        for pkg in "$repo"/*; do
-            pkg="${pkg##*/}"
-
-            rm -rf "${dest:?}/$pkg"
-            ln -sf "../$repo/$pkg" "$dest/$pkg"
-        done
-    done
-} || ret=$?
-
-rm -rf kiss-repo
-
-[ "$ret" = 0 ] && {
-    git add .
-    git commit -am "*: bump to $hash"
-}
-
-return "$ret"
+# apply commits. cherry-pick will fail if stdin is empty(no commits)
+git rev-list --reverse "${ancestor}..FETCH_HEAD" -- $INCLUDE $EXCLUDE |
+    git cherry-pick -x --stdin
