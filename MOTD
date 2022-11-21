@@ -1,0 +1,7 @@
+NOTE: The official and community repositories have been shifted to b3sum
+      checksums. Running `kiss U` should be enough to complete the transition.
+
+NOTE: sha256 checksums have been preserved for `b3sum` and `kiss` to allow
+      updating old systems. In order to rebuild them, they must temporarily be
+      forked with `kiss fork` and `kiss checksum` and rebuilt until their
+      checksums are updated to b3sum checksums.
