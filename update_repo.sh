@@ -31,9 +31,8 @@ cd "$OLDPWD"
 git fetch https://codeberg.org/kiss-community/repo
 
 # need to find common ancestor because grepo repo has unrelated commit history.
-# 'bump to' grep can be dropped once first cherry-picked commit is added.
-ancestor=$(git log --grep='\*: bump to' --grep='(cherry picked from commit' -1 --format=%B |
-    sed -n 's@.* \([a-f0-9]\{40\}\).*@\1@p')
+ancestor=$(git log --grep='(cherry picked from commit' -1 --format=%B |
+    sed -n '/(cherry/ s@.* \([a-f0-9]\{40\}\).*@\1@p')
 
 # apply commits. cherry-pick will fail if stdin is empty(no commits)
 git rev-list --reverse "${ancestor}..FETCH_HEAD" -- $INCLUDE $EXCLUDE |
