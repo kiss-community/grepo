@@ -1,5 +1,4 @@
 https://download.gnome.org/sources/gtk+/MAJOR.MINOR/gtk+-VERSION.tar.xz
-files/meson.build gdk/wayland/cursor
 patches/01-no-fribidi.patch
 patches/02-fix-firefox.patch
 patches/03-no-accessibility.patch
