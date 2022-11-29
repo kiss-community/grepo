@@ -100,7 +100,7 @@ done
 
 
 mkdir -p "$1/usr/lib/firmware/nvidia/$2"
-cp firmware/gsp.bin "$1/usr/lib/firmware/nvidia/$2/"
+cp firmware/*.bin "$1/usr/lib/firmware/nvidia/$2/"
 
 # kernel modules
 cd kernel
