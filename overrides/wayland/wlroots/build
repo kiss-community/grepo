@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < nvidia-format.patch
+for p in *.patch; do
+    patch -p1 < "$p"
+done
 
 meson \
     --prefix=/usr \
