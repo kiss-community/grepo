@@ -1,7 +1,7 @@
 https://ftp.mozilla.org/pub/firefox/releases/VERSION/source/firefox-VERSION.source.tar.xz
 patches/fix-linux-header.patch
 patches/libwebrtc-screen-cast-sync.patch
+patches/musl-sandbox.patch
 patches/no-dbus.patch
 patches/no-fribidi.patch
 patches/no-perl.patch
-patches/python-3.11.patch

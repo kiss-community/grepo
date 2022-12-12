@@ -8,7 +8,7 @@ sed '/UNZIP/d' toolkit/moz.configure > _
 mv -f _ toolkit/moz.configure
 
 # Remove upper limit on psutil for those encountering build errors when using
-# the python-psutil package in the community repo.
+# python-psutil from community.
 sed 's/psutil>=5\.4\.2,<=5\.8\.0/psutil>=5\.4\.2/g' python/sites/mach.txt > _
 mv -f _ python/sites/mach.txt
 
