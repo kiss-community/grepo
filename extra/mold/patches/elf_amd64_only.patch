@@ -1,8 +1,19 @@
+From 979677eb2560122138c5857b4c2b8e387220a0cd Mon Sep 17 00:00:00 2001
+Message-Id: <979677eb2560122138c5857b4c2b8e387220a0cd.1672107964.git.owen@owenrafferty.com>
+From: Owen Rafferty <owen@owenrafferty.com>
+Date: Mon, 26 Dec 2022 20:20:01 -0600
+Subject: [PATCH] only build support for elf amd64
+
+---
+ CMakeLists.txt | 12 +-----------
+ elf/main.cc    |  5 -----
+ 2 files changed, 1 insertion(+), 16 deletions(-)
+
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 3c14940..3541b40 100644
+index 6b985719..0779117c 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -262,8 +262,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
+@@ -275,8 +275,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
  # compiler instances. This is hacky but greatly reduces compile time
  # on a multicore machine.
  list(APPEND MOLD_ELF_TARGETS
@@ -12,17 +23,7 @@ index 3c14940..3541b40 100644
  
  list(APPEND MOLD_ELF_TEMPLATE_FILES
    elf/cmdline.cc
-@@ -312,33 +311,15 @@ foreach (SOURCE IN LISTS MOLD_ELF_TEMPLATE_FILES)
-   endforeach()
- endforeach()
- 
--foreach (SOURCE IN LISTS MOLD_MACHO_TEMPLATE_FILES)
--  foreach(TARGET IN LISTS MOLD_MACHO_TARGETS)
--    mold_instantiate_templates(${SOURCE} ${TARGET})
--  endforeach()
--endforeach()
--
- # Add other non-template source files.
+@@ -337,15 +336,6 @@ endif()
  target_sources(mold PRIVATE
    compress.cc
    demangle.cc
@@ -38,19 +39,11 @@ index 3c14940..3541b40 100644
    elf/arch-x86-64.cc
    filepath.cc
    git-hash.cc
-   glob.cc
-   hyperloglog.cc
--  macho/arch-arm64.cc
--  macho/arch-x86-64.cc
--  macho/yaml.cc
-   main.cc
-   multi-glob.cc
-   perf.cc
 diff --git a/elf/main.cc b/elf/main.cc
-index 8b6cf3fb..46e07424 100644
+index ed5b3c03..8bd193f1 100644
 --- a/elf/main.cc
 +++ b/elf/main.cc
-@@ -422,11 +422,6 @@ int elf_main(int argc, char **argv) {
+@@ -381,11 +381,6 @@ int elf_main(int argc, char **argv) {
    if (ctx.arg.emulation == MachineType::NONE)
      ctx.arg.emulation = deduce_machine_type(ctx, file_args);
  
@@ -62,16 +55,6 @@ index 8b6cf3fb..46e07424 100644
    Timer t_all(ctx, "all");
  
    install_signal_handler();
-diff --git a/main.cc b/main.cc
-index db834c69..181e045e 100644
---- a/main.cc
-+++ b/main.cc
-@@ -144,8 +144,5 @@ i64 get_default_thread_count() {
- int main(int argc, char **argv) {
-   mold::mold_version = mold::get_mold_version();
- 
--  std::string cmd = mold::filepath(argv[0]).filename().string();
--  if (cmd == "ld64" || cmd == "ld64.mold")
--    return mold::macho::main(argc, argv);
-   return mold::elf::main(argc, argv);
- }
+-- 
+2.39.0
+
