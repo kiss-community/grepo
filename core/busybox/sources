@@ -1,6 +1,5 @@
-https://git.busybox.net/busybox/snapshot/busybox-MAJOR_MINOR_PATCH.tar.bz2
+https://busybox.net/downloads/busybox-VERSION.tar.bz2
 patches/CVE-2022-28391.patch patch
-patches/CVE-2022-30065.patch patch
 patches/adduser-no-setgid.patch patch
 patches/fsck-resolve-uuid.patch patch
 patches/modprobe-kernel-version.patch patch
