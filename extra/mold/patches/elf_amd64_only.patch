@@ -1,16 +1,16 @@
-From 979677eb2560122138c5857b4c2b8e387220a0cd Mon Sep 17 00:00:00 2001
-Message-Id: <979677eb2560122138c5857b4c2b8e387220a0cd.1672107964.git.owen@owenrafferty.com>
+From 9010533464e75d9ccfb822ff1871f0ad4a7d1250 Mon Sep 17 00:00:00 2001
+Message-Id: <9010533464e75d9ccfb822ff1871f0ad4a7d1250.1673057881.git.owen@owenrafferty.com>
 From: Owen Rafferty <owen@owenrafferty.com>
 Date: Mon, 26 Dec 2022 20:20:01 -0600
 Subject: [PATCH] only build support for elf amd64
 
 ---
- CMakeLists.txt | 12 +-----------
+ CMakeLists.txt | 15 +--------------
  elf/main.cc    |  5 -----
- 2 files changed, 1 insertion(+), 16 deletions(-)
+ 2 files changed, 1 insertion(+), 19 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6b985719..0779117c 100644
+index 07e168c2..360e3ea6 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -275,8 +275,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -18,38 +18,41 @@ index 6b985719..0779117c 100644
  # on a multicore machine.
  list(APPEND MOLD_ELF_TARGETS
 -  X86_64 I386 ARM64 ARM32 RV32LE RV32BE RV64LE RV64BE
--  PPC64V1 PPC64V2 S390X SPARC64 M68K)
+-  PPC32 PPC64V1 PPC64V2 S390X SPARC64 M68K SH4 ALPHA)
 +  X86_64)
  
  list(APPEND MOLD_ELF_TEMPLATE_FILES
    elf/cmdline.cc
-@@ -337,15 +336,6 @@ endif()
+@@ -337,18 +336,6 @@ endif()
  target_sources(mold PRIVATE
    compress.cc
    demangle.cc
+-  elf/arch-alpha.cc
 -  elf/arch-arm32.cc
 -  elf/arch-arm64.cc
 -  elf/arch-i386.cc
 -  elf/arch-m68k.cc
+-  elf/arch-ppc32.cc
 -  elf/arch-ppc64v1.cc
 -  elf/arch-ppc64v2.cc
 -  elf/arch-riscv.cc
 -  elf/arch-s390x.cc
+-  elf/arch-sh4.cc
 -  elf/arch-sparc64.cc
    elf/arch-x86-64.cc
+   elf/elf.cc
    filepath.cc
-   git-hash.cc
 diff --git a/elf/main.cc b/elf/main.cc
-index ed5b3c03..8bd193f1 100644
+index efa116a2..58a4b3f7 100644
 --- a/elf/main.cc
 +++ b/elf/main.cc
-@@ -381,11 +381,6 @@ int elf_main(int argc, char **argv) {
-   if (ctx.arg.emulation == MachineType::NONE)
+@@ -394,11 +394,6 @@ int elf_main(int argc, char **argv) {
+   if (ctx.arg.emulation.empty())
      ctx.arg.emulation = deduce_machine_type(ctx, file_args);
  
 -  // Redo if -m is not x86-64.
--  if constexpr (std::is_same_v<E, X86_64>)
--    if (ctx.arg.emulation != MachineType::X86_64)
+-  if constexpr (is_x86_64<E>)
+-    if (ctx.arg.emulation != X86_64::target_name)
 -      return redo_main<E>(argc, argv, ctx.arg.emulation);
 -
    Timer t_all(ctx, "all");
