@@ -36,9 +36,7 @@ ________________________________________________________________________________
 [002] Usage
 ________________________________________________________________________________
 
-Refer to the manual pages and command help output. To update the system's SSL
-certificates, run /etc/ssl/update-certdata.sh.
-
+Refer to the manual pages and command help output.
 
 [003] References
 ________________________________________________________________________________
