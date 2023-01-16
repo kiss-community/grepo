@@ -5454,10 +5454,10 @@ index 0000000000..bc024a11c0
 +  }
 +  return gbm_device_destroy_fn(gbm);
 +}
-diff --git a/third_party/libwebrtc/modules/desktop_capture/desktop_capture_generic_gn/moz.build b/third_party/libwebrtc/modules/desktop_capture/desktop_capture_generic_gn/moz.build
-index 809899a928..8869fae897 100644
---- a/third_party/libwebrtc/modules/desktop_capture/desktop_capture_generic_gn/moz.build
-+++ b/third_party/libwebrtc/modules/desktop_capture/desktop_capture_generic_gn/moz.build
+diff --git a/third_party/libwebrtc/modules/desktop_capture/desktop_capture_gn/moz.build b/third_party/libwebrtc/modules/desktop_capture/desktop_capture_gn/moz.build
+index 8631744..47fca63 100644
+--- a/third_party/libwebrtc/modules/desktop_capture/desktop_capture_gn/moz.build
++++ b/third_party/libwebrtc/modules/desktop_capture/desktop_capture_gn/moz.build
 @@ -8,7 +8,8 @@
  if CONFIG["MOZ_WIDGET_TOOLKIT"] == "gtk":
      CXXFLAGS += CONFIG["MOZ_GTK3_CFLAGS"]
@@ -5477,79 +5477,29 @@ index 809899a928..8869fae897 100644
      "/third_party/libwebrtc/",
      "/third_party/libwebrtc/third_party/abseil-cpp/",
      "/third_party/pipewire/",
-@@ -240,7 +243,15 @@ if CONFIG["CPU_ARCH"] == "arm":
+@@ -317,7 +320,16 @@ if CONFIG["CPU_ARCH"] == "x86_64" and CONFIG["OS_TARGET"] == "Linux":
      DEFINES["_GNU_SOURCE"] = True
  
-     UNIFIED_SOURCES += [
+     SOURCES += [
 -        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/moz_base_capturer_pipewire.cc"
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/base_capturer_pipewire.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/egl_dmabuf.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/mouse_cursor_monitor_pipewire.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/scoped_glib.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screen_capture_portal_interface.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screencast_portal.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screencast_stream_utils.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/shared_screencast_stream.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/xdg_desktop_portal_utils.cc"
-     ]
- 
- if CONFIG["CPU_ARCH"] == "ppc64":
-@@ -295,7 +306,15 @@ if CONFIG["CPU_ARCH"] == "aarch64" and CONFIG["OS_TARGET"] == "Linux":
-     DEFINES["_GNU_SOURCE"] = True
- 
-     UNIFIED_SOURCES += [
--        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/moz_base_capturer_pipewire.cc"
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/base_capturer_pipewire.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/egl_dmabuf.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/mouse_cursor_monitor_pipewire.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/scoped_glib.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screen_capture_portal_interface.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screencast_portal.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screencast_stream_utils.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/shared_screencast_stream.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/xdg_desktop_portal_utils.cc"
-     ]
- 
- if CONFIG["CPU_ARCH"] == "x86" and CONFIG["OS_TARGET"] == "Linux":
-@@ -305,7 +324,15 @@ if CONFIG["CPU_ARCH"] == "x86" and CONFIG["OS_TARGET"] == "Linux":
-     DEFINES["_GNU_SOURCE"] = True
- 
-     UNIFIED_SOURCES += [
--        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/moz_base_capturer_pipewire.cc"
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/base_capturer_pipewire.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/egl_dmabuf.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/mouse_cursor_monitor_pipewire.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/scoped_glib.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screen_capture_portal_interface.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screencast_portal.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screencast_stream_utils.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/shared_screencast_stream.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/xdg_desktop_portal_utils.cc"
-     ]
- 
- if CONFIG["CPU_ARCH"] == "x86_64" and CONFIG["OS_TARGET"] == "Linux":
-@@ -315,7 +342,15 @@ if CONFIG["CPU_ARCH"] == "x86_64" and CONFIG["OS_TARGET"] == "Linux":
-     DEFINES["_GNU_SOURCE"] = True
- 
-     UNIFIED_SOURCES += [
--        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/moz_base_capturer_pipewire.cc"
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/base_capturer_pipewire.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/egl_dmabuf.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/mouse_cursor_monitor_pipewire.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/scoped_glib.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screen_capture_portal_interface.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screencast_portal.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screencast_stream_utils.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/shared_screencast_stream.cc",
-+      "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/xdg_desktop_portal_utils.cc"
++        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/base_capturer_pipewire.cc",
++        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/egl_dmabuf.cc",
++        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/mouse_cursor_monitor_pipewire.cc",
++        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/restore_token_manager.cc",
++        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/scoped_glib.cc",
++        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screen_capture_portal_interface.cc",
++        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screencast_portal.cc",
++        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/screencast_stream_utils.cc",
++        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/shared_screencast_stream.cc",
++        "/third_party/libwebrtc/modules/desktop_capture/linux/wayland/xdg_desktop_portal_utils.cc"
      ]
  
  if CONFIG["CPU_ARCH"] == "aarch64" and CONFIG["MOZ_X11"] == "1" and CONFIG["OS_TARGET"] == "Linux":
 diff --git a/third_party/libwebrtc/modules/desktop_capture/desktop_capture_options.cc b/third_party/libwebrtc/modules/desktop_capture/desktop_capture_options.cc
-index 8bdc83b762..ab7932195c 100644
+index 767dbfe..22c59ef 100644
 --- a/third_party/libwebrtc/modules/desktop_capture/desktop_capture_options.cc
 +++ b/third_party/libwebrtc/modules/desktop_capture/desktop_capture_options.cc
-@@ -14,7 +14,7 @@
+@@ -17,7 +17,7 @@
  #elif defined(WEBRTC_WIN)
  #include "modules/desktop_capture/win/full_screen_win_application_handler.h"
  #endif
@@ -5558,7 +5508,7 @@ index 8bdc83b762..ab7932195c 100644
  #include "modules/desktop_capture/linux/wayland/shared_screencast_stream.h"
  #endif
  
-@@ -40,7 +40,7 @@ DesktopCaptureOptions DesktopCaptureOptions::CreateDefault() {
+@@ -41,7 +41,7 @@ DesktopCaptureOptions DesktopCaptureOptions::CreateDefault() {
  #if defined(WEBRTC_USE_X11)
    result.set_x_display(SharedXDisplay::CreateDefault());
  #endif
@@ -5568,7 +5518,7 @@ index 8bdc83b762..ab7932195c 100644
  #endif
  #if defined(WEBRTC_MAC) && !defined(WEBRTC_IOS)
 diff --git a/third_party/libwebrtc/modules/desktop_capture/desktop_capture_options.h b/third_party/libwebrtc/modules/desktop_capture/desktop_capture_options.h
-index 1605d30f82..eb5b8a2a87 100644
+index 4d2a8da..bab39cc 100644
 --- a/third_party/libwebrtc/modules/desktop_capture/desktop_capture_options.h
 +++ b/third_party/libwebrtc/modules/desktop_capture/desktop_capture_options.h
 @@ -17,7 +17,7 @@
@@ -5588,10 +5538,10 @@ index 1605d30f82..eb5b8a2a87 100644
    const rtc::scoped_refptr<SharedScreenCastStream>& screencast_stream() const {
      return screencast_stream_;
    }
-@@ -189,14 +188,13 @@ class RTC_EXPORT DesktopCaptureOptions {
-       rtc::scoped_refptr<SharedScreenCastStream> stream) {
-     screencast_stream_ = stream;
-   }
+@@ -195,14 +194,13 @@ class RTC_EXPORT DesktopCaptureOptions {
+ 
+   void set_height(uint32_t height) { height_ = height; }
+   uint32_t get_height() const { return height_; }
 -#endif
  #endif
  
@@ -5604,21 +5554,8 @@ index 1605d30f82..eb5b8a2a87 100644
    // An instance of shared PipeWire ScreenCast stream we share between
    // BaseCapturerPipeWire and MouseCursorMonitorPipeWire as cursor information
    // is sent together with screen content.
-diff --git a/third_party/libwebrtc/modules/desktop_capture/linux/wayland/base_capturer_pipewire.cc b/third_party/libwebrtc/modules/desktop_capture/linux/wayland/base_capturer_pipewire.cc
-index 75659a9eb9..3257841105 100644
---- a/third_party/libwebrtc/modules/desktop_capture/linux/wayland/base_capturer_pipewire.cc
-+++ b/third_party/libwebrtc/modules/desktop_capture/linux/wayland/base_capturer_pipewire.cc
-@@ -105,7 +105,7 @@ bool BaseCapturerPipeWire::GetSourceList(SourceList* sources) {
-   // is often treated as a null/placeholder id, so we shouldn't use that.
-   // TODO(https://crbug.com/1297671): Reconsider type of ID when plumbing
-   // token that will enable stream re-use.
--  sources->push_back({1});
-+  sources->push_back({PIPEWIRE_ID, 0, PIPEWIRE_NAME});
-   return true;
- }
- 
 diff --git a/third_party/libwebrtc/modules/desktop_capture/screen_capturer_linux.cc b/third_party/libwebrtc/modules/desktop_capture/screen_capturer_linux.cc
-index d9f2795130..18840cc6d7 100644
+index d9f2795..18840cc 100644
 --- a/third_party/libwebrtc/modules/desktop_capture/screen_capturer_linux.cc
 +++ b/third_party/libwebrtc/modules/desktop_capture/screen_capturer_linux.cc
 @@ -14,11 +14,7 @@
@@ -5646,7 +5583,7 @@ index d9f2795130..18840cc6d7 100644
  #endif  // defined(WEBRTC_USE_PIPEWIRE)
  
 diff --git a/third_party/libwebrtc/modules/desktop_capture/window_capturer_linux.cc b/third_party/libwebrtc/modules/desktop_capture/window_capturer_linux.cc
-index b2b1e376ad..638c42ae39 100644
+index b2b1e37..638c42a 100644
 --- a/third_party/libwebrtc/modules/desktop_capture/window_capturer_linux.cc
 +++ b/third_party/libwebrtc/modules/desktop_capture/window_capturer_linux.cc
 @@ -14,11 +14,7 @@
@@ -5674,7 +5611,7 @@ index b2b1e376ad..638c42ae39 100644
  #endif  // defined(WEBRTC_USE_PIPEWIRE)
  
 diff --git a/third_party/moz.build b/third_party/moz.build
-index 19ee0224b0..fab8f23c62 100644
+index 19ee022..fab8f23 100644
 --- a/third_party/moz.build
 +++ b/third_party/moz.build
 @@ -61,6 +61,12 @@ with Files("libwebrtc/**"):
@@ -5691,10 +5628,10 @@ index 19ee0224b0..fab8f23c62 100644
      BUG_COMPONENT = ('Firefox Build System', 'General')
  
 diff --git a/third_party/pipewire/libpipewire/mozpipewire.cpp b/third_party/pipewire/libpipewire/mozpipewire.cpp
-index 1ecfc3196a..380c5b2c85 100644
+index 1ecfc31..e7349b3 100644
 --- a/third_party/pipewire/libpipewire/mozpipewire.cpp
 +++ b/third_party/pipewire/libpipewire/mozpipewire.cpp
-@@ -69,11 +69,13 @@ static int (*pw_stream_connect_fn)(struct pw_stream *stream,
+@@ -69,6 +69,7 @@ static int (*pw_stream_connect_fn)(struct pw_stream *stream,
                                  enum pw_stream_flags flags,
                                  const struct spa_pod **params,
                                  uint32_t n_params);
@@ -5702,13 +5639,7 @@ index 1ecfc3196a..380c5b2c85 100644
  static struct pw_buffer* (*pw_stream_dequeue_buffer_fn)(struct pw_stream *stream);
  static void (*pw_stream_destroy_fn)(struct pw_stream *stream);
  static struct pw_stream* (*pw_stream_new_fn)(struct pw_core *core,
-                                           const char *name,
-                                           struct pw_properties *props);
-+
- static int (*pw_stream_queue_buffer_fn)(struct pw_stream *stream,
-                                      struct pw_buffer *buffer);
- static int (*pw_stream_update_params_fn)(struct pw_stream *stream,
-@@ -87,7 +89,10 @@ static int (*pw_thread_loop_start_fn)(struct pw_thread_loop *loop);
+@@ -87,7 +88,10 @@ static int (*pw_thread_loop_start_fn)(struct pw_thread_loop *loop);
  static void (*pw_thread_loop_stop_fn)(struct pw_thread_loop *loop);
  static void (*pw_thread_loop_lock_fn)(struct pw_thread_loop *loop);
  static void (*pw_thread_loop_unlock_fn)(struct pw_thread_loop *loop);
@@ -5719,7 +5650,7 @@ index 1ecfc3196a..380c5b2c85 100644
  
  bool IsPwLibraryLoaded() {
    static bool isLoaded =
-@@ -99,6 +104,7 @@ bool IsPwLibraryLoaded() {
+@@ -99,6 +103,7 @@ bool IsPwLibraryLoaded() {
            IS_FUNC_LOADED(pw_init_fn) &&
            IS_FUNC_LOADED(pw_stream_add_listener_fn) &&
            IS_FUNC_LOADED(pw_stream_connect_fn) &&
@@ -5727,7 +5658,7 @@ index 1ecfc3196a..380c5b2c85 100644
            IS_FUNC_LOADED(pw_stream_dequeue_buffer_fn) &&
            IS_FUNC_LOADED(pw_stream_destroy_fn) &&
            IS_FUNC_LOADED(pw_stream_new_fn) &&
-@@ -111,7 +117,10 @@ bool IsPwLibraryLoaded() {
+@@ -111,7 +116,10 @@ bool IsPwLibraryLoaded() {
            IS_FUNC_LOADED(pw_thread_loop_stop_fn) &&
            IS_FUNC_LOADED(pw_thread_loop_lock_fn) &&
            IS_FUNC_LOADED(pw_thread_loop_unlock_fn) &&
@@ -5739,7 +5670,7 @@ index 1ecfc3196a..380c5b2c85 100644
  
    return isLoaded;
  }
-@@ -136,6 +145,7 @@ bool LoadPWLibrary() {
+@@ -136,6 +144,7 @@ bool LoadPWLibrary() {
      GET_FUNC(pw_init, pwLib);
      GET_FUNC(pw_stream_add_listener, pwLib);
      GET_FUNC(pw_stream_connect, pwLib);
@@ -5747,7 +5678,7 @@ index 1ecfc3196a..380c5b2c85 100644
      GET_FUNC(pw_stream_dequeue_buffer, pwLib);
      GET_FUNC(pw_stream_destroy, pwLib);
      GET_FUNC(pw_stream_new, pwLib);
-@@ -148,7 +158,10 @@ bool LoadPWLibrary() {
+@@ -148,7 +157,10 @@ bool LoadPWLibrary() {
      GET_FUNC(pw_thread_loop_stop, pwLib);
      GET_FUNC(pw_thread_loop_lock, pwLib);
      GET_FUNC(pw_thread_loop_unlock, pwLib);
@@ -5758,7 +5689,7 @@ index 1ecfc3196a..380c5b2c85 100644
    }
  
    return IsPwLibraryLoaded();
-@@ -242,6 +255,15 @@ pw_stream_connect(struct pw_stream *stream,
+@@ -242,6 +254,15 @@ pw_stream_connect(struct pw_stream *stream,
                                params, n_params);
  }
  
@@ -5774,7 +5705,7 @@ index 1ecfc3196a..380c5b2c85 100644
  struct pw_buffer *
  pw_stream_dequeue_buffer(struct pw_stream *stream)
  {
-@@ -356,6 +378,23 @@ pw_thread_loop_unlock(struct pw_thread_loop *loop)
+@@ -356,6 +377,23 @@ pw_thread_loop_unlock(struct pw_thread_loop *loop)
    return pw_thread_loop_unlock_fn(loop);
  }
  
@@ -5798,7 +5729,7 @@ index 1ecfc3196a..380c5b2c85 100644
  
  struct pw_properties *
  pw_properties_new_string(const char *str)
-@@ -366,3 +405,11 @@ pw_properties_new_string(const char *str)
+@@ -366,3 +404,11 @@ pw_properties_new_string(const char *str)
    return pw_properties_new_string_fn(str);
  }
  
