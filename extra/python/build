@@ -20,8 +20,7 @@ done
     --enable-shared \
     --with-system-expat \
     --with-system-ffi \
-    --with-ensurepip=yes \
-    --without-doc-strings
+    --with-ensurepip=yes
 
 make EXTRA_CFLAGS="$CFLAGS -DTHREAD_STACK_SIZE=0x100000"
 make install
