@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+patch -p1 < compose-only.patch
+
+./configure \
+    --prefix=/usr \
+    --disable-specs \
+    --disable-xkb \
+    --without-fop \
+    --without-xmlto
+
+make -C nls
+make -C nls install
