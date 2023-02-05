@@ -1,1 +1,2 @@
-meson build
+compose-tables
+meson make
