@@ -1,5 +1,4 @@
-https://github.com/bminor/glibc/archive/3e279192749cfcae4ceebb1f21a3275e677d0561.tar.gz
+https://github.com/bminor/glibc/archive/6fe86ecd787a2624cd638131629ba9a824040308.tar.gz
 files/ldd sh-alternatives/
 files/locale-gen sh-alternatives/
 files/sotruss sh-alternatives/
-patches/make-4.4.patch
