@@ -7,3 +7,5 @@ make DESTDIR="$1" \
     install_sw \
     install_ssldirs \
     install_man_docs
+
+rmdir "$1/etc/ssl/certs"
