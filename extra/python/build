@@ -37,8 +37,8 @@ ln -s pip3    "$1/usr/bin/pip"
 {
     cd "$1/usr/lib/python"*
     rm -rf test ./*/test ./*/tests
-    rm -rf pydoc* idlelib turtle* config-*
+    rm -rf idlelib turtle* config-*
 
     cd "$1/usr/bin"
-    rm -f pydoc* idle*
+    rm -f idle*
 }
