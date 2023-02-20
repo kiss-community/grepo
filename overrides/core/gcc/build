@@ -26,7 +26,6 @@ esac
     --mandir=/usr/share/man \
     --infodir=/usr/share/info \
     --disable-multilib \
-    --disable-symvers \
     --disable-libmpx \
     --disable-libmudflap \
     --disable-libsanitizer \
