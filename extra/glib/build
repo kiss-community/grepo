@@ -4,6 +4,7 @@
 
 meson \
     --prefix=/usr \
+    --libexecdir=/usr/lib \
     -Dlibmount=disabled \
     -Dinstalled_tests=false \
     -Ddefault_library=both \
