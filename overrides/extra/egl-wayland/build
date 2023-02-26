@@ -2,6 +2,8 @@
 
 export DESTDIR="$1"
 
+patch -p1 < 0001-Destroy-all-created-wayland-object-in-terminateDispl.patch
+
 meson \
     --prefix=/usr \
     . output
