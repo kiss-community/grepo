@@ -20,7 +20,7 @@ index 581c131..0cb5458 100644
      ASS_Image result;
      CompositeHashValue *source;
 diff --git a/libass/ass_shaper.c b/libass/ass_shaper.c
-index db61963..014b318 100644
+index 77cf909..014b318 100644
 --- a/libass/ass_shaper.c
 +++ b/libass/ass_shaper.c
 @@ -90,8 +90,7 @@ struct ass_shaper_font_data {
@@ -198,7 +198,7 @@ index db61963..014b318 100644
 -                return NULL;
 -
 -            last_break = i + 1;
--            if (shaper->whole_text_layout)
+-            if (shaper->whole_text_layout && glyphs[i].symbol == '\n')
 -                pdir++;
 -        }
 -    }
