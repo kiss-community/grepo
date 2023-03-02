@@ -10,4 +10,4 @@ patch -p1 < portability.patch
     --enable-shared
 
 make
-make install
+make DESTDIR="$1" install

@@ -4,6 +4,7 @@ sed 's/^FLAGS.*=/FLAGS = -static /' programs/Makefile > _
 mv -f _ programs/Makefile
 
 make \
+    DESTDIR="$1" \
     PREFIX=/usr \
     HAVE_LZMA=0 \
     HAVE_ZLIB=0 \

@@ -10,4 +10,4 @@ patch -p1 < compose-only.patch
     --without-xmlto
 
 make -C nls
-make -C nls install
+make -C nls DESTDIR="$1" install

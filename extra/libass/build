@@ -14,4 +14,4 @@ sh ./configure \
     --enable-fontconfig
 
 make
-make install
+make DESTDIR="$1" install

@@ -11,4 +11,4 @@ export CPPFLAGS="$CPPFLAGS -DSQLITE_ENABLE_COLUMN_METADATA"
     ac_cv_search_readline=no \
 
 make
-make install
+make DESTDIR="$1" install

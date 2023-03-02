@@ -23,4 +23,4 @@ sh ./configure \
     --disable-gtk-doc-html
 
 make
-make install
+make DESTDIR="$1" install

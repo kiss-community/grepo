@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
+
 # Force a static build so shared library breakage does not also break the
 # linker (and therefore the ability to recover from the issue).
 # XXX: Static linking prevents mold from using dlopen() which is required

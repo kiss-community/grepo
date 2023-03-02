@@ -25,4 +25,4 @@ sh ./configure \
     --as=nasm
 
 make
-make install
+make DESTDIR="$1" install

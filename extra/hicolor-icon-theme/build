@@ -3,4 +3,4 @@
 ./configure \
     --prefix=/usr
 
-make install
+make DESTDIR="$1" install

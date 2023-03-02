@@ -1,5 +1,6 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
 export CFLAGS="$CFLAGS -fPIC"
 
 # Build fails with clang due to -Werror (forced on) and

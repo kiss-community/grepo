@@ -5,8 +5,10 @@
 
 make
 
-make -C lib     install
-make -C include install
+make -C lib     DESTDIR="$1" install
+make -C include DESTDIR="$1" install
 
-make install-m4dataDATA install-pkgconfigDATA
+make DESTDIR="$1" \
+    install-m4dataDATA \
+    install-pkgconfigDATA
 

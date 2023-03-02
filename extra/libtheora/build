@@ -7,6 +7,6 @@ patch -p1 < fix-theoraenc.patch
     --prefix=/usr
 
 make
-make -C lib     install
-make -C include install
-make install-pkgconfigDATA
+make -C lib     DESTDIR="$1" install
+make -C include DESTDIR="$1" install
+make            DESTDIR="$1" install-pkgconfigDATA

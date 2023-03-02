@@ -7,7 +7,7 @@
     --disable-dbus
 
 make
-make install
+make DESTDIR="$1" install
 
 cp -f iwd_passphrase "$1/usr/bin"
 

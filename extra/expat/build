@@ -8,7 +8,7 @@
     --without-docbook
 
 make
-make install
+make DESTDIR="$1" install
 
 # Remove documentation (Changelogs, etc).
 rm -rf "${1:?}/usr/share"

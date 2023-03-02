@@ -7,7 +7,7 @@
 
 make
 
-make \
+make DESTDIR="$1" \
     install-libLIBRARIES \
     install-binPROGRAMS \
     install-nodist_binSCRIPTS \

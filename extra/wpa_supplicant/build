@@ -6,7 +6,7 @@ export CFLAGS
 cd wpa_supplicant
 
 make LIBDIR=/usr/lib BINDIR=/usr/bin
-make LIBDIR=/usr/lib BINDIR=/usr/bin install
+make LIBDIR=/usr/lib BINDIR=/usr/bin DESTDIR="$1" install
 
 mkdir -p \
     "$1/usr/share/man/man5" \

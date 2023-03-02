@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
+
 patch -p1 < no-docs.patch
 
 cmake -B build \

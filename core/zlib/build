@@ -6,4 +6,4 @@ export CFLAGS="$CFLAGS -fPIC"
     --prefix=/usr
 
 make
-make install
+make DESTDIR="$1" install

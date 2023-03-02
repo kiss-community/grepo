@@ -1,4 +1,4 @@
 #!/bin/sh -e
 
 make
-make -j1 PREFIX=/usr install
+make -j1 DESTDIR="$1" PREFIX=/usr install

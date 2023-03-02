@@ -9,6 +9,8 @@ mv -f _ rules/meson.build
 sed "/subdir('po')/d" meson.build > _
 mv -f _ meson.build
 
+export DESTDIR="$1"
+
 meson setup \
     -Dprefix=/usr \
     output

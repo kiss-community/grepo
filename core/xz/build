@@ -6,7 +6,7 @@
     --disable-nls
 
 make
-make install
+make DESTDIR="$1" install
 
 # Link the binaries statically
 cd src
@@ -17,6 +17,6 @@ make LDFLAGS="$LDFLAGS -all-static" -C lzmainfo
 make LDFLAGS="$LDFLAGS -all-static" -C xzdec
 
 for bin in xz/xz lzmainfo/lzmainfo xzdec/lzmadec xzdec/xzdec; do
-    cp "$bin" "$DESTDIR/usr/bin"
-    chmod 755 "$DESTDIR/usr/bin/${bin##*/}"
+    cp "$bin" "$1/usr/bin"
+    chmod 755 "$1/usr/bin/${bin##*/}"
 done

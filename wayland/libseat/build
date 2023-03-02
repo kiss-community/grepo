@@ -3,6 +3,7 @@
 # Build fails in with clang due to
 # -Werror -> -Wsign-compare.
 export CFLAGS="-Wno-error $CFLAGS"
+export DESTDIR="$1"
 
 meson \
     --prefix=/usr \

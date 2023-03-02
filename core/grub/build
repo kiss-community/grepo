@@ -18,6 +18,8 @@ done
 export CFLAGS
 CFLAGS=$(printf %s "$CFLAGS" | sed 's/-march=[^ ]*//g')
 
+pkg_dir=$1
+
 # Force bfd linker to fix issues with alternative linkers. Mold does not yet
 # have full linker script support and I'm not certain that lld or gold have
 # ever worked to build Grub.
@@ -48,7 +50,7 @@ build_grub() (
         "$@"
 
     make
-    make install
+    make DESTDIR="$pkg_dir" install
 )
 
 build_grub --with-platform=pc

@@ -10,7 +10,7 @@ BINGRP="$(id -g)" \
     --without-pam
 
 make
-make install
+make DESTDIR="$1" install
 
 mkdir -p "$1/etc"
 cp -f doas.conf "$1/etc"

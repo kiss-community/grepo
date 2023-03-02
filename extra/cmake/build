@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
 if command -v cmake >/dev/null; then
+    export DESTDIR="$1"
+
     cmake -B build \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
@@ -25,7 +27,7 @@ else
         -DBUILD_CursesDialog=OFF
 
     make
-    make install
+    make DESTDIR="$1" install
 fi
 
 rm -rf \

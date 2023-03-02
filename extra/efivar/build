@@ -4,4 +4,4 @@
 mv docs/efisecdb.1.mdoc docs/efisecdb.1
 
 make COMPILER="$CC"
-make libdir=/usr/lib/ install
+make DESTDIR="$1" libdir=/usr/lib/ install

@@ -9,7 +9,7 @@
     --without-udev
 
 make
-make BINMODE=755 install
+make DESTDIR="$1" BINMODE=755 install
 
 # Install runit service.
 mkdir -p "$1/etc/sv/dhcpcd"

@@ -6,6 +6,6 @@ export CFLAGS="$CFLAGS -Wno-error -static"
     --prefix=/usr
 
 make
-make install
+make DESTDIR="$1" install
 
 cp -f src/grep "$1/usr/bin/ggrep"

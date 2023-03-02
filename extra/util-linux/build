@@ -18,7 +18,7 @@
     --without-systemd
 
 make
-make install
+make DESTDIR="$1" install
 
 # Fix broken --sbindir.
 mv -f "$1/usr/sbin/"* "$1/usr/bin"
