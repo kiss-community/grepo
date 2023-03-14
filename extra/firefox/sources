@@ -1,7 +1,7 @@
-https://ftp.mozilla.org/pub/firefox/releases/110.0.1/source/firefox-110.0.1.source.tar.xz
+https://ftp.mozilla.org/pub/firefox/releases/111.0/source/firefox-111.0.source.tar.xz
 patches/fix-linux-header.patch
-patches/libwebrtc-screen-cast-sync.patch
 patches/musl-sandbox.patch
+patches/no-atk.patch
 patches/no-dbus.patch
 patches/no-fribidi.patch
 patches/no-perl.patch
