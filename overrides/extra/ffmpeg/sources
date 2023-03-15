@@ -1,2 +1,2 @@
-https://ffmpeg.org/releases/ffmpeg-5.1.2.tar.xz
+https://ffmpeg.org/releases/ffmpeg-6.0.tar.xz
 patches/add-av_stream_get_first_dts-for-chromium.patch
