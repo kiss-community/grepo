@@ -6,7 +6,7 @@
 for f in pigz.o yarn.o try.o; do
     "$CC" -c -o "$f" "${f%%.o}.c" $CPPFLAGS -DNOZOPFLI $CFLAGS
 done
-"$CC" -static -o pigz "$@" $CPPFLAGS $CFLAGS -lz $LDFLAGS
+"$CC" -static -o pigz pigz.o yarn.o try.o $CPPFLAGS $CFLAGS -lz $LDFLAGS
 
 mkdir -p \
     "$1/usr/bin" \
