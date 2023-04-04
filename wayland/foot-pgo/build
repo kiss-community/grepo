@@ -31,12 +31,13 @@ meson \
 # Generate PGO data.
 {
     meson configure \
-        -Db_pgo=generate \
+        -Db_pgo=generate
 
     ninja
     ninja test
 
     # Required (gives some profiling data).
+    ./utils/xtgettcap
     ./footclient --version
 
     set -- \
@@ -55,6 +56,7 @@ meson \
 
     ./foot \
         --config=/dev/null \
+        --override tweak.grapheme-shaping=no \
         --term=xterm \
         sh -c "$* && cat .pgotmp"
 }
