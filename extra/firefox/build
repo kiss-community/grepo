@@ -1,37 +1,5 @@
 #!/bin/sh -e
 
-mkdir -p dom/media/platforms/ffmpeg/ffmpeg60/include/libavcodec
-mkdir -p dom/media/platforms/ffmpeg/ffmpeg60/include/libavutil
-
-cp dom/media/platforms/ffmpeg/ffmpeg57/include/COPYING.LGPLv2.1 \
-    dom/media/platforms/ffmpeg/ffmpeg60/include/COPYING.LGPLv2.1
-cp dom/media/platforms/ffmpeg/ffmpeg58/include/libavutil/avconfig.h \
-    dom/media/platforms/ffmpeg/ffmpeg60/include/libavutil/avconfig.h
-
-for f in \
-    include/libavcodec/avfft.h \
-    include/libavcodec/codec_desc.h \
-    include/libavutil/buffer.h \
-    include/libavutil/error.h \
-    include/libavutil/hwcontext_vaapi.h \
-    include/libavutil/intfloat.h \
-    include/libavutil/macros.h \
-    moz.build
-do
-    cp "dom/media/platforms/ffmpeg/ffmpeg59/$f" \
-        "dom/media/platforms/ffmpeg/ffmpeg60/$f"
-done
-
-for f in \
-    libavcodec/codec.h \
-    libavcodec/version.h \
-    libavcodec/version_major.h \
-    libavutil/mem.h \
-    libavutil/version.h
-do
-    cp "media/ffvpx/$f" "dom/media/platforms/ffmpeg/ffmpeg60/include/$f"
-done
-
 for p in *.patch; do
     patch -p1 < "$p"
 done
