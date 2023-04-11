@@ -2,9 +2,11 @@
 
 export DESTDIR="$1"
 
-for p in *.patch; do
-    patch -p1 < "$p"
-done
+kiss list nvidia > /dev/null 2>&1 && {
+    for p in *.patch; do
+        patch -p1 < "$p"
+    done
+}
 
 meson \
     --prefix=/usr \
