@@ -26,20 +26,12 @@ ________________________________________________________________________________
 [001] Installation
 ________________________________________________________________________________
 
-There are three flavors of Sway in the repositories.
-
-1. 'sway': Sway as upstream intended. Comes with all the bells and whistles
-   and requires use of the seatd daemon.
-
-2. 'sway-no-seat': Sway without the seatd daemon requirement. Instead, the
-   libseat library embeds the daemon.
-
-3. 'sway-tiny': All changes from 'sway-no-seat' plus no dependency on pcre,
-   json-c, pango and cairo.
+Currently, only vanilla Sway is provided in the repositories. We may resume
+maintaining sway-tiny in the future.
 
 +------------------------------------------------------------------------------+
 |                                                                              |
-|  $ kiss b [sway|sway-no-seat|sway-tiny]                                      |
+|  $ kiss b sway
 |                                                                              |
 +------------------------------------------------------------------------------+
 
@@ -69,11 +61,8 @@ ________________________________________________________________________________
 
 --[004] Setup Seat Management --------------------------------------------------
 
-  If using the 'sway package, the seatd daemon must be setup. Refer to the
-  documentation found here @/libseat
-
-  If using the 'sway-no-seat' or 'sway-tiny' packages, there is no seatd daemon
-  requirement. Instead you must be the first to call DRMSetMaster. [1]
+  One must either have the seatd daemon running or launch sway with
+  'seatd-launch [args] sway [args]'. Refer also to @/libseat.
 
 
 --[005] Set XDG_RUNTIME_DIR ----------------------------------------------------
@@ -89,14 +78,7 @@ No documentation is currently provided with the package, refer to online
 documentation for the time being.
 
 
-[007] Troubleshooting
-________________________________________________________________________________
-
-If you are using the 'sway-tiny' package and encounter any issues, send bug
-reports to $/kisslinux/repo rather than upstream.
-
-
-[008] References
+[007] References
 ________________________________________________________________________________
 
 [0] https://en.wikipedia.org/wiki/Sway_(window_manager)

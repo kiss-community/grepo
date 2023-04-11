@@ -2,9 +2,9 @@
 
 cat <<EOF
 
-NOTE: sway requires the seatd daemon be running to function.
-      If no seat management is desired, install the sway-no-seat
-      or sway-tiny packages instead of this one (and remove libseat).
+NOTE: In order to function, sway must be launched either
+      with 'seatd-launch [args] sway [args]' or under a
+      running seatd daemon.
 
 NOTE: You must set XDG_RUNTIME_DIR in your shellrc
       or .profile for things to work. This directory
