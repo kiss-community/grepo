@@ -1,7 +1,12 @@
 #!/bin/sh -e
 
-./configure \
-    --prefix=/usr
+export DESTDIR="$1"
 
-make
-make DESTDIR="$1" install
+meson setup \
+    -Dprefix=/usr \
+    -Dtests=disabled \
+    -Ddocumentation=disabled \
+    output
+
+ninja -C output
+ninja -C output install
