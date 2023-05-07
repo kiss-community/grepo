@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+# Fix for GCC 13.
+export CFLAGS="$CFLAGS -Wno-error=switch"
+
 # Default background color.
 sed 's/0.25f, 0.25f, 0.25f/0.929, 0.870, 0.678/' \
     sway/desktop/render.c > _
