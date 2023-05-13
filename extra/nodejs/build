@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < gcc-13.patch
-
 # Fix build when libatomic.so does not exist in the system.
 # This may be provided by compiler-rt which requires no additional
 # linker flags to be used.
