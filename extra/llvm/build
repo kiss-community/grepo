@@ -2,7 +2,7 @@
 
 export DESTDIR="$1"
 
-cd llvm
+mv Modules/* cmake/modules/
 
 cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \

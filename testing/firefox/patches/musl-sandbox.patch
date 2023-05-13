@@ -1,0 +1,29 @@
+diff --git a/security/sandbox/linux/SandboxFilter.cpp b/security/sandbox/linux/SandboxFilter.cpp
+index dffefac..19cc432 100644
+--- a/security/sandbox/linux/SandboxFilter.cpp
++++ b/security/sandbox/linux/SandboxFilter.cpp
+@@ -1595,6 +1595,11 @@ class ContentSandboxPolicy : public SandboxPolicyCommon {
+       case __NR_clone3:
+         return Error(ENOSYS);
+ 
++#  ifdef __NR_fork
++      case __NR_fork:
++        return Error(ENOSYS);
++#  endif
++
+ #  ifdef __NR_fadvise64
+       case __NR_fadvise64:
+         return Allow();
+@@ -1736,10 +1741,10 @@ class GMPSandboxPolicy : public SandboxPolicyCommon {
+         return Allow();
+       case __NR_sched_get_priority_min:
+       case __NR_sched_get_priority_max:
++      case __NR_sched_setscheduler:
+         return Allow();
+       case __NR_sched_getparam:
+-      case __NR_sched_getscheduler:
+-      case __NR_sched_setscheduler: {
++      case __NR_sched_getscheduler: {
+         Arg<pid_t> pid(0);
+         return If(pid == 0, Allow()).Else(Trap(SchedTrap, nullptr));
+       }

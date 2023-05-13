@@ -2,8 +2,6 @@
 
 export DESTDIR="$1"
 
-cd clang
-
 cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
