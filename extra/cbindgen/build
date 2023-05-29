@@ -1,5 +1,7 @@
 #!/bin/sh -e
-#
+
+patch -p1 < crate.patch
+
 # Seeing as this is the only rust package in the repositories (other than rust
 # itself), this will also serve as a reference to writing network-free rust
 # based packages.
