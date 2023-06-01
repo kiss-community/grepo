@@ -1,21 +1,22 @@
 diff --git a/configure b/configure
-index a835433..050de0a 100755
+index a9ae12d..627a69b 100755
 --- a/configure
 +++ b/configure
-@@ -20864,36 +20864,6 @@ $as_echo "#define USE_POLL 1" >>confdefs.h
+@@ -22211,37 +22211,6 @@ printf "%s\n" "#define USE_POLL 1" >>confdefs.h
  fi
  
  
 -#
 -# Find keysymdef.h
 -#
--{ $as_echo "$as_me:${as_lineno-$LINENO}: checking keysym definitions" >&5
--$as_echo_n "checking keysym definitions... " >&6; }
+-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking keysym definitions" >&5
+-printf %s "checking keysym definitions... " >&6; }
 -
 -# Check whether --with-keysymdefdir was given.
--if test "${with_keysymdefdir+set}" = set; then :
+-if test ${with_keysymdefdir+y}
+-then :
 -  withval=$with_keysymdefdir; KEYSYMDEFDIR=$withval
--else
+-else $as_nop
 -  KEYSYMDEFDIR=`$PKG_CONFIG --variable=includedir xproto`/X11
 -fi
 -
@@ -32,28 +33,28 @@ index a835433..050de0a 100755
 -	    as_fn_error $? "Cannot find keysymdef.h" "$LINENO" 5
 -    fi
 -done
--{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $KEYSYMDEFS" >&5
--$as_echo "$KEYSYMDEFS" >&6; }
+-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $KEYSYMDEFS" >&5
+-printf "%s\n" "$KEYSYMDEFS" >&6; }
 -
 -
  # Check whether --enable-xcms was given.
- if test "${enable_xcms+set}" = set; then :
-   enableval=$enable_xcms; XCMS=$enableval
-@@ -21464,43 +21434,6 @@ _ACEOF
+ if test ${enable_xcms+y}
+ then :
+@@ -22809,43 +22778,6 @@ printf "%s\n" "#define X11_LIBDIR \"$ax_define_dir\"" >>confdefs.h
  
  
  pkg_failed=no
--{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for X11" >&5
--$as_echo_n "checking for X11... " >&6; }
+-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for X11" >&5
+-printf %s "checking for X11... " >&6; }
 -
 -if test -n "$X11_CFLAGS"; then
 -    pkg_cv_X11_CFLAGS="$X11_CFLAGS"
 - elif test -n "$PKG_CONFIG"; then
 -    if test -n "$PKG_CONFIG" && \
--    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"\$X11_REQUIRES\""; } >&5
+-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"\$X11_REQUIRES\""; } >&5
 -  ($PKG_CONFIG --exists --print-errors "$X11_REQUIRES") 2>&5
 -  ac_status=$?
--  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+-  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
 -  test $ac_status = 0; }; then
 -  pkg_cv_X11_CFLAGS=`$PKG_CONFIG --cflags "$X11_REQUIRES" 2>/dev/null`
 -		      test "x$?" != "x0" && pkg_failed=yes
@@ -67,10 +68,10 @@ index a835433..050de0a 100755
 -    pkg_cv_X11_LIBS="$X11_LIBS"
 - elif test -n "$PKG_CONFIG"; then
 -    if test -n "$PKG_CONFIG" && \
--    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"\$X11_REQUIRES\""; } >&5
+-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"\$X11_REQUIRES\""; } >&5
 -  ($PKG_CONFIG --exists --print-errors "$X11_REQUIRES") 2>&5
 -  ac_status=$?
--  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+-  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
 -  test $ac_status = 0; }; then
 -  pkg_cv_X11_LIBS=`$PKG_CONFIG --libs "$X11_REQUIRES" 2>/dev/null`
 -		      test "x$?" != "x0" && pkg_failed=yes
