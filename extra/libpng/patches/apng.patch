@@ -1,6 +1,7 @@
-diff -Naru libpng-1.6.37.org/png.h libpng-1.6.37/png.h
---- libpng-1.6.37.org/png.h	2019-04-19 07:21:37.398024800 +0900
-+++ libpng-1.6.37/png.h	2019-04-19 07:22:37.871245630 +0900
+diff --git a/png.h b/png.h
+index cfc4841..da4608a 100644
+--- a/png.h
++++ b/png.h
 @@ -330,6 +330,10 @@
  #   include "pnglibconf.h"
  #endif
@@ -12,7 +13,7 @@ diff -Naru libpng-1.6.37.org/png.h libpng-1.6.37/png.h
  #ifndef PNG_VERSION_INFO_ONLY
  /* Machine specific configuration. */
  #  include "pngconf.h"
-@@ -425,6 +429,17 @@
+@@ -425,6 +429,17 @@ extern "C" {
   * See pngconf.h for base types that vary by machine/system
   */
  
@@ -30,7 +31,7 @@ diff -Naru libpng-1.6.37.org/png.h libpng-1.6.37/png.h
  /* This triggers a compiler error in png.c, if png.c and png.h
   * do not agree upon the version number.
   */
-@@ -746,6 +761,10 @@
+@@ -746,6 +761,10 @@ typedef png_unknown_chunk * * png_unknown_chunkpp;
  #define PNG_INFO_sCAL 0x4000U  /* ESR, 1.0.6 */
  #define PNG_INFO_IDAT 0x8000U  /* ESR, 1.0.6 */
  #define PNG_INFO_eXIf 0x10000U /* GR-P, 1.6.31 */
@@ -41,7 +42,7 @@ diff -Naru libpng-1.6.37.org/png.h libpng-1.6.37/png.h
  
  /* This is used for the transformation routines, as some of them
   * change these values for the row.  It also should enable using
-@@ -783,6 +802,10 @@
+@@ -783,6 +802,10 @@ typedef PNG_CALLBACK(void, *png_write_status_ptr, (png_structp, png_uint_32,
  #ifdef PNG_PROGRESSIVE_READ_SUPPORTED
  typedef PNG_CALLBACK(void, *png_progressive_info_ptr, (png_structp, png_infop));
  typedef PNG_CALLBACK(void, *png_progressive_end_ptr, (png_structp, png_infop));
@@ -52,7 +53,7 @@ diff -Naru libpng-1.6.37.org/png.h libpng-1.6.37/png.h
  
  /* The following callback receives png_uint_32 row_number, int pass for the
   * png_bytep data of the row.  When transforming an interlaced image the
-@@ -3226,6 +3249,74 @@
+@@ -3226,6 +3249,74 @@ PNG_EXPORT(244, int, png_set_option, (png_structrp png_ptr, int option,
  /*******************************************************************************
   *  END OF HARDWARE AND SOFTWARE OPTIONS
   ******************************************************************************/
@@ -127,7 +128,7 @@ diff -Naru libpng-1.6.37.org/png.h libpng-1.6.37/png.h
  
  /* Maintainer: Put new public prototypes here ^, in libpng.3, in project
   * defs, and in scripts/symbols.def.
-@@ -3235,7 +3326,11 @@
+@@ -3235,7 +3326,11 @@ PNG_EXPORT(244, int, png_set_option, (png_structrp png_ptr, int option,
   * one to use is one more than this.)
   */
  #ifdef PNG_EXPORT_LAST_ORDINAL
@@ -139,10 +140,11 @@ diff -Naru libpng-1.6.37.org/png.h libpng-1.6.37/png.h
  #endif
  
  #ifdef __cplusplus
-diff -Naru libpng-1.6.37.org/pngget.c libpng-1.6.37/pngget.c
---- libpng-1.6.37.org/pngget.c	2019-04-19 07:21:37.399024787 +0900
-+++ libpng-1.6.37/pngget.c	2019-04-19 07:22:37.850245901 +0900
-@@ -1246,4 +1246,166 @@
+diff --git a/pngget.c b/pngget.c
+index 1490a03..df6f8f7 100644
+--- a/pngget.c
++++ b/pngget.c
+@@ -1257,4 +1257,166 @@ png_get_palette_max(png_const_structp png_ptr, png_const_infop info_ptr)
  #  endif
  #endif
  
@@ -309,10 +311,11 @@ diff -Naru libpng-1.6.37.org/pngget.c libpng-1.6.37/pngget.c
 +}
 +#endif /* PNG_APNG_SUPPORTED */
  #endif /* READ || WRITE */
-diff -Naru libpng-1.6.37.org/pnginfo.h libpng-1.6.37/pnginfo.h
---- libpng-1.6.37.org/pnginfo.h	2019-04-19 07:21:37.399024787 +0900
-+++ libpng-1.6.37/pnginfo.h	2019-04-19 07:22:37.850245901 +0900
-@@ -263,5 +263,18 @@
+diff --git a/pnginfo.h b/pnginfo.h
+index 1f98ded..ac7b269 100644
+--- a/pnginfo.h
++++ b/pnginfo.h
+@@ -263,5 +263,18 @@ defined(PNG_READ_BACKGROUND_SUPPORTED)
     png_bytepp row_pointers;        /* the image bits */
  #endif
  
@@ -331,10 +334,11 @@ diff -Naru libpng-1.6.37.org/pnginfo.h libpng-1.6.37/pnginfo.h
 +
  };
  #endif /* PNGINFO_H */
-diff -Naru libpng-1.6.37.org/pngpread.c libpng-1.6.37/pngpread.c
---- libpng-1.6.37.org/pngpread.c	2019-04-19 07:21:37.399024787 +0900
-+++ libpng-1.6.37/pngpread.c	2019-04-19 07:22:37.850245901 +0900
-@@ -195,6 +195,106 @@
+diff --git a/pngpread.c b/pngpread.c
+index e283627..2eaeca0 100644
+--- a/pngpread.c
++++ b/pngpread.c
+@@ -195,6 +195,106 @@ png_push_read_chunk(png_structrp png_ptr, png_inforp info_ptr)
  
     chunk_name = png_ptr->chunk_name;
  
@@ -441,7 +445,7 @@ diff -Naru libpng-1.6.37.org/pngpread.c libpng-1.6.37/pngpread.c
     if (chunk_name == png_IDAT)
     {
        if ((png_ptr->mode & PNG_AFTER_IDAT) != 0)
-@@ -261,6 +361,9 @@
+@@ -261,6 +361,9 @@ png_push_read_chunk(png_structrp png_ptr, png_inforp info_ptr)
  
     else if (chunk_name == png_IDAT)
     {
@@ -451,7 +455,7 @@ diff -Naru libpng-1.6.37.org/pngpread.c libpng-1.6.37/pngpread.c
        png_ptr->idat_size = png_ptr->push_length;
        png_ptr->process_mode = PNG_READ_IDAT_MODE;
        png_push_have_info(png_ptr, info_ptr);
-@@ -406,6 +509,30 @@
+@@ -406,6 +509,30 @@ png_push_read_chunk(png_structrp png_ptr, png_inforp info_ptr)
        png_handle_iTXt(png_ptr, info_ptr, png_ptr->push_length);
     }
  #endif
@@ -482,7 +486,7 @@ diff -Naru libpng-1.6.37.org/pngpread.c libpng-1.6.37/pngpread.c
  
     else
     {
-@@ -539,7 +666,11 @@
+@@ -539,7 +666,11 @@ png_push_read_IDAT(png_structrp png_ptr)
        png_byte chunk_tag[4];
  
        /* TODO: this code can be commoned up with the same code in push_read */
@@ -494,7 +498,7 @@ diff -Naru libpng-1.6.37.org/pngpread.c libpng-1.6.37/pngpread.c
        png_push_fill_buffer(png_ptr, chunk_length, 4);
        png_ptr->push_length = png_get_uint_31(png_ptr, chunk_length);
        png_reset_crc(png_ptr);
-@@ -547,17 +678,64 @@
+@@ -547,17 +678,64 @@ png_push_read_IDAT(png_structrp png_ptr)
        png_ptr->chunk_name = PNG_CHUNK_FROM_STRING(chunk_tag);
        png_ptr->mode |= PNG_HAVE_CHUNK_HEADER;
  
@@ -559,7 +563,7 @@ diff -Naru libpng-1.6.37.org/pngpread.c libpng-1.6.37/pngpread.c
     }
  
     if (png_ptr->idat_size != 0 && png_ptr->save_buffer_size != 0)
-@@ -631,6 +809,15 @@
+@@ -631,6 +809,15 @@ png_process_IDAT_data(png_structrp png_ptr, png_bytep buffer,
     if (!(buffer_length > 0) || buffer == NULL)
        png_error(png_ptr, "No IDAT data (internal error)");
  
@@ -575,7 +579,7 @@ diff -Naru libpng-1.6.37.org/pngpread.c libpng-1.6.37/pngpread.c
     /* This routine must process all the data it has been given
      * before returning, calling the row callback as required to
      * handle the uncompressed results.
-@@ -1085,6 +1272,18 @@
+@@ -1085,6 +1272,18 @@ png_set_progressive_read_fn(png_structrp png_ptr, png_voidp progressive_ptr,
     png_set_read_fn(png_ptr, progressive_ptr, png_push_fill_buffer);
  }
  
@@ -594,12 +598,13 @@ diff -Naru libpng-1.6.37.org/pngpread.c libpng-1.6.37/pngpread.c
  png_voidp PNGAPI
  png_get_progressive_ptr(png_const_structrp png_ptr)
  {
-diff -Naru libpng-1.6.37.org/pngpriv.h libpng-1.6.37/pngpriv.h
---- libpng-1.6.37.org/pngpriv.h	2019-04-19 07:21:37.399024787 +0900
-+++ libpng-1.6.37/pngpriv.h	2019-04-19 07:22:37.850245901 +0900
-@@ -637,6 +637,10 @@
+diff --git a/pngpriv.h b/pngpriv.h
+index 7c19373..0757ecc 100644
+--- a/pngpriv.h
++++ b/pngpriv.h
+@@ -628,6 +628,10 @@
  #define PNG_HAVE_CHUNK_AFTER_IDAT 0x2000U /* Have another chunk after IDAT */
-                    /*             0x4000U (unused) */
+ #define PNG_WROTE_eXIf            0x4000U
  #define PNG_IS_READ_STRUCT        0x8000U /* Else is a write struct */
 +#ifdef PNG_APNG_SUPPORTED
 +#define PNG_HAVE_acTL            0x10000U
@@ -608,7 +613,7 @@ diff -Naru libpng-1.6.37.org/pngpriv.h libpng-1.6.37/pngpriv.h
  
  /* Flags for the transformations the PNG library does on the image data */
  #define PNG_BGR                 0x0001U
-@@ -873,6 +877,16 @@
+@@ -864,6 +868,16 @@
  #define png_tRNS PNG_U32(116,  82,  78,  83)
  #define png_zTXt PNG_U32(122,  84,  88, 116)
  
@@ -625,7 +630,7 @@ diff -Naru libpng-1.6.37.org/pngpriv.h libpng-1.6.37/pngpriv.h
  /* The following will work on (signed char*) strings, whereas the get_uint_32
   * macro will fail on top-bit-set values because of the sign extension.
   */
-@@ -1644,6 +1658,47 @@
+@@ -1635,6 +1649,47 @@ PNG_INTERNAL_FUNCTION(void,png_colorspace_sync,(png_const_structrp png_ptr,
      */
  #endif
  
@@ -673,10 +678,11 @@ diff -Naru libpng-1.6.37.org/pngpriv.h libpng-1.6.37/pngpriv.h
  /* Added at libpng version 1.4.0 */
  #ifdef PNG_COLORSPACE_SUPPORTED
  /* These internal functions are for maintaining the colorspace structure within
-diff -Naru libpng-1.6.37.org/pngread.c libpng-1.6.37/pngread.c
---- libpng-1.6.37.org/pngread.c	2019-04-19 07:21:37.400024774 +0900
-+++ libpng-1.6.37/pngread.c	2019-04-19 07:22:37.851245887 +0900
-@@ -161,6 +161,9 @@
+diff --git a/pngread.c b/pngread.c
+index 96996ce..a6e35a9 100644
+--- a/pngread.c
++++ b/pngread.c
+@@ -161,6 +161,9 @@ png_read_info(png_structrp png_ptr, png_inforp info_ptr)
  
        else if (chunk_name == png_IDAT)
        {
@@ -686,7 +692,7 @@ diff -Naru libpng-1.6.37.org/pngread.c libpng-1.6.37/pngread.c
           png_ptr->idat_size = length;
           break;
        }
-@@ -255,6 +258,17 @@
+@@ -255,6 +258,17 @@ png_read_info(png_structrp png_ptr, png_inforp info_ptr)
           png_handle_iTXt(png_ptr, info_ptr, length);
  #endif
  
@@ -704,7 +710,7 @@ diff -Naru libpng-1.6.37.org/pngread.c libpng-1.6.37/pngread.c
        else
           png_handle_unknown(png_ptr, info_ptr, length,
               PNG_HANDLE_CHUNK_AS_DEFAULT);
-@@ -262,6 +276,72 @@
+@@ -262,6 +276,72 @@ png_read_info(png_structrp png_ptr, png_inforp info_ptr)
  }
  #endif /* SEQUENTIAL_READ */
  
@@ -777,10 +783,11 @@ diff -Naru libpng-1.6.37.org/pngread.c libpng-1.6.37/pngread.c
  /* Optional call to update the users info_ptr structure */
  void PNGAPI
  png_read_update_info(png_structrp png_ptr, png_inforp info_ptr)
-diff -Naru libpng-1.6.37.org/pngrutil.c libpng-1.6.37/pngrutil.c
---- libpng-1.6.37.org/pngrutil.c	2019-04-19 07:21:37.401024761 +0900
-+++ libpng-1.6.37/pngrutil.c	2019-04-19 07:22:37.853245862 +0900
-@@ -865,6 +865,11 @@
+diff --git a/pngrutil.c b/pngrutil.c
+index 068ab19..d0748ff 100644
+--- a/pngrutil.c
++++ b/pngrutil.c
+@@ -864,6 +864,11 @@ png_handle_IHDR(png_structrp png_ptr, png_inforp info_ptr, png_uint_32 length)
     filter_type = buf[11];
     interlace_type = buf[12];
  
@@ -792,7 +799,7 @@ diff -Naru libpng-1.6.37.org/pngrutil.c libpng-1.6.37/pngrutil.c
     /* Set internal variables */
     png_ptr->width = width;
     png_ptr->height = height;
-@@ -2857,6 +2862,179 @@
+@@ -2858,6 +2863,179 @@ png_handle_iTXt(png_structrp png_ptr, png_inforp info_ptr, png_uint_32 length)
  }
  #endif
  
@@ -972,7 +979,7 @@ diff -Naru libpng-1.6.37.org/pngrutil.c libpng-1.6.37/pngrutil.c
  #ifdef PNG_READ_UNKNOWN_CHUNKS_SUPPORTED
  /* Utility function for png_handle_unknown; set up png_ptr::unknown_chunk */
  static int
-@@ -4165,7 +4343,38 @@
+@@ -4166,7 +4344,38 @@ png_read_IDAT_data(png_structrp png_ptr, png_bytep output,
        {
           uInt avail_in;
           png_bytep buffer;
@@ -983,7 +990,7 @@ diff -Naru libpng-1.6.37.org/pngrutil.c libpng-1.6.37/pngrutil.c
 +         {
 +            png_crc_finish(png_ptr, bytes_to_skip);
 +            bytes_to_skip = 0;
- 
++
 +            png_ptr->idat_size = png_read_chunk_header(png_ptr);
 +            if (png_ptr->num_frames_read == 0)
 +            {
@@ -1003,7 +1010,7 @@ diff -Naru libpng-1.6.37.org/pngrutil.c libpng-1.6.37/pngrutil.c
 +               }
 +
 +               png_ensure_sequence_number(png_ptr, png_ptr->idat_size);
-+
+ 
 +               png_ptr->idat_size -= 4;
 +            }
 +         }
@@ -1011,7 +1018,7 @@ diff -Naru libpng-1.6.37.org/pngrutil.c libpng-1.6.37/pngrutil.c
           while (png_ptr->idat_size == 0)
           {
              png_crc_finish(png_ptr, 0);
-@@ -4177,7 +4386,7 @@
+@@ -4178,7 +4387,7 @@ png_read_IDAT_data(png_structrp png_ptr, png_bytep output,
              if (png_ptr->chunk_name != png_IDAT)
                 png_error(png_ptr, "Not enough image data");
           }
@@ -1020,7 +1027,7 @@ diff -Naru libpng-1.6.37.org/pngrutil.c libpng-1.6.37/pngrutil.c
           avail_in = png_ptr->IDAT_read_size;
  
           if (avail_in > png_ptr->idat_size)
-@@ -4240,6 +4449,9 @@
+@@ -4241,6 +4450,9 @@ png_read_IDAT_data(png_structrp png_ptr, png_bytep output,
  
           png_ptr->mode |= PNG_AFTER_IDAT;
           png_ptr->flags |= PNG_FLAG_ZSTREAM_ENDED;
@@ -1030,7 +1037,7 @@ diff -Naru libpng-1.6.37.org/pngrutil.c libpng-1.6.37/pngrutil.c
  
           if (png_ptr->zstream.avail_in > 0 || png_ptr->idat_size > 0)
              png_chunk_benign_error(png_ptr, "Extra compressed data");
-@@ -4678,4 +4890,80 @@
+@@ -4678,4 +4890,80 @@ defined(PNG_USER_TRANSFORM_PTR_SUPPORTED)
  
     png_ptr->flags |= PNG_FLAG_ROW_INIT;
  }
@@ -1111,10 +1118,11 @@ diff -Naru libpng-1.6.37.org/pngrutil.c libpng-1.6.37/pngrutil.c
 +#endif /* PNG_PROGRESSIVE_READ_SUPPORTED */
 +#endif /* PNG_READ_APNG_SUPPORTED */
  #endif /* READ */
-diff -Naru libpng-1.6.37.org/pngset.c libpng-1.6.37/pngset.c
---- libpng-1.6.37.org/pngset.c	2019-04-19 07:21:37.401024761 +0900
-+++ libpng-1.6.37/pngset.c	2019-04-19 07:22:37.858245798 +0900
-@@ -288,6 +288,11 @@
+diff --git a/pngset.c b/pngset.c
+index 3fc31fe..0bea6bc 100644
+--- a/pngset.c
++++ b/pngset.c
+@@ -280,6 +280,11 @@ png_set_IHDR(png_const_structrp png_ptr, png_inforp info_ptr,
     info_ptr->pixel_depth = (png_byte)(info_ptr->channels * info_ptr->bit_depth);
  
     info_ptr->rowbytes = PNG_ROWBYTES(info_ptr->pixel_depth, width);
@@ -1126,7 +1134,7 @@ diff -Naru libpng-1.6.37.org/pngset.c libpng-1.6.37/pngset.c
  }
  
  #ifdef PNG_oFFs_SUPPORTED
-@@ -1158,6 +1163,147 @@
+@@ -1149,6 +1154,147 @@ png_set_sPLT(png_const_structrp png_ptr,
  }
  #endif /* sPLT */
  
@@ -1274,10 +1282,11 @@ diff -Naru libpng-1.6.37.org/pngset.c libpng-1.6.37/pngset.c
  #ifdef PNG_STORE_UNKNOWN_CHUNKS_SUPPORTED
  static png_byte
  check_location(png_const_structrp png_ptr, int location)
-diff -Naru libpng-1.6.37.org/pngstruct.h libpng-1.6.37/pngstruct.h
---- libpng-1.6.37.org/pngstruct.h	2019-04-19 07:21:37.401024761 +0900
-+++ libpng-1.6.37/pngstruct.h	2019-04-19 07:22:37.854245849 +0900
-@@ -409,6 +409,27 @@
+diff --git a/pngstruct.h b/pngstruct.h
+index e591d94..1583dfc 100644
+--- a/pngstruct.h
++++ b/pngstruct.h
+@@ -399,6 +399,27 @@ struct png_struct_def
     png_byte filter_type;
  #endif
  
@@ -1305,10 +1314,11 @@ diff -Naru libpng-1.6.37.org/pngstruct.h libpng-1.6.37/pngstruct.h
  /* New members added in libpng-1.2.0 */
  
  /* New members added in libpng-1.0.2 but first enabled by default in 1.2.0 */
-diff -Naru libpng-1.6.37.org/pngtest.c libpng-1.6.37/pngtest.c
---- libpng-1.6.37.org/pngtest.c	2019-04-19 07:21:37.401024761 +0900
-+++ libpng-1.6.37/pngtest.c	2019-04-19 07:22:37.854245849 +0900
-@@ -875,6 +875,10 @@
+diff --git a/pngtest.c b/pngtest.c
+index 37b42bb..6b0e676 100644
+--- a/pngtest.c
++++ b/pngtest.c
+@@ -875,6 +875,10 @@ test_one_file(const char *inname, const char *outname)
     volatile int num_passes;
     int pass;
     int bit_depth, color_type;
@@ -1319,7 +1329,7 @@ diff -Naru libpng-1.6.37.org/pngtest.c libpng-1.6.37/pngtest.c
  
     row_buf = NULL;
     error_parameters.file_name = inname;
-@@ -1383,6 +1387,22 @@
+@@ -1383,6 +1387,22 @@ test_one_file(const char *inname, const char *outname)
        }
     }
  #endif
@@ -1342,10 +1352,11 @@ diff -Naru libpng-1.6.37.org/pngtest.c libpng-1.6.37/pngtest.c
  #ifdef PNG_WRITE_UNKNOWN_CHUNKS_SUPPORTED
     {
        png_unknown_chunkp unknowns;
-@@ -1463,6 +1483,110 @@
+@@ -1462,6 +1482,110 @@ test_one_file(const char *inname, const char *outname)
+    t_stop = (float)clock();
     t_misc += (t_stop - t_start);
     t_start = t_stop;
- #endif
++#endif
 +#ifdef PNG_APNG_SUPPORTED
 +   if (png_get_valid(read_ptr, read_info_ptr, PNG_INFO_acTL))
 +   {
@@ -1449,14 +1460,14 @@ diff -Naru libpng-1.6.37.org/pngtest.c libpng-1.6.37/pngtest.c
 +      }
 +   }
 +   else
-+#endif
+ #endif
     for (pass = 0; pass < num_passes; pass++)
     {
- #     ifdef calc_pass_height
-diff -Naru libpng-1.6.37.org/pngwrite.c libpng-1.6.37/pngwrite.c
---- libpng-1.6.37.org/pngwrite.c	2019-04-19 07:21:37.402024748 +0900
-+++ libpng-1.6.37/pngwrite.c	2019-04-19 07:22:37.855245836 +0900
-@@ -128,6 +128,10 @@
+diff --git a/pngwrite.c b/pngwrite.c
+index 32f4bfb..6d2e021 100644
+--- a/pngwrite.c
++++ b/pngwrite.c
+@@ -128,6 +128,10 @@ png_write_info_before_PLTE(png_structrp png_ptr, png_const_inforp info_ptr)
         * the application continues writing the PNG.  So check the 'invalid'
         * flag here too.
         */
@@ -1467,7 +1478,7 @@ diff -Naru libpng-1.6.37.org/pngwrite.c libpng-1.6.37/pngwrite.c
  #ifdef PNG_GAMMA_SUPPORTED
  #  ifdef PNG_WRITE_gAMA_SUPPORTED
        if ((info_ptr->colorspace.flags & PNG_COLORSPACE_INVALID) == 0 &&
-@@ -370,6 +374,11 @@
+@@ -373,6 +377,11 @@ png_write_end(png_structrp png_ptr, png_inforp info_ptr)
        png_benign_error(png_ptr, "Wrote palette index exceeding num_palette");
  #endif
  
@@ -1479,7 +1490,7 @@ diff -Naru libpng-1.6.37.org/pngwrite.c libpng-1.6.37/pngwrite.c
     /* See if user wants us to write information chunks */
     if (info_ptr != NULL)
     {
-@@ -1461,6 +1470,43 @@
+@@ -1475,6 +1484,43 @@ png_write_png(png_structrp png_ptr, png_inforp info_ptr,
  }
  #endif
  
@@ -1523,10 +1534,11 @@ diff -Naru libpng-1.6.37.org/pngwrite.c libpng-1.6.37/pngwrite.c
  
  #ifdef PNG_SIMPLIFIED_WRITE_SUPPORTED
  /* Initialize the write structure - general purpose utility. */
-diff -Naru libpng-1.6.37.org/pngwutil.c libpng-1.6.37/pngwutil.c
---- libpng-1.6.37.org/pngwutil.c	2019-04-19 07:21:37.402024748 +0900
-+++ libpng-1.6.37/pngwutil.c	2019-04-19 07:22:37.867245682 +0900
-@@ -821,6 +821,11 @@
+diff --git a/pngwutil.c b/pngwutil.c
+index 01f0607..8b374e2 100644
+--- a/pngwutil.c
++++ b/pngwutil.c
+@@ -821,6 +821,11 @@ png_write_IHDR(png_structrp png_ptr, png_uint_32 width, png_uint_32 height,
     /* Write the chunk */
     png_write_complete_chunk(png_ptr, png_IHDR, buf, 13);
  
@@ -1538,7 +1550,7 @@ diff -Naru libpng-1.6.37.org/pngwutil.c libpng-1.6.37/pngwutil.c
     if ((png_ptr->do_filter) == PNG_NO_FILTERS)
     {
        if (png_ptr->color_type == PNG_COLOR_TYPE_PALETTE ||
-@@ -1002,8 +1007,17 @@
+@@ -1002,8 +1007,17 @@ png_compress_IDAT(png_structrp png_ptr, png_const_bytep input,
                 optimize_cmf(data, png_image_size(png_ptr));
  #endif
  
@@ -1558,7 +1570,7 @@ diff -Naru libpng-1.6.37.org/pngwutil.c libpng-1.6.37/pngwutil.c
           png_ptr->mode |= PNG_HAVE_IDAT;
  
           png_ptr->zstream.next_out = data;
-@@ -1050,7 +1064,17 @@
+@@ -1050,7 +1064,17 @@ png_compress_IDAT(png_structrp png_ptr, png_const_bytep input,
  #endif
  
           if (size > 0)
@@ -1576,7 +1588,7 @@ diff -Naru libpng-1.6.37.org/pngwutil.c libpng-1.6.37/pngwutil.c
           png_ptr->zstream.avail_out = 0;
           png_ptr->zstream.next_out = NULL;
           png_ptr->mode |= PNG_HAVE_IDAT | PNG_AFTER_IDAT;
-@@ -1885,6 +1909,82 @@
+@@ -1885,6 +1909,82 @@ png_write_tIME(png_structrp png_ptr, png_const_timep mod_time)
  }
  #endif
  
@@ -1659,7 +1671,7 @@ diff -Naru libpng-1.6.37.org/pngwutil.c libpng-1.6.37/pngwutil.c
  /* Initializes the row writing capability of libpng */
  void /* PRIVATE */
  png_write_start_row(png_structrp png_ptr)
-@@ -2778,4 +2878,39 @@
+@@ -2778,4 +2878,39 @@ png_write_filtered_row(png_structrp png_ptr, png_bytep filtered_row,
     }
  #endif /* WRITE_FLUSH */
  }
@@ -1699,10 +1711,11 @@ diff -Naru libpng-1.6.37.org/pngwutil.c libpng-1.6.37/pngwutil.c
 +}
 +#endif /* PNG_WRITE_APNG_SUPPORTED */
  #endif /* WRITE */
-diff -Naru libpng-1.6.37.org/scripts/symbols.def libpng-1.6.37/scripts/symbols.def
---- libpng-1.6.37.org/scripts/symbols.def	2019-04-19 07:21:37.405024710 +0900
-+++ libpng-1.6.37/scripts/symbols.def	2019-04-19 07:22:37.856245823 +0900
-@@ -253,3 +253,23 @@
+diff --git a/scripts/symbols.def b/scripts/symbols.def
+index 82494bb..2d08674 100644
+--- a/scripts/symbols.def
++++ b/scripts/symbols.def
+@@ -253,3 +253,23 @@ EXPORTS
   png_set_eXIf @247
   png_get_eXIf_1 @248
   png_set_eXIf_1 @249
