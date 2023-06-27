@@ -10,8 +10,3 @@ NOTE: sway-no-seat and sway-tiny have been dropped. Upstream has dropped
       support for running Sway with setuid root, and further upgrades
       to sway-tiny will require maintenance of a fork. Patches for the
       latter are welcome.
-
-NOTE: Compose key tables from libX11 have been split off of xkeyboard-config
-      into compose-tables. If these files are missing from your system after
-      the xkeyboard-config upgrade, run
-      kiss a | grep ^compose-tables | kiss a -
