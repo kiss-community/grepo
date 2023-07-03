@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 10a198f..e9fe1ce 100644
+index efd101a..faa0bfb 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -119,7 +119,6 @@ message(STATUS "CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
+@@ -173,7 +173,6 @@ message(STATUS "CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
  
  if(CMAKE_INSTALL_PREFIX STREQUAL "${CMAKE_INSTALL_DEFAULT_PREFIX}")
    set(CMAKE_INSTALL_DEFAULT_DATAROOTDIR "")
@@ -10,7 +10,7 @@ index 10a198f..e9fe1ce 100644
    set(CMAKE_INSTALL_DEFAULT_JAVADIR "<CMAKE_INSTALL_DATAROOTDIR>/classes")
    if(UNIX AND NOT APPLE)
      if(BITS EQUAL 64)
-@@ -143,7 +142,7 @@ macro(report_directory var)
+@@ -197,7 +196,7 @@ macro(report_directory var)
    mark_as_advanced(CLEAR CMAKE_INSTALL_${var})
  endmacro()
  
@@ -19,12 +19,12 @@ index 10a198f..e9fe1ce 100644
  if(UNIX)
    list(APPEND DIRLIST "MANDIR")
  endif()
-@@ -1481,18 +1480,6 @@ endif()
+@@ -1734,18 +1733,6 @@ endif()
  
  install(TARGETS rdjpgcom wrjpgcom RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
  
 -install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/README.ijg
--  ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/example.txt
+-  ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/example.c
 -  ${CMAKE_CURRENT_SOURCE_DIR}/tjexample.c
 -  ${CMAKE_CURRENT_SOURCE_DIR}/libjpeg.txt
 -  ${CMAKE_CURRENT_SOURCE_DIR}/structure.txt
