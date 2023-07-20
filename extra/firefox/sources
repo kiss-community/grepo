@@ -1,7 +1,6 @@
-https://ftp.mozilla.org/pub/firefox/releases/113.0.2/source/firefox-113.0.2.source.tar.xz
-patches/fix-linux-header.patch
+https://ftp.mozilla.org/pub/firefox/releases/115.0.2/source/firefox-115.0.2.source.tar.xz
+patches/fix-overalignment.patch
 patches/musl-sandbox.patch
 patches/no-atk.patch
 patches/no-dbus.patch
 patches/no-fribidi.patch
-patches/no-perl.patch

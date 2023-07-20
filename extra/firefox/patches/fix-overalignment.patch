@@ -1,0 +1,50 @@
+diff --git a/js/public/Utility.h b/js/public/Utility.h
+index 5a3002b..8927d65 100644
+--- a/js/public/Utility.h
++++ b/js/public/Utility.h
+@@ -478,6 +478,9 @@ static inline void js_free(void* p) {
+ #define JS_DECLARE_NEW_METHODS(NEWNAME, ALLOCATOR, QUALIFIERS)              \
+   template <class T, typename... Args>                                      \
+   QUALIFIERS T* MOZ_HEAP_ALLOCATOR NEWNAME(Args&&... args) {                \
++    static_assert(                                                          \
++        alignof(T) <= alignof(max_align_t),                                 \
++        "over-aligned type is not supported by JS_DECLARE_NEW_METHODS");    \
+     void* memory = ALLOCATOR(sizeof(T));                                    \
+     return MOZ_LIKELY(memory) ? new (memory) T(std::forward<Args>(args)...) \
+                               : nullptr;                                    \
+@@ -494,6 +497,9 @@ static inline void js_free(void* p) {
+ #define JS_DECLARE_NEW_ARENA_METHODS(NEWNAME, ALLOCATOR, QUALIFIERS)           \
+   template <class T, typename... Args>                                         \
+   QUALIFIERS T* MOZ_HEAP_ALLOCATOR NEWNAME(arena_id_t arena, Args&&... args) { \
++    static_assert(                                                             \
++        alignof(T) <= alignof(max_align_t),                                    \
++        "over-aligned type is not supported by JS_DECLARE_NEW_ARENA_METHODS"); \
+     void* memory = ALLOCATOR(arena, sizeof(T));                                \
+     return MOZ_LIKELY(memory) ? new (memory) T(std::forward<Args>(args)...)    \
+                               : nullptr;                                       \
+diff --git a/js/src/gc/GCMarker.h b/js/src/gc/GCMarker.h
+index 495e66c..053ba90 100644
+--- a/js/src/gc/GCMarker.h
++++ b/js/src/gc/GCMarker.h
+@@ -274,7 +274,7 @@ enum ShouldReportMarkTime : bool {
+ 
+ } /* namespace gc */
+ 
+-class alignas(TypicalCacheLineSize) GCMarker {
++class GCMarker {
+   enum MarkingState : uint8_t {
+     // Have not yet started marking.
+     NotActive,
+diff --git a/js/src/gc/Nursery.h b/js/src/gc/Nursery.h
+index ae1e8c2..3dde209 100644
+--- a/js/src/gc/Nursery.h
++++ b/js/src/gc/Nursery.h
+@@ -67,7 +67,7 @@ class GCSchedulingTunables;
+ class TenuringTracer;
+ }  // namespace gc
+ 
+-class alignas(TypicalCacheLineSize) Nursery {
++class Nursery {
+  public:
+   explicit Nursery(gc::GCRuntime* gc);
+   ~Nursery();
