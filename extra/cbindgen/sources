@@ -1,5 +1,4 @@
-https://github.com/eqrion/cbindgen/archive/v0.24.5.tar.gz
-patches/crate.patch
+https://github.com/eqrion/cbindgen/archive/v0.24.6.tar.gz
 
 # This is a pre-generated list of crate dependencies. This list may
 # change between releases. This allows us to pre-cache each of the
@@ -7,7 +6,7 @@ patches/crate.patch
 https://static.crates.io/crates/atty/atty-0.2.14.crate vendor
 https://static.crates.io/crates/autocfg/autocfg-1.1.0.crate vendor
 https://static.crates.io/crates/bitflags/bitflags-1.3.2.crate vendor
-https://static.crates.io/crates/cbindgen/cbindgen-0.24.5.crate vendor
+https://static.crates.io/crates/cbindgen/cbindgen-0.24.6.crate vendor
 https://static.crates.io/crates/cfg-if/cfg-if-1.0.0.crate vendor
 https://static.crates.io/crates/clap/clap-3.2.25.crate vendor
 https://static.crates.io/crates/clap_lex/clap_lex-0.2.4.crate vendor
