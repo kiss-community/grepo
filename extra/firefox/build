@@ -67,7 +67,6 @@ ac_add_options --disable-system-extension-dirs
 EOF
 
 ./mach build
-./mach run
 DESTDIR="$1" ./mach install
 
 # Remove a lot of uneeded "stuff".
