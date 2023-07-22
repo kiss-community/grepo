@@ -10,3 +10,6 @@ NOTE: sway-no-seat and sway-tiny have been dropped. Upstream has dropped
       support for running Sway with setuid root, and further upgrades
       to sway-tiny will require maintenance of a fork. Patches for the
       latter are welcome.
+
+NOTE: foot has changed how it handles scaling. You may need to adjust your
+      font size accordingly.
