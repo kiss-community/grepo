@@ -8,7 +8,7 @@ export DESTDIR="$1"
 # for performing LTO.
 # export LDFLAGS="$LDFLAGS -static"
 
-patch -p1 < elf_amd64_only.patch
+patch -p1 < amd64_only.patch
 
 cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \

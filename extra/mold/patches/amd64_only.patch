@@ -1,29 +1,18 @@
-From 3057ba9c59a4d3e8d027d1cb71c1212e287dcf84 Mon Sep 17 00:00:00 2001
-Message-Id: <3057ba9c59a4d3e8d027d1cb71c1212e287dcf84.1679014002.git.owen@owenrafferty.com>
-From: Owen Rafferty <owen@owenrafferty.com>
-Date: Mon, 26 Dec 2022 20:20:01 -0600
-Subject: [PATCH] only build support for elf amd64
-
----
- CMakeLists.txt | 15 +--------------
- elf/main.cc    |  5 -----
- 2 files changed, 1 insertion(+), 19 deletions(-)
-
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index ef0951a2..d24b9a1c 100644
+index ceda7b2..1a5b3fb 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -284,8 +284,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
+@@ -288,8 +288,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
  # compiler instances. This is hacky but greatly reduces compile time
  # on a multicore machine.
  list(APPEND MOLD_ELF_TARGETS
--  X86_64 I386 ARM64 ARM32 RV32LE RV32BE RV64LE RV64BE
--  PPC32 PPC64V1 PPC64V2 S390X SPARC64 M68K SH4 ALPHA)
+-  X86_64 I386 ARM64 ARM32 RV32LE RV32BE RV64LE RV64BE PPC32 PPC64V1 PPC64V2
+-  S390X SPARC64 M68K SH4 ALPHA MIPS64LE MIPS64BE)
 +  X86_64)
  
  list(APPEND MOLD_ELF_TEMPLATE_FILES
    elf/cmdline.cc
-@@ -355,18 +354,6 @@ target_sources(mold PRIVATE
+@@ -360,19 +359,6 @@ target_sources(mold PRIVATE
    common/perf.cc
    common/tar.cc
    common/uuid.cc
@@ -32,6 +21,7 @@ index ef0951a2..d24b9a1c 100644
 -  elf/arch-arm64.cc
 -  elf/arch-i386.cc
 -  elf/arch-m68k.cc
+-  elf/arch-mips64.cc
 -  elf/arch-ppc32.cc
 -  elf/arch-ppc64v1.cc
 -  elf/arch-ppc64v2.cc
@@ -43,10 +33,10 @@ index ef0951a2..d24b9a1c 100644
    elf/elf.cc
    git-hash.cc
 diff --git a/elf/main.cc b/elf/main.cc
-index 21da6e75..c2cac979 100644
+index 803069e..b68a8fe 100644
 --- a/elf/main.cc
 +++ b/elf/main.cc
-@@ -394,11 +394,6 @@ int elf_main(int argc, char **argv) {
+@@ -402,11 +402,6 @@ int elf_main(int argc, char **argv) {
    if (ctx.arg.emulation.empty())
      ctx.arg.emulation = deduce_machine_type(ctx, file_args);
  
@@ -58,6 +48,3 @@ index 21da6e75..c2cac979 100644
    Timer t_all(ctx, "all");
  
    install_signal_handler();
--- 
-2.40.0
-

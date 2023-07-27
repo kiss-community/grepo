@@ -1,2 +1,2 @@
-https://github.com/rui314/mold/archive/v1.11.0.tar.gz
-patches/elf_amd64_only.patch
+https://github.com/rui314/mold/archive/v2.0.0.tar.gz
+patches/amd64_only.patch
