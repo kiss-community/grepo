@@ -1,4 +1,4 @@
-https://ftp.mozilla.org/pub/firefox/releases/115.0.2/source/firefox-115.0.2.source.tar.xz
+https://ftp.mozilla.org/pub/firefox/releases/116.0/source/firefox-116.0.source.tar.xz
 patches/fix-overalignment.patch
 patches/musl-sandbox.patch
 patches/no-atk.patch
