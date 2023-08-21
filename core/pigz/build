@@ -4,8 +4,10 @@
 # shellcheck disable=2086
 
 for f in pigz.o yarn.o try.o; do
+    echo "$CC" -c -o "$f" "${f%%.o}.c" $CPPFLAGS -DNOZOPFLI $CFLAGS
     "$CC" -c -o "$f" "${f%%.o}.c" $CPPFLAGS -DNOZOPFLI $CFLAGS
 done
+echo "$CC" -static -o pigz pigz.o yarn.o try.o $CPPFLAGS $CFLAGS -lz $LDFLAGS
 "$CC" -static -o pigz pigz.o yarn.o try.o $CPPFLAGS $CFLAGS -lz $LDFLAGS
 
 mkdir -p \
