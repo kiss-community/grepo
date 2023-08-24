@@ -1,8 +1,5 @@
 #!/bin/sh -e
 
-rm -f PATCHES
-patch -p1 < cumulative.patch
-
 ./configure \
     --prefix=/usr \
     --enable-shared \
