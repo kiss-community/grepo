@@ -1,4 +1,4 @@
-https://github.com/bminor/glibc/archive/6fe86ecd787a2624cd638131629ba9a824040308.tar.gz
+git+https://sourceware.org/git/glibc.git#1aed90c9c8f8be9f68b58e96b6e4cd0fc08eb2b1
 files/ldd sh-alternatives/
 files/locale-gen sh-alternatives/
 files/sotruss sh-alternatives/
