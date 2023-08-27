@@ -16,7 +16,6 @@ mv -f _ vendor/curl-sys/.cargo-checksum.json
 cat > config.toml <<EOF
 [llvm]
 link-shared = true
-skip-rebuild = true
 
 [build]
 build     = "x86_64-unknown-linux-gnu"
@@ -39,7 +38,7 @@ EOF
 # This mimics the download process of rust's 'x.py'
 # bootstrap library to allow for the removal of the internet
 # connection requirement per build.
-mkdir -p "${cache_dir:=build/cache/2023-01-10}"
+mkdir -p "${cache_dir:=build/cache/2023-07-13}"
 
 for tarball in *.tar.xz\?no-extract; do
     mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"
