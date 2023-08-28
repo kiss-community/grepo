@@ -1,6 +1,5 @@
-https://ftp.mozilla.org/pub/firefox/releases/116.0.3/source/firefox-116.0.3.source.tar.xz
+https://ftp.mozilla.org/pub/firefox/releases/117.0/source/firefox-117.0.source.tar.xz
 patches/fix-bundled-ffmpeg-binutils.patch
-patches/fix-overalignment.patch
 patches/fix-vaapi.patch
 patches/musl-sandbox.patch
 patches/no-atk.patch
