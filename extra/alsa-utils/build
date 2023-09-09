@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < nhlt-use-stdint.h-types.patch
+
 ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
