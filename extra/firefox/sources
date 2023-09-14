@@ -1,4 +1,4 @@
-https://ftp.mozilla.org/pub/firefox/releases/117.0/source/firefox-117.0.source.tar.xz
+https://ftp.mozilla.org/pub/firefox/releases/117.0.1/source/firefox-117.0.1.source.tar.xz
 patches/fix-bundled-ffmpeg-binutils.patch
 patches/fix-vaapi.patch
 patches/musl-sandbox.patch
