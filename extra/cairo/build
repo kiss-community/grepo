@@ -2,8 +2,6 @@
 
 export DESTDIR="$1"
 
-sed meson.build
-
 meson setup \
     -Dprefix=/usr \
     -Dtee=enabled \
