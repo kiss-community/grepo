@@ -6,10 +6,9 @@ NOTE: sha256 checksums have been preserved for `b3sum` and `kiss` to allow
       forked with `kiss fork` and `kiss checksum` and rebuilt until their
       checksums are updated to b3sum checksums.
 
-NOTE: sway-no-seat and sway-tiny have been dropped. Upstream has dropped
-      support for running Sway with setuid root, and further upgrades
-      to sway-tiny will require maintenance of a fork. Patches for the
-      latter are welcome.
+NOTE: libcrypt files might be absent after updating to glibc 2.38, this is
+      caused by alternatives being created when installing libxcrypt on
+      older glibc, so either rebuild libcrypt, or run the following command
+      to restore alternatives to point to libxcrypt:
 
-NOTE: foot has changed how it handles scaling. You may need to adjust your
-      font size accordingly.
+          `kiss a | grep libxcrypt | kiss a -`
