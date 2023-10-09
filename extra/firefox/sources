@@ -4,3 +4,4 @@ patches/musl-sandbox.patch
 patches/no-atk.patch
 patches/no-dbus.patch
 patches/no-fribidi.patch
+patches/rust-simd.patch
