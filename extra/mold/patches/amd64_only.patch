@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 0cff71f..e9dad4e 100644
+index bce7166..e43dc77 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -294,8 +294,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
+@@ -297,12 +297,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
  # compiler instances. This is hacky but greatly reduces compile time
  # on a multicore machine.
  list(APPEND MOLD_ELF_TARGETS
@@ -11,8 +11,12 @@ index 0cff71f..e9dad4e 100644
 +  X86_64)
  
  list(APPEND MOLD_ELF_TEMPLATE_FILES
-   elf/arch-loongarch.cc
-@@ -370,17 +369,6 @@ target_sources(mold PRIVATE
+-  elf/arch-loongarch.cc
+-  elf/arch-riscv.cc
+   elf/cmdline.cc
+   elf/gc-sections.cc
+   elf/gdb-index.cc
+@@ -373,17 +370,6 @@ target_sources(mold PRIVATE
    common/perf.cc
    common/tar.cc
    common/uuid.cc
@@ -31,18 +35,93 @@ index 0cff71f..e9dad4e 100644
    elf/elf.cc
    git-hash.cc
 diff --git a/elf/main.cc b/elf/main.cc
-index 8827a8c..64388cd 100644
+index 7847d14..660a442 100644
 --- a/elf/main.cc
 +++ b/elf/main.cc
-@@ -399,11 +399,6 @@ int elf_main(int argc, char **argv) {
+@@ -359,11 +359,6 @@ int elf_main(int argc, char **argv) {
    if (ctx.arg.emulation.empty())
      ctx.arg.emulation = deduce_machine_type(ctx, file_args);
  
 -  // Redo if -m is not x86-64.
 -  if constexpr (is_x86_64<E>)
 -    if (ctx.arg.emulation != X86_64::target_name)
--      return redo_main(argc, argv, ctx.arg.emulation);
+-      return redo_main(ctx, argc, argv);
 -
    Timer t_all(ctx, "all");
  
    install_signal_handler();
+diff --git a/elf/mold.h b/elf/mold.h
+index 3028e73..9a0c5dd 100644
+--- a/elf/mold.h
++++ b/elf/mold.h
+@@ -1346,7 +1346,6 @@ std::vector<std::string> parse_nonpositional_args(Context<E> &ctx);
+ // passes.cc
+ //
+ 
+-template <typename E> int redo_main(Context<E> &, int argc, char **argv);
+ template <typename E> void create_internal_file(Context<E> &);
+ template <typename E> void apply_exclude_libs(Context<E> &);
+ template <typename E> void create_synthetic_sections(Context<E> &);
+diff --git a/elf/passes.cc b/elf/passes.cc
+index 3664538..112aa79 100644
+--- a/elf/passes.cc
++++ b/elf/passes.cc
+@@ -13,50 +13,6 @@
+ 
+ namespace mold::elf {
+ 
+-// Since elf_main is a template, we can't run it without a type parameter.
+-// We speculatively run elf_main with X86_64, and if the speculation was
+-// wrong, re-run it with an actual machine type.
+-template <typename E>
+-int redo_main(Context<E> &ctx, int argc, char **argv) {
+-  std::string_view target = ctx.arg.emulation;
+-
+-  if (target == I386::target_name)
+-    return elf_main<I386>(argc, argv);
+-  if (target == ARM64::target_name)
+-    return elf_main<ARM64>(argc, argv);
+-  if (target == ARM32::target_name)
+-    return elf_main<ARM32>(argc, argv);
+-  if (target == RV64LE::target_name)
+-    return elf_main<RV64LE>(argc, argv);
+-  if (target == RV64BE::target_name)
+-    return elf_main<RV64BE>(argc, argv);
+-  if (target == RV32LE::target_name)
+-    return elf_main<RV32LE>(argc, argv);
+-  if (target == RV32BE::target_name)
+-    return elf_main<RV32BE>(argc, argv);
+-  if (target == PPC32::target_name)
+-    return elf_main<PPC32>(argc, argv);
+-  if (target == PPC64V1::target_name)
+-    return elf_main<PPC64V1>(argc, argv);
+-  if (target == PPC64V2::target_name)
+-    return elf_main<PPC64V2>(argc, argv);
+-  if (target == S390X::target_name)
+-    return elf_main<S390X>(argc, argv);
+-  if (target == SPARC64::target_name)
+-    return elf_main<SPARC64>(argc, argv);
+-  if (target == M68K::target_name)
+-    return elf_main<M68K>(argc, argv);
+-  if (target == SH4::target_name)
+-    return elf_main<SH4>(argc, argv);
+-  if (target == ALPHA::target_name)
+-    return elf_main<ALPHA>(argc, argv);
+-  if (target == LOONGARCH32::target_name)
+-    return elf_main<LOONGARCH32>(argc, argv);
+-  if (target == LOONGARCH64::target_name)
+-    return elf_main<LOONGARCH64>(argc, argv);
+-  unreachable();
+-}
+-
+ template <typename E>
+ void apply_exclude_libs(Context<E> &ctx) {
+   Timer t(ctx, "apply_exclude_libs");
+@@ -2725,7 +2681,6 @@ void show_stats(Context<E> &ctx) {
+ 
+ using E = MOLD_TARGET;
+ 
+-template int redo_main(Context<E> &, int, char **);
+ template void create_internal_file(Context<E> &);
+ template void apply_exclude_libs(Context<E> &);
+ template void create_synthetic_sections(Context<E> &);
