@@ -7,6 +7,9 @@ done
 sed '/UNZIP/d' toolkit/moz.configure > _
 mv -f _ toolkit/moz.configure
 
+sed 's/\("files":{\)[^}]*/\1/' third_party/rust/packed_simd_2/.cargo-checksum.json > _
+mv -f _ third_party/rust/packed_simd_2/.cargo-checksum.json
+
 # If using libc++, CXXSTDLIB needs to be set manually.
 case $("$CC" -print-file-name=libc++.so) in */*)
     export CXXSTDLIB=c++
