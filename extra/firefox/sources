@@ -1,7 +1,6 @@
-https://ftp.mozilla.org/pub/firefox/releases/118.0.1/source/firefox-118.0.1.source.tar.xz
+https://ftp.mozilla.org/pub/firefox/releases/119.0/source/firefox-119.0.source.tar.xz
 patches/fix-vaapi.patch
 patches/musl-sandbox.patch
 patches/no-atk.patch
 patches/no-dbus.patch
 patches/no-fribidi.patch
-patches/rust-simd.patch
