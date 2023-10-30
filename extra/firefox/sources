@@ -1,4 +1,5 @@
 https://ftp.mozilla.org/pub/firefox/releases/119.0/source/firefox-119.0.source.tar.xz
+patches/fix-target-detection.patch
 patches/fix-vaapi.patch
 patches/musl-sandbox.patch
 patches/no-atk.patch

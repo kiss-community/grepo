@@ -1,0 +1,19 @@
+diff --git a/build/moz.configure/rust.configure b/build/moz.configure/rust.configure
+index 7a2fd1a..ba5ba62 100644
+--- a/build/moz.configure/rust.configure
++++ b/build/moz.configure/rust.configure
+@@ -403,9 +403,13 @@ def detect_rustc_target(
+         ]
+         if len(narrowed) == 1:
+             return narrowed[0].rust_target
++        elif narrowed:
++            candidates = narrowed
++
++        aliased_vendor = "unknown" if host_or_target.vendor == "pc" else host_or_target.vendor
+ 
+         # Finally, see if the vendor can be used to disambiguate.
+-        narrowed = [c for c in candidates if c.target.vendor == host_or_target.vendor]
++        narrowed = [c for c in candidates if c.target.vendor == aliased_vendor]
+         if len(narrowed) == 1:
+             return narrowed[0].rust_target
+ 
