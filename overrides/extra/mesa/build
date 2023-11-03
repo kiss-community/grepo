@@ -2,8 +2,6 @@
 
 export DESTDIR="$1"
 
-patch -p1 < cleanup_includes_modern_passmanager.patch
-
 # rust_std is not (yet?) supported by muon, and we should try
 # to avoid a hard rust dependency here if possible.
 sed "s/, 'rust_std=2021'//" meson.build > _
