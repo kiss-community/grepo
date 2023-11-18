@@ -8,17 +8,17 @@ export CFLAGS="$CFLAGS -fPIC"
 # the below CFLAGS.
 export CFLAGS="-Wno-unused-command-line-argument $CFLAGS"
 
-meson \
-    --prefix=/usr \
-    --sysconfdir=/etc \
-    --mandir=/usr/share/man \
-    --libexecdir=/usr/lib \
+meson setup \
+    -Dprefix=/usr \
+    -Dsysconfdir=/etc \
+    -Dmandir=/usr/share/man \
+    -Dlibexecdir=/usr/lib \
     -Ddefault_library=both \
     -Ddebug-gui=false \
     -Ddocumentation=false \
     -Dtests=false \
     -Dlibwacom=false \
-    . output
+    output
 
 ninja -C output
 ninja -C output install

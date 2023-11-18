@@ -10,14 +10,14 @@ mv -f _ sway/desktop/render.c
 
 export DESTDIR="$1"
 
-meson \
-    --prefix=/usr \
+meson setup \
+    -Dprefix=/usr \
     -Ddefault-wallpaper=false \
     -Dzsh-completions=false \
     -Dbash-completions=false \
     -Dfish-completions=false \
     -Dxwayland=disabled \
-    . build
+    build
 
 ninja -C build
 ninja -C build install

@@ -2,13 +2,13 @@
 
 export DESTDIR="$1"
 
-meson \
-    --prefix=/usr \
+meson setup \
+    -Dprefix=/usr \
     -Ddefault_library=both \
     -Dtests=false \
     -Ddocumentation=false \
     -Ddtd_validation=false \
-    . build
+    build
 
 ninja -C build
 ninja -C build install

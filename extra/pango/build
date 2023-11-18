@@ -12,12 +12,12 @@ rm -rf subprojects
 : > examples/meson.build
 : > docs/meson.build
 
-meson \
-    --prefix=/usr \
+meson setup \
+    -Dprefix=/usr \
     -Dgtk_doc=false \
     -Dxft=disabled \
     -Dintrospection=disabled \
-    . build
+    build
 
 ninja -C build
 ninja -C build install

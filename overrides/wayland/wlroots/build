@@ -8,13 +8,13 @@ kiss list nvidia > /dev/null 2>&1 && {
     done
 }
 
-meson \
-    --prefix=/usr \
+meson setup \
+    -Dprefix=/usr \
     -Ddefault_library=both \
     -Dexamples=false \
     -Dxcb-errors=disabled \
     -Drenderers=gles2 \
-    . build
+    build
 
 ninja -C build
 ninja -C build install

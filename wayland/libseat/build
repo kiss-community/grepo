@@ -5,10 +5,10 @@
 export CFLAGS="-Wno-error $CFLAGS"
 export DESTDIR="$1"
 
-meson \
-    --prefix=/usr \
+meson setup \
+    -Dprefix=/usr \
     -Ddefault_library=both \
-    . build
+    build
 
 ninja -C build
 ninja -C build install

@@ -4,9 +4,9 @@ export DESTDIR="$1"
 
 : > fuzzing/meson.build
 
-meson \
-    --prefix=/usr \
-    --libexecdir=/usr/lib \
+meson setup \
+    -Dprefix=/usr \
+    -Dlibexecdir=/usr/lib \
     -Dlibmount=disabled \
     -Dinstalled_tests=false \
     -Ddefault_library=both \
@@ -14,7 +14,7 @@ meson \
     -Dtests=false \
     -Dlibelf=disabled \
     -Dnls=disabled \
-    . build
+    build
 
 ninja -C build
 ninja -C build install

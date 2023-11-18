@@ -9,7 +9,7 @@ meson setup \
     -Dxlib=disabled \
     -Dxlib-xcb=disabled \
     -Dtests=disabled \
-    . output
+    output
 
 ninja -C output
 ninja -C output install

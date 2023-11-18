@@ -5,13 +5,13 @@ export DESTDIR="$1"
 build_freetype() (
     cd freetype
 
-    meson \
-        --prefix=/usr \
+    meson setup \
+        -Dprefix=/usr \
         -Ddefault_library=both \
         -Dbzip2=disabled \
         -Dzlib=disabled \
         "$@" \
-        . output
+        output
 
     ninja -C output
     ninja -C output install
@@ -20,8 +20,8 @@ build_freetype() (
 build_harfbuzz() (
     cd harfbuzz
 
-    meson \
-        --prefix=/usr \
+    meson setup \
+        -Dprefix=/usr \
         -Ddefault_library=both \
         -Dglib=disabled \
         -Dfreetype=enabled \
@@ -30,7 +30,7 @@ build_harfbuzz() (
         -Dicu=disabled \
         -Dbenchmark=disabled \
         -Dtests=disabled \
-        . output
+        output
 
     ninja -C output
     ninja -C output install

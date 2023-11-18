@@ -12,12 +12,12 @@ mv -f _ meson.build
 # and enables it if present. ie: install glvnd, rebuild mesa.
 pkg-config --exists libglvnd || glvnd_enabled=false
 
-meson \
-    --prefix=/usr \
-    --sysconfdir=/etc \
-    --mandir=/usr/share/man \
-    --localstatedir=/var \
-    --buildtype=release \
+meson setup \
+    -Dprefix=/usr \
+    -Dsysconfdir=/etc \
+    -Dmandir=/usr/share/man \
+    -Dlocalstatedir=/var \
+    -Dbuildtype=release \
     -Dglx-read-only-text=true \
     -Dplatforms=wayland \
     -Dglx=disabled \
@@ -26,7 +26,7 @@ meson \
     -Dzstd=disabled \
     -Dglvnd="${glvnd_enabled:-true}" \
     -Dvulkan-drivers='' \
-    . output
+    output
 
 ninja -C output
 ninja -C output install
