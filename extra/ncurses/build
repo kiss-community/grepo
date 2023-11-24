@@ -7,6 +7,7 @@
     --disable-rpath-hack \
     --with-pkg-config-libdir=/usr/lib/pkgconfig \
     --with-shared \
+    --with-termlib \
     --enable-widec \
     --without-ada \
     --without-tests \
@@ -17,11 +18,12 @@ make
 make DESTDIR="$1" install
 
 # Force ncurses to link against wide-character ncurses library.
-for lib in ncurses form panel menu; do
+for lib in ncurses form panel menu tinfo; do
     rm -f "$1/usr/lib/lib${lib}.so"
     printf '%s\n' "INPUT(-l${lib}w)" > "$1/usr/lib/lib${lib}.so"
     chmod 755 "$1/usr/lib/lib${lib}.so"
     ln -sf "lib${lib}w.a" "$1/usr/lib/lib${lib}.a"
+    ln -sf "lib${lib}w.so.6" "$1/usr/lib/lib${lib}.so.6"
 done
 
 # Some packages look for libcurses instead of libncurses when building.
