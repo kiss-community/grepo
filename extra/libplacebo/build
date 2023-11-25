@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson setup \
+    -Dprefix=/usr \
+    -Dbuildtype=release \
+    -Dvulkan=disabled \
+    -Ddemos=false \
+    output
+
+ninja -C output
+ninja -C output install
