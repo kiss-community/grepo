@@ -4,5 +4,4 @@
     --prefix=/usr \
     --disable-blacklist
 
-make
 make DESTDIR="$1" install
