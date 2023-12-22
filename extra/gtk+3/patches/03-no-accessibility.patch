@@ -2571,7 +2571,7 @@
                                     gint            *end_offset);
 --- a/gtk/gtkpathbar.c
 +++ b/gtk/gtkpathbar.c
-@@ -1549,7 +1549,6 @@
+@@ -1550,7 +1550,6 @@ make_directory_button (GtkPathBar  *path_bar,
  		       gboolean     current_dir,
  		       gboolean     file_is_hidden)
  {
@@ -2579,15 +2579,15 @@
    GtkWidget *child = NULL;
    ButtonData *button_data;
  
-@@ -1558,7 +1557,6 @@
+@@ -1559,7 +1558,6 @@ make_directory_button (GtkPathBar  *path_bar,
    button_data = g_new0 (ButtonData, 1);
-   button_data->type = find_button_type (path_bar, file);
+   button_data->type = find_button_type (path_bar, file, root_file);
    button_data->button = gtk_toggle_button_new ();
 -  atk_obj = gtk_widget_get_accessible (button_data->button);
    gtk_widget_set_focus_on_click (button_data->button, FALSE);
    gtk_widget_add_events (button_data->button, GDK_SCROLL_MASK);
  
-@@ -1568,7 +1566,6 @@
+@@ -1569,7 +1567,6 @@ make_directory_button (GtkPathBar  *path_bar,
        button_data->image = gtk_image_new ();
        child = button_data->image;
        button_data->label = NULL;
