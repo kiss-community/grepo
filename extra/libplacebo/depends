@@ -1,2 +1,3 @@
 meson make
+python-glad make
 vulkan-headers make
