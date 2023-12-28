@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+patch -p1 < use-system-packaging.patch
+
+rm -rf src/wheel/vendored
+
+gpep517 build-wheel --wheel-dir .dist --output-fd 3 3>&1 >&2
+python -m installer -d "$1" .dist/*.whl
