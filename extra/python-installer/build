@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+sitedir="$(python3 -c 'import site;print(site.getsitepackages()[0])')"
+
+unzip -d build installer-$2-py3-none-any.whl
+
+(cd build; patch -p1 < default-bytecode-levels.patch)
+
+mkdir -p "$1/$sitedir"
+cp -pR build/installer* "$1/$sitedir"
+python -m compileall "$1/$sitedir"
