@@ -2,4 +2,5 @@ libffi
 meson   make
 pcre2
 pkgconf make
+python-packaging make
 zlib
