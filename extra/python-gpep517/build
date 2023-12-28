@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+patch -p1 < default-bytecode-levels.patch
+
+sitedir="$(python3 -c 'import site;print(site.getsitepackages()[0])')"
+
+mkdir -p "$1/$sitedir"
+cp -pR gpep517 "$1/$sitedir"
+python -m compileall "$1/$sitedir"
+
+mkdir -p "$1/usr/bin"
+cp gpep517.bin "$1/usr/bin/gpep517"
+chmod 755 "$1/usr/bin/gpep517"
