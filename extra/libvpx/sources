@@ -1,5 +1,5 @@
-https://github.com/webmproject/libvpx/archive/v1.13.1.tar.gz
-files/vp9_rtcd.h
+https://github.com/webmproject/libvpx/archive/v1.14.0.tar.gz
 files/vp8_rtcd.h
-files/vpx_scale_rtcd.h
+files/vp9_rtcd.h
 files/vpx_dsp_rtcd.h
+files/vpx_scale_rtcd.h
