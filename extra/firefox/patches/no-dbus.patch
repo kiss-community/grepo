@@ -1,18 +1,20 @@
-diff -r fc5ee47dac3e toolkit/components/remote/moz.build
---- a/toolkit/components/remote/moz.build	Tue Jun 28 12:00:27 2022 -0500
-+++ b/toolkit/components/remote/moz.build	Thu Jun 30 00:35:24 2022 -0500
-@@ -26,7 +26,7 @@
-             "nsUnixRemoteServer.h",
+diff --git a/toolkit/components/remote/moz.build b/toolkit/components/remote/moz.build
+index 4ac1408..0e84246 100644
+--- a/toolkit/components/remote/moz.build
++++ b/toolkit/components/remote/moz.build
+@@ -26,7 +26,7 @@ if CONFIG["MOZ_WIDGET_TOOLKIT"] == "gtk":
              "RemoteUtils.h",
          ]
+         CXXFLAGS += CONFIG["MOZ_DBUS_CFLAGS"]
 -    else:
 +    elif CONFIG["MOZ_X11"]:
          SOURCES += [
              "nsGTKRemoteServer.cpp",
              "nsXRemoteClient.cpp",
-diff -r fc5ee47dac3e toolkit/components/remote/nsRemoteService.cpp
---- a/toolkit/components/remote/nsRemoteService.cpp	Tue Jun 28 12:00:27 2022 -0500
-+++ b/toolkit/components/remote/nsRemoteService.cpp	Thu Jun 30 00:35:24 2022 -0500
+diff --git a/toolkit/components/remote/nsRemoteService.cpp b/toolkit/components/remote/nsRemoteService.cpp
+index 3e8e4b5..ee964b9 100644
+--- a/toolkit/components/remote/nsRemoteService.cpp
++++ b/toolkit/components/remote/nsRemoteService.cpp
 @@ -6,12 +6,14 @@
   * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
  
@@ -30,40 +32,27 @@ diff -r fc5ee47dac3e toolkit/components/remote/nsRemoteService.cpp
  #  endif
  #elif defined(XP_WIN)
  #  include "nsWinRemoteServer.h"
-@@ -94,8 +96,10 @@
+@@ -101,8 +103,10 @@ RemoteResult nsRemoteService::StartClient(const char* aStartupToken) {
  #ifdef MOZ_WIDGET_GTK
  #  if defined(MOZ_ENABLE_DBUS)
    client = MakeUnique<nsDBusRemoteClient>();
+-#  else
 +#  elif defined(MOZ_X11)
-+  client = MakeUnique<nsXRemoteClient>();
- #  else
--  client = MakeUnique<nsXRemoteClient>();
+   client = MakeUnique<nsXRemoteClient>();
++#  else
 +  return REMOTE_NOT_FOUND;
  #  endif
  #elif defined(XP_WIN)
    client = MakeUnique<nsWinRemoteClient>();
-@@ -138,8 +142,10 @@
+@@ -145,8 +149,10 @@ void nsRemoteService::StartupServer() {
  #ifdef MOZ_WIDGET_GTK
  #  if defined(MOZ_ENABLE_DBUS)
    mRemoteServer = MakeUnique<nsDBusRemoteServer>();
+-#  else
 +#  elif defined(MOZ_X11)
-+  mRemoteServer = MakeUnique<nsGTKRemoteServer>();
- #  else
--  mRemoteServer = MakeUnique<nsGTKRemoteServer>();
+   mRemoteServer = MakeUnique<nsGTKRemoteServer>();
++#  else
 +  return;
  #  endif
  #elif defined(XP_WIN)
    mRemoteServer = MakeUnique<nsWinRemoteServer>();
---- a/widget/gtk/nsAppShell.cpp
-+++ b/widget/gtk/nsAppShell.cpp
-@@ -296,8 +296,10 @@
-         do_GetService(POWERMANAGERSERVICE_CONTRACTID);
- 
-     if (powerManagerService) {
-+#ifdef MOZ_ENABLE_DBUS
-       powerManagerService->AddWakeLockListener(
-           WakeLockListener::GetSingleton());
-+#endif
-     } else {
-       NS_WARNING(
-           "Failed to retrieve PowerManagerService, wakelocks will be broken!");
