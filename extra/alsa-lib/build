@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < musl-string.patch
-
 ./configure \
     --without-debug \
     --prefix=/usr
