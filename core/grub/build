@@ -38,6 +38,11 @@ pkg_dir=$1
 build_grub() (
     cd "grub-${1##*=}"
 
+    patch -p1 < ../no-asorti.patch
+
+    # This file is missing from the release tarball.
+    touch grub-core/extra_deps.lst
+
     ./configure \
         HELP2MAN="$OLDPWD/help2man" \
         --prefix=/usr \

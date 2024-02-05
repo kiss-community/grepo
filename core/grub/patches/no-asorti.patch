@@ -1,0 +1,15 @@
+diff --git a/grub-core/genmoddep.awk b/grub-core/genmoddep.awk
+index cc987a5..5e9f942 100644
+--- a/grub-core/genmoddep.awk
++++ b/grub-core/genmoddep.awk
+@@ -63,9 +63,7 @@ END {
+     }
+     modlist = ""
+     depcount[mod] = 0
+-    n = asorti(uniqmods, w)
+-    for (i = 1; i <= n; i++) {
+-      depmod = w[i]
++    for (depmod in uniqmods) {
+       modlist = modlist " " depmod;
+       inverse_dependencies[depmod] = inverse_dependencies[depmod] " " mod
+       depcount[mod]++
