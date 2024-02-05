@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < lfs64.patch
-
 # Remove mandoc build dependency
 mv docs/efisecdb.1.mdoc docs/efisecdb.1
 
