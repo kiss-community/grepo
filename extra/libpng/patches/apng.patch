@@ -1315,13 +1315,13 @@ index e591d94..1583dfc 100644
  
  /* New members added in libpng-1.0.2 but first enabled by default in 1.2.0 */
 diff --git a/pngtest.c b/pngtest.c
-index 37b42bb..6b0e676 100644
+index 45ef66a..7cce043 100644
 --- a/pngtest.c
 +++ b/pngtest.c
-@@ -875,6 +875,10 @@ test_one_file(const char *inname, const char *outname)
-    volatile int num_passes;
-    int pass;
+@@ -882,6 +882,10 @@ test_one_file(const char *inname, const char *outname)
     int bit_depth, color_type;
+    user_chunk_info my_user_chunk_data;
+    int pass, num_passes;
 +#ifdef PNG_APNG_SUPPORTED
 +   png_uint_32 num_frames;
 +   png_uint_32 num_plays;
@@ -1329,7 +1329,7 @@ index 37b42bb..6b0e676 100644
  
     row_buf = NULL;
     error_parameters.file_name = inname;
-@@ -1383,6 +1387,22 @@ test_one_file(const char *inname, const char *outname)
+@@ -1380,6 +1384,22 @@ test_one_file(const char *inname, const char *outname)
        }
     }
  #endif
@@ -1352,7 +1352,7 @@ index 37b42bb..6b0e676 100644
  #ifdef PNG_WRITE_UNKNOWN_CHUNKS_SUPPORTED
     {
        png_unknown_chunkp unknowns;
-@@ -1462,6 +1482,110 @@ test_one_file(const char *inname, const char *outname)
+@@ -1438,6 +1458,110 @@ test_one_file(const char *inname, const char *outname)
     t_stop = (float)clock();
     t_misc += (t_stop - t_start);
     t_start = t_stop;
