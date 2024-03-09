@@ -1,8 +1,10 @@
 cairo
+glib
 json-c
 libevdev
 libinput
 libseat
+libudev-zero
 libxkbcommon
 linux-headers make
 mesa
