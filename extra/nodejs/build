@@ -18,7 +18,7 @@ esac
     --ninja
 
 ninja -C out/Release
-tools/install.py install "$1" /usr
+tools/install.py install --dest-dir "$1" --prefix /usr
 
 # Remove unneeded files.
 rm -rf \
