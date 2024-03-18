@@ -2,7 +2,6 @@
 
 ./configure \
     --prefix=/usr \
-    --disable-static \
     --disable-tiff \
     --enable-libwebpmux \
     --enable-libwebpdemux \
