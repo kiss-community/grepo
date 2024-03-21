@@ -4,7 +4,7 @@ export DESTDIR="$1"
 
 # rust_std is not (yet?) supported by muon, and we should try
 # to avoid a hard rust dependency here if possible.
-sed "s/, 'rust_std=2021'//" meson.build > _
+sed '/rust_std=2021/d' meson.build > _
 mv -f _ meson.build
 
 # To prevent the need for users to fork the mesa package to add
