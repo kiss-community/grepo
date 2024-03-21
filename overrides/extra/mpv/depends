@@ -2,6 +2,7 @@ alsa-lib
 ffmpeg
 ffnvcodec-headers make
 libass
+libplacebo
 libxkbcommon
 linux-headers make
 mesa
