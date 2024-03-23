@@ -1,2 +1,3 @@
 https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.2/llvm-18.1.2.src.tar.xz llvm
 https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.2/cmake-18.1.2.src.tar.xz cmake
+patches/musl-stack-size.patch
