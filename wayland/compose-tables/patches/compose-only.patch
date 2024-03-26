@@ -1,8 +1,8 @@
 diff --git a/configure b/configure
-index a9ae12d..627a69b 100755
+index c6cd17a..a255a77 100755
 --- a/configure
 +++ b/configure
-@@ -22211,37 +22211,6 @@ printf "%s\n" "#define USE_POLL 1" >>confdefs.h
+@@ -22692,38 +22692,6 @@ printf "%s\n" "#define USE_POLL 1" >>confdefs.h
  fi
  
  
@@ -16,8 +16,9 @@ index a9ae12d..627a69b 100755
 -if test ${with_keysymdefdir+y}
 -then :
 -  withval=$with_keysymdefdir; KEYSYMDEFDIR=$withval
--else $as_nop
--  KEYSYMDEFDIR=`$PKG_CONFIG --variable=includedir xproto`/X11
+-else case e in #(
+-  e) KEYSYMDEFDIR=`$PKG_CONFIG --variable=includedir xproto`/X11 ;;
+-esac
 -fi
 -
 -
@@ -40,7 +41,7 @@ index a9ae12d..627a69b 100755
  # Check whether --enable-xcms was given.
  if test ${enable_xcms+y}
  then :
-@@ -22809,43 +22778,6 @@ printf "%s\n" "#define X11_LIBDIR \"$ax_define_dir\"" >>confdefs.h
+@@ -23302,46 +23270,6 @@ printf "%s\n" "#define X11_LIBDIR \"$ax_define_dir\"" >>confdefs.h
  
  
  pkg_failed=no
@@ -81,6 +82,9 @@ index a9ae12d..627a69b 100755
 - else
 -    pkg_failed=untried
 -fi
- 
- 
- 
+-
+-
+-
+ if test $pkg_failed = yes; then
+    	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+ printf "%s\n" "no" >&6; }
