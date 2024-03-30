@@ -1,4 +1,4 @@
-https://curl.haxx.se/download/curl-8.6.0.tar.xz
+https://curl.haxx.se/download/curl-8.7.1.tar.xz
 files/CURLINFO_ACTIVESOCKET.3 docs/libcurl/opts
 files/CURLINFO_APPCONNECT_TIME.3 docs/libcurl/opts
 files/CURLINFO_APPCONNECT_TIME_T.3 docs/libcurl/opts
@@ -70,6 +70,7 @@ files/CURLINFO_TLS_SESSION.3 docs/libcurl/opts
 files/CURLINFO_TLS_SSL_PTR.3 docs/libcurl/opts
 files/CURLINFO_TOTAL_TIME.3 docs/libcurl/opts
 files/CURLINFO_TOTAL_TIME_T.3 docs/libcurl/opts
+files/CURLINFO_USED_PROXY.3 docs/libcurl/opts
 files/CURLINFO_XFER_ID.3 docs/libcurl/opts
 files/CURLMOPT_CHUNK_LENGTH_PENALTY_SIZE.3 docs/libcurl/opts
 files/CURLMOPT_CONTENT_LENGTH_PENALTY_SIZE.3 docs/libcurl/opts
@@ -398,7 +399,7 @@ files/CURLSHOPT_UNLOCKFUNC.3 docs/libcurl/opts
 files/CURLSHOPT_UNSHARE.3 docs/libcurl/opts
 files/CURLSHOPT_USERDATA.3 docs/libcurl/opts
 files/curl-config.1 docs
-files/curl.1 docs
+files/curl.1 docs/cmdline-opts
 files/curl_easy_cleanup.3 docs/libcurl
 files/curl_easy_duphandle.3 docs/libcurl
 files/curl_easy_escape.3 docs/libcurl
