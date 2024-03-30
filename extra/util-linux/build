@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < posix.patch
+
 ./configure \
     --prefix=/usr \
     --localstatedir=/var \

@@ -1,0 +1,23 @@
+diff --git a/tools/all_syscalls b/tools/all_syscalls
+index 9c14778..062ac4e 100755
+--- a/tools/all_syscalls
++++ b/tools/all_syscalls
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/bin/sh
+ 
+ set -e
+ 
+@@ -7,9 +7,9 @@ SYSCALL_INCLUDES="
+ #include <sys/syscall.h>
+ "
+ 
+-trap 'rm $OUTPUT $OUTPUT.deps' ERR
++trap '[ $? -eq 0 ] || rm $OUTPUT $OUTPUT.deps' EXIT
+ 
+-"$@" -MD -MF "$OUTPUT.deps" <<< "$SYSCALL_INCLUDES" -dM -E - \
+-	| gawk 'match($0, /^#define __NR_([^ ]+)/, res) { print "UL_SYSCALL(\"" res[1] "\", __NR_" res[1] ")" }' \
++echo "$SYSCALL_INCLUDES" | "$@" -MD -MF "$OUTPUT.deps" -dM -E - \
++	| awk 'match($0, /^#define __NR_([^ ]+)/, res) { print "UL_SYSCALL(\"" res[1] "\", __NR_" res[1] ")" }' \
+ 	| sort \
+ 	> "$OUTPUT"
