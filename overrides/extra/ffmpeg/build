@@ -1,6 +1,12 @@
 #!/bin/sh -e
 
+mv libavcodec/vulkan_video_codec_av1std_decode.h \
+    libavcodec/vulkan_video_codec_av1std_decode_mesa.h
+mv libavcodec/vulkan_video_codec_av1std.h \
+    libavcodec/vulkan_video_codec_av1std_mesa.h
+
 patch -p1 < add-av_stream_get_first_dts-for-chromium.patch
+patch -p1 < fix-vulkan-headers.patch
 
 ./configure \
     --cc="$CC" \
