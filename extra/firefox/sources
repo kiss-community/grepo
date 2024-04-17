@@ -1,8 +1,7 @@
-https://ftp.mozilla.org/pub/firefox/releases/124.0.2/source/firefox-124.0.2.source.tar.xz
+https://ftp.mozilla.org/pub/firefox/releases/125.0.1/source/firefox-125.0.1.source.tar.xz
 patches/fix-target-detection.patch
 patches/fix-vaapi.patch
 patches/musl-sandbox.patch
-patches/musl-use-res_query.patch
 patches/no-atk.patch
 patches/no-dbus.patch
 patches/no-fribidi.patch
