@@ -1,2 +1,5 @@
 python
+python-gpep517 make
+python-setuptools make
+python-wheel make
 samurai
