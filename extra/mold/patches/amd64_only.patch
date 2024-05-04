@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index bce7166..e43dc77 100644
+index a8ce876..7cc4da2 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -297,12 +297,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
+@@ -299,12 +299,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
  # compiler instances. This is hacky but greatly reduces compile time
  # on a multicore machine.
  list(APPEND MOLD_ELF_TARGETS
@@ -16,10 +16,10 @@ index bce7166..e43dc77 100644
    elf/cmdline.cc
    elf/gc-sections.cc
    elf/gdb-index.cc
-@@ -373,17 +370,6 @@ target_sources(mold PRIVATE
+@@ -356,17 +353,6 @@ target_sources(mold PRIVATE
+   common/multi-glob.cc
    common/perf.cc
    common/tar.cc
-   common/uuid.cc
 -  elf/arch-alpha.cc
 -  elf/arch-arm32.cc
 -  elf/arch-arm64.cc
@@ -32,15 +32,15 @@ index bce7166..e43dc77 100644
 -  elf/arch-sh4.cc
 -  elf/arch-sparc64.cc
    elf/arch-x86-64.cc
+   elf/config.cc
    elf/elf.cc
-   git-hash.cc
 diff --git a/elf/main.cc b/elf/main.cc
-index 7847d14..660a442 100644
+index daf7da5..bc8397c 100644
 --- a/elf/main.cc
 +++ b/elf/main.cc
-@@ -359,11 +359,6 @@ int elf_main(int argc, char **argv) {
+@@ -360,11 +360,6 @@ int elf_main(int argc, char **argv) {
    if (ctx.arg.emulation.empty())
-     ctx.arg.emulation = deduce_machine_type(ctx, file_args);
+     ctx.arg.emulation = detect_machine_type(ctx, file_args);
  
 -  // Redo if -m is not x86-64.
 -  if constexpr (is_x86_64<E>)
@@ -51,10 +51,10 @@ index 7847d14..660a442 100644
  
    install_signal_handler();
 diff --git a/elf/mold.h b/elf/mold.h
-index 3028e73..9a0c5dd 100644
+index b775e4e..dc221c5 100644
 --- a/elf/mold.h
 +++ b/elf/mold.h
-@@ -1346,7 +1346,6 @@ std::vector<std::string> parse_nonpositional_args(Context<E> &ctx);
+@@ -1376,7 +1376,6 @@ std::vector<std::string> parse_nonpositional_args(Context<E> &ctx);
  // passes.cc
  //
  
@@ -63,7 +63,7 @@ index 3028e73..9a0c5dd 100644
  template <typename E> void apply_exclude_libs(Context<E> &);
  template <typename E> void create_synthetic_sections(Context<E> &);
 diff --git a/elf/passes.cc b/elf/passes.cc
-index 3664538..112aa79 100644
+index 8b5f499..f055b8c 100644
 --- a/elf/passes.cc
 +++ b/elf/passes.cc
 @@ -13,50 +13,6 @@
@@ -117,7 +117,7 @@ index 3664538..112aa79 100644
  template <typename E>
  void apply_exclude_libs(Context<E> &ctx) {
    Timer t(ctx, "apply_exclude_libs");
-@@ -2725,7 +2681,6 @@ void show_stats(Context<E> &ctx) {
+@@ -3086,7 +3042,6 @@ void show_stats(Context<E> &ctx) {
  
  using E = MOLD_TARGET;
  
