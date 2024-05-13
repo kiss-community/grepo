@@ -1,10 +1,10 @@
 diff --git a/security/sandbox/linux/SandboxFilter.cpp b/security/sandbox/linux/SandboxFilter.cpp
-index dffefac..19cc432 100644
+index a3b70e7..e5e604f 100644
 --- a/security/sandbox/linux/SandboxFilter.cpp
 +++ b/security/sandbox/linux/SandboxFilter.cpp
 @@ -1595,6 +1595,11 @@ class ContentSandboxPolicy : public SandboxPolicyCommon {
-       case __NR_clone3:
-         return Error(ENOSYS);
+       case __NR_clone:
+         return ClonePolicy(Error(EPERM));
  
 +#  ifdef __NR_fork
 +      case __NR_fork:
