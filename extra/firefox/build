@@ -1,7 +1,8 @@
 #!/bin/sh -e
 
 for p in *.patch; do
-    patch -p1 < "$p"
+    # busybox patch sucks
+    git apply "$p"
 done
 
 sed '/UNZIP/d' toolkit/moz.configure > _

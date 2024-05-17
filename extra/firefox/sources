@@ -1,4 +1,5 @@
 https://ftp.mozilla.org/pub/firefox/releases/126.0/source/firefox-126.0.source.tar.xz
+patches/0001-Bug-1882209-Update-encoding_rs-to-0.8.34-to-deal-wit.patch
 patches/fix-target-detection.patch
 patches/fix-vaapi.patch
 patches/musl-sandbox.patch
