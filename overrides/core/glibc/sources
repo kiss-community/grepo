@@ -1,4 +1,4 @@
-git+https://sourceware.org/git/glibc.git#1e04dcec491bd8f48b5b74ce3e8414132578a645
+git+https://sourceware.org/git/glibc.git#f8e462342189525e4605cf233b8f798d1c7f398d
 files/ldd sh-alternatives/
 files/locale-gen sh-alternatives/
 files/sotruss sh-alternatives/
