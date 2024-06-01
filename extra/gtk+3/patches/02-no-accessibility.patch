@@ -1721,7 +1721,7 @@
    g_object_notify (G_OBJECT (dialog), "message-type");
 --- a/gtk/gtkmodelbutton.c
 +++ b/gtk/gtkmodelbutton.c
-@@ -247,15 +247,6 @@
+@@ -248,16 +248,6 @@ gtk_model_button_update_state (GtkModelButton *button,
      gtk_css_gadget_set_state (button->gadget, state);
  
    gtk_css_gadget_set_state (button->indicator_gadget, indicator_state);
@@ -1730,14 +1730,15 @@
 -      button->role == GTK_BUTTON_ROLE_RADIO)
 -    {
 -      AtkObject *object = _gtk_widget_peek_accessible (GTK_WIDGET (button));
--      if (object)
--        atk_object_notify_state_change (object, ATK_STATE_CHECKED,
--                                        (indicator_state & GTK_STATE_FLAG_CHECKED));
+-      gboolean was_checked = (previous_flags & GTK_STATE_FLAG_CHECKED) != 0;
+-      gboolean is_checked = (indicator_state & GTK_STATE_FLAG_CHECKED) != 0;
+-      if (object && (was_checked != is_checked))
+-        atk_object_notify_state_change (object, ATK_STATE_CHECKED, is_checked);
 -    }
  }
  
  static void
-@@ -310,17 +301,13 @@
+@@ -312,17 +302,13 @@ gtk_model_button_direction_changed (GtkWidget        *widget,
  static void
  update_node_name (GtkModelButton *button)
  {
@@ -1755,7 +1756,7 @@
        if (button->menu_name)
          {
            indicator_name = I_("arrow");
-@@ -334,13 +321,11 @@
+@@ -336,13 +322,11 @@ update_node_name (GtkModelButton *button)
        break;
  
      case GTK_BUTTON_ROLE_CHECK:
@@ -1769,7 +1770,7 @@
        indicator_name = I_("radio");
        indicator_visible = TRUE;
        break;
-@@ -352,8 +337,6 @@
+@@ -354,8 +338,6 @@ update_node_name (GtkModelButton *button)
    if (button->iconic)
      indicator_visible = FALSE;
  
@@ -1778,7 +1779,7 @@
    indicator_node = gtk_css_gadget_get_node (button->indicator_gadget);
    gtk_css_node_set_name (indicator_node, indicator_name);
    gtk_css_node_set_visible (indicator_node, indicator_visible);
-@@ -1099,18 +1082,6 @@
+@@ -1101,18 +1083,6 @@ gtk_model_button_finalize (GObject *object)
    G_OBJECT_CLASS (gtk_model_button_parent_class)->finalize (object);
  }
  
@@ -1789,7 +1790,7 @@
 -
 -  object = GTK_WIDGET_CLASS (gtk_model_button_parent_class)->get_accessible (widget);
 -
--  gtk_model_button_update_state (GTK_MODEL_BUTTON (widget));
+-  gtk_model_button_update_state (GTK_MODEL_BUTTON (widget), GTK_STATE_FLAG_NORMAL);
 -
 -  return object;
 -}
@@ -1797,7 +1798,7 @@
  static void
  gtk_model_button_class_init (GtkModelButtonClass *class)
  {
-@@ -1132,7 +1103,6 @@
+@@ -1134,7 +1104,6 @@ gtk_model_button_class_init (GtkModelButtonClass *class)
    widget_class->destroy = gtk_model_button_destroy;
    widget_class->state_flags_changed = gtk_model_button_state_flags_changed;
    widget_class->direction_changed = gtk_model_button_direction_changed;
@@ -1805,7 +1806,7 @@
  
    button_class->clicked = gtk_model_button_clicked;
  
-@@ -1276,7 +1246,6 @@
+@@ -1278,7 +1247,6 @@ gtk_model_button_class_init (GtkModelButtonClass *class)
                            G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
    g_object_class_install_properties (object_class, LAST_PROPERTY, properties);
  
