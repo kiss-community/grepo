@@ -1,5 +1,5 @@
 diff --git a/libass/ass_render.h b/libass/ass_render.h
-index 581c131..0cb5458 100644
+index a3de04a..27a7929 100644
 --- a/libass/ass_render.h
 +++ b/libass/ass_render.h
 @@ -22,7 +22,6 @@
@@ -20,10 +20,10 @@ index 581c131..0cb5458 100644
      ASS_Image result;
      CompositeHashValue *source;
 diff --git a/libass/ass_shaper.c b/libass/ass_shaper.c
-index 77cf909..014b318 100644
+index fa445da..f4ed761 100644
 --- a/libass/ass_shaper.c
 +++ b/libass/ass_shaper.c
-@@ -90,8 +90,7 @@ struct ass_shaper_font_data {
+@@ -87,8 +87,7 @@ struct ass_shaper_metrics_data {
   */
  void ass_shaper_info(ASS_Library *lib)
  {
@@ -33,7 +33,7 @@ index 77cf909..014b318 100644
              " HarfBuzz-ng %s (COMPLEX)", hb_version_string()
             );
  }
-@@ -722,8 +721,7 @@ static bool shape_harfbuzz(ASS_Shaper *shaper, GlyphInfo *glyphs, size_t len)
+@@ -687,8 +686,7 @@ static bool shape_harfbuzz(ASS_Shaper *shaper, GlyphInfo *glyphs, size_t len)
                      lead_context, i - offset + 1);
          }
  
@@ -43,7 +43,7 @@ index 77cf909..014b318 100644
          props.script = glyphs[offset].script;
          props.language  = hb_shaper_get_run_language(shaper, props.script);
          hb_buffer_set_segment_properties(buf, &props);
-@@ -791,35 +789,6 @@ void ass_shaper_determine_script(ASS_Shaper *shaper, GlyphInfo *glyphs,
+@@ -754,35 +752,6 @@ void ass_shaper_determine_script(ASS_Shaper *shaper, GlyphInfo *glyphs,
      }
  }
  
@@ -79,7 +79,7 @@ index 77cf909..014b318 100644
  /**
   * \brief Toggle kerning for HarfBuzz shaping.
   * \param shaper shaper instance
-@@ -912,7 +881,7 @@ void ass_shaper_set_base_direction(ASS_Shaper *shaper, FriBidiParType dir)
+@@ -875,7 +844,7 @@ void ass_shaper_set_base_direction(ASS_Shaper *shaper, FriBidiParType dir)
      shaper->base_direction = dir;
  
      if (shaper->whole_text_layout != WHOLE_TEXT_LAYOUT_EXPLICIT)
@@ -88,7 +88,7 @@ index 77cf909..014b318 100644
              WHOLE_TEXT_LAYOUT_IMPLICIT : WHOLE_TEXT_LAYOUT_OFF;
  }
  
-@@ -952,7 +921,7 @@ void ass_shaper_set_whole_text_layout(ASS_Shaper *shaper, bool enable)
+@@ -915,7 +884,7 @@ void ass_shaper_set_whole_text_layout(ASS_Shaper *shaper, bool enable)
  {
      shaper->whole_text_layout = enable ?
          WHOLE_TEXT_LAYOUT_EXPLICIT :
@@ -97,7 +97,7 @@ index 77cf909..014b318 100644
              WHOLE_TEXT_LAYOUT_IMPLICIT : WHOLE_TEXT_LAYOUT_OFF;
  }
  
-@@ -963,8 +932,7 @@ void ass_shaper_set_whole_text_layout(ASS_Shaper *shaper, bool enable)
+@@ -926,8 +895,7 @@ void ass_shaper_set_whole_text_layout(ASS_Shaper *shaper, bool enable)
   */
  bool ass_shaper_shape(ASS_Shaper *shaper, TextInfo *text_info)
  {
@@ -107,12 +107,20 @@ index 77cf909..014b318 100644
      GlyphInfo *glyphs = text_info->glyphs;
      shaper->event_text = text_info->event_text;
  
-@@ -979,52 +947,7 @@ bool ass_shaper_shape(ASS_Shaper *shaper, TextInfo *text_info)
+@@ -937,61 +905,7 @@ bool ass_shaper_shape(ASS_Shaper *shaper, TextInfo *text_info)
      for (i = 0; i < text_info->length; i++)
          shaper->event_text[i] = glyphs[i].symbol;
  
 -    fribidi_get_bidi_types(shaper->event_text,
 -            text_info->length, shaper->ctypes);
+-
+-    int n_pars = 1;
+-    for (i = 0; i < text_info->length - 1; i++)
+-        if (shaper->ctypes[i] == FRIBIDI_TYPE_BS)
+-            n_pars++;
+-
+-    if (!check_par_allocations(shaper, n_pars))
+-        return false;
 -
 -#ifdef USE_FRIBIDI_EX_API
 -    if (shaper->bidi_brackets) {
@@ -125,8 +133,9 @@ index 77cf909..014b318 100644
 -    last_break = 0;
 -    pdir = shaper->pbase_dir;
 -    for (i = 0; i < text_info->length; i++) {
--        // embedding levels should be calculated paragraph by paragraph
--        if (glyphs[i].symbol == '\n' || i == text_info->length - 1 ||
+-        // Embedding levels must be calculated one bidi "paragraph" at a time
+-        if (i == text_info->length - 1 ||
+-                shaper->ctypes[i] == FRIBIDI_TYPE_BS ||
 -                (!shaper->whole_text_layout &&
 -                    (glyphs[i + 1].starts_new_run || glyphs[i].hspacing))) {
 -            dir = shaper->base_direction;
@@ -161,7 +170,7 @@ index 77cf909..014b318 100644
  }
  
  /**
-@@ -1038,7 +961,7 @@ ASS_Shaper *ass_shaper_new(Cache *metrics_cache)
+@@ -1005,7 +919,7 @@ ASS_Shaper *ass_shaper_new(Cache *metrics_cache)
      if (!shaper)
          return NULL;
  
@@ -170,7 +179,7 @@ index 77cf909..014b318 100644
  
      if (!init_features(shaper))
          goto error;
-@@ -1079,34 +1002,12 @@ void ass_shaper_cleanup(ASS_Shaper *shaper, TextInfo *text_info)
+@@ -1066,38 +980,12 @@ void ass_shaper_cleanup(ASS_Shaper *shaper, TextInfo *text_info)
   */
  FriBidiStrIndex *ass_shaper_reorder(ASS_Shaper *shaper, TextInfo *text_info)
  {
@@ -187,7 +196,11 @@ index 77cf909..014b318 100644
 -        shaper->pbase_dir : &shaper->base_direction;
 -    GlyphInfo *glyphs = text_info->glyphs;
 -    for (i = 0; i < text_info->length; i++) {
+-        // Bidi "paragraph separators" may occur between line breaks:
+-        // U+001C..1E even with ASS_FEATURE_WRAP_UNICODE,
+-        // or U+000D, U+0085, U+2029 only without it
 -        if (i == text_info->length - 1 || glyphs[i + 1].linebreak ||
+-                shaper->ctypes[i] == FRIBIDI_TYPE_BS ||
 -                (!shaper->whole_text_layout &&
 -                    (glyphs[i + 1].starts_new_run || glyphs[i].hspacing))) {
 -            ret = fribidi_reorder_line(0,
@@ -198,7 +211,7 @@ index 77cf909..014b318 100644
 -                return NULL;
 -
 -            last_break = i + 1;
--            if (shaper->whole_text_layout && glyphs[i].symbol == '\n')
+-            if (shaper->whole_text_layout && shaper->ctypes[i] == FRIBIDI_TYPE_BS)
 -                pdir++;
 -        }
 -    }
@@ -206,7 +219,7 @@ index 77cf909..014b318 100644
      return shaper->cmap;
  }
  
-@@ -1124,10 +1025,5 @@ FriBidiStrIndex *ass_shaper_get_reorder_map(ASS_Shaper *shaper)
+@@ -1115,10 +1003,5 @@ FriBidiStrIndex *ass_shaper_get_reorder_map(ASS_Shaper *shaper)
   */
  FriBidiParType ass_resolve_base_direction(int enc)
  {
@@ -219,7 +232,7 @@ index 77cf909..014b318 100644
 +    return 0;
  }
 diff --git a/libass/ass_shaper.h b/libass/ass_shaper.h
-index 819a3fd..3eef8d7 100644
+index b4694b0..4d396e1 100644
 --- a/libass/ass_shaper.h
 +++ b/libass/ass_shaper.h
 @@ -21,14 +21,15 @@
