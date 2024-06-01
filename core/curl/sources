@@ -1,4 +1,4 @@
-https://curl.haxx.se/download/curl-8.7.1.tar.xz
+https://curl.haxx.se/download/curl-8.8.0.tar.xz
 files/CURLINFO_ACTIVESOCKET.3 docs/libcurl/opts
 files/CURLINFO_APPCONNECT_TIME.3 docs/libcurl/opts
 files/CURLINFO_APPCONNECT_TIME_T.3 docs/libcurl/opts
@@ -141,6 +141,7 @@ files/CURLOPT_DOH_SSL_VERIFYHOST.3 docs/libcurl/opts
 files/CURLOPT_DOH_SSL_VERIFYPEER.3 docs/libcurl/opts
 files/CURLOPT_DOH_SSL_VERIFYSTATUS.3 docs/libcurl/opts
 files/CURLOPT_DOH_URL.3 docs/libcurl/opts
+files/CURLOPT_ECH.3 docs/libcurl/opts
 files/CURLOPT_EGDSOCKET.3 docs/libcurl/opts
 files/CURLOPT_ERRORBUFFER.3 docs/libcurl/opts
 files/CURLOPT_EXPECT_100_TIMEOUT_MS.3 docs/libcurl/opts
@@ -461,6 +462,7 @@ files/curl_multi_socket_all.3 docs/libcurl
 files/curl_multi_strerror.3 docs/libcurl
 files/curl_multi_timeout.3 docs/libcurl
 files/curl_multi_wait.3 docs/libcurl
+files/curl_multi_waitfds.3 docs/libcurl
 files/curl_multi_wakeup.3 docs/libcurl
 files/curl_pushheader_byname.3 docs/libcurl
 files/curl_pushheader_bynum.3 docs/libcurl
