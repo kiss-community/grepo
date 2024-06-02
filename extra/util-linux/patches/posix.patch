@@ -1,28 +1,25 @@
 diff --git a/tools/all_syscalls b/tools/all_syscalls
-index 9c14778..8f0d582 100755
+index eccb0d0..3d7a34f 100755
 --- a/tools/all_syscalls
 +++ b/tools/all_syscalls
-@@ -1,4 +1,4 @@
+@@ -1,7 +1,6 @@
 -#!/bin/bash
 +#!/bin/sh
  
  set -e
+-set -o pipefail
  
-@@ -7,9 +7,14 @@ SYSCALL_INCLUDES="
+ SED="$1"
+ shift
+@@ -10,9 +9,9 @@ SYSCALL_INCLUDES="
  #include <sys/syscall.h>
  "
  
--trap 'rm $OUTPUT $OUTPUT.deps' ERR
-+trap '[ $? -eq 0 ] || rm $OUTPUT $OUTPUT.deps' EXIT
+-trap 'rm -f $OUTPUT $OUTPUT.deps' ERR
++trap '[ $? -eq 0 ] || rm -f $OUTPUT $OUTPUT.deps' EXIT
  
 -"$@" -MD -MF "$OUTPUT.deps" <<< "$SYSCALL_INCLUDES" -dM -E - \
--	| gawk 'match($0, /^#define __NR_([^ ]+)/, res) { print "UL_SYSCALL(\"" res[1] "\", __NR_" res[1] ")" }' \
 +echo "$SYSCALL_INCLUDES" | "$@" -MD -MF "$OUTPUT.deps" -dM -E - \
-+	| awk 'match($0, /^#define __NR_([^ ]+)/) {
-+		split(substr($0, RSTART + 1, RLENGTH - 1), syscall_split)
-+		syscall_nr_def = syscall_split[2]
-+		syscall_name = substr(syscall_nr_def, 6)
-+		print "UL_SYSCALL(\"" syscall_name "\", " syscall_nr_def ")"
-+	}' \
+ 	| "$SED" -n -e 's/^#define __NR_\([^ ]*\).*$/UL_SYSCALL("\1", __NR_\1)/p' \
  	| sort \
  	> "$OUTPUT"
