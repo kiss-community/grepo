@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < gcc-14.patch
+
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
