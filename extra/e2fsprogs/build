@@ -9,6 +9,7 @@ export LDFLAGS="$LDFLAGS -static"
     --enable-symlink-install \
     --enable-libuuid \
     --enable-libblkid \
+    --disable-fuse2fs \
     --disable-nls \
     --disable-uuidd \
     --disable-fsck \
