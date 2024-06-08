@@ -3,6 +3,7 @@
 export LDFLAGS="$LDFLAGS -static"
 
 ./configure \
+    CPPFLAGS="$CPPFLAGS -DHAVE_LSEEK64" \
     --prefix=/usr \
     --sbindir=/usr/bin \
     --sysconfdir=/etc \
