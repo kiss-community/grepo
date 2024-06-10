@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index a8ce876..7cc4da2 100644
+index dcf935d..619874e 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -299,12 +299,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -16,9 +16,9 @@ index a8ce876..7cc4da2 100644
    elf/cmdline.cc
    elf/gc-sections.cc
    elf/gdb-index.cc
-@@ -356,17 +353,6 @@ target_sources(mold PRIVATE
-   common/multi-glob.cc
+@@ -357,17 +354,6 @@ target_sources(mold PRIVATE
    common/perf.cc
+   common/random.cc
    common/tar.cc
 -  elf/arch-alpha.cc
 -  elf/arch-arm32.cc
