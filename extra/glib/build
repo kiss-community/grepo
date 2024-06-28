@@ -14,6 +14,7 @@ meson setup \
     -Dtests=false \
     -Dlibelf=disabled \
     -Dnls=disabled \
+    -Dsysprof=disabled \
     build
 
 ninja -C build
