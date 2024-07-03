@@ -1,5 +1,5 @@
 diff --git a/libass/ass_render.h b/libass/ass_render.h
-index a3de04a..27a7929 100644
+index 7a157ab..c8adf1d 100644
 --- a/libass/ass_render.h
 +++ b/libass/ass_render.h
 @@ -22,7 +22,6 @@
@@ -20,7 +20,7 @@ index a3de04a..27a7929 100644
      ASS_Image result;
      CompositeHashValue *source;
 diff --git a/libass/ass_shaper.c b/libass/ass_shaper.c
-index fa445da..f4ed761 100644
+index 86f2c66..e72a7d5 100644
 --- a/libass/ass_shaper.c
 +++ b/libass/ass_shaper.c
 @@ -87,8 +87,7 @@ struct ass_shaper_metrics_data {
@@ -33,7 +33,7 @@ index fa445da..f4ed761 100644
              " HarfBuzz-ng %s (COMPLEX)", hb_version_string()
             );
  }
-@@ -687,8 +686,7 @@ static bool shape_harfbuzz(ASS_Shaper *shaper, GlyphInfo *glyphs, size_t len)
+@@ -705,8 +704,7 @@ static bool shape_harfbuzz(ASS_Shaper *shaper, GlyphInfo *glyphs, size_t len)
                      lead_context, i - offset + 1);
          }
  
@@ -43,7 +43,7 @@ index fa445da..f4ed761 100644
          props.script = glyphs[offset].script;
          props.language  = hb_shaper_get_run_language(shaper, props.script);
          hb_buffer_set_segment_properties(buf, &props);
-@@ -754,35 +752,6 @@ void ass_shaper_determine_script(ASS_Shaper *shaper, GlyphInfo *glyphs,
+@@ -774,35 +772,6 @@ void ass_shaper_determine_script(ASS_Shaper *shaper, GlyphInfo *glyphs,
      }
  }
  
@@ -55,7 +55,7 @@ index fa445da..f4ed761 100644
 -static void shape_fribidi(ASS_Shaper *shaper, GlyphInfo *glyphs, size_t len)
 -{
 -    int i;
--    FriBidiJoiningType *joins = calloc(sizeof(*joins), len);
+-    FriBidiJoiningType *joins = calloc(len, sizeof(*joins));
 -
 -    // shape on codepoint level
 -    fribidi_get_joining_types(shaper->event_text, len, joins);
@@ -79,7 +79,7 @@ index fa445da..f4ed761 100644
  /**
   * \brief Toggle kerning for HarfBuzz shaping.
   * \param shaper shaper instance
-@@ -875,7 +844,7 @@ void ass_shaper_set_base_direction(ASS_Shaper *shaper, FriBidiParType dir)
+@@ -895,7 +864,7 @@ void ass_shaper_set_base_direction(ASS_Shaper *shaper, FriBidiParType dir)
      shaper->base_direction = dir;
  
      if (shaper->whole_text_layout != WHOLE_TEXT_LAYOUT_EXPLICIT)
@@ -88,7 +88,7 @@ index fa445da..f4ed761 100644
              WHOLE_TEXT_LAYOUT_IMPLICIT : WHOLE_TEXT_LAYOUT_OFF;
  }
  
-@@ -915,7 +884,7 @@ void ass_shaper_set_whole_text_layout(ASS_Shaper *shaper, bool enable)
+@@ -935,7 +904,7 @@ void ass_shaper_set_whole_text_layout(ASS_Shaper *shaper, bool enable)
  {
      shaper->whole_text_layout = enable ?
          WHOLE_TEXT_LAYOUT_EXPLICIT :
@@ -97,7 +97,7 @@ index fa445da..f4ed761 100644
              WHOLE_TEXT_LAYOUT_IMPLICIT : WHOLE_TEXT_LAYOUT_OFF;
  }
  
-@@ -926,8 +895,7 @@ void ass_shaper_set_whole_text_layout(ASS_Shaper *shaper, bool enable)
+@@ -946,8 +915,7 @@ void ass_shaper_set_whole_text_layout(ASS_Shaper *shaper, bool enable)
   */
  bool ass_shaper_shape(ASS_Shaper *shaper, TextInfo *text_info)
  {
@@ -107,7 +107,7 @@ index fa445da..f4ed761 100644
      GlyphInfo *glyphs = text_info->glyphs;
      shaper->event_text = text_info->event_text;
  
-@@ -937,61 +905,7 @@ bool ass_shaper_shape(ASS_Shaper *shaper, TextInfo *text_info)
+@@ -957,61 +925,7 @@ bool ass_shaper_shape(ASS_Shaper *shaper, TextInfo *text_info)
      for (i = 0; i < text_info->length; i++)
          shaper->event_text[i] = glyphs[i].symbol;
  
@@ -170,7 +170,7 @@ index fa445da..f4ed761 100644
  }
  
  /**
-@@ -1005,7 +919,7 @@ ASS_Shaper *ass_shaper_new(Cache *metrics_cache)
+@@ -1025,7 +939,7 @@ ASS_Shaper *ass_shaper_new(Cache *metrics_cache, Cache *face_size_metrics_cache)
      if (!shaper)
          return NULL;
  
@@ -179,7 +179,7 @@ index fa445da..f4ed761 100644
  
      if (!init_features(shaper))
          goto error;
-@@ -1066,38 +980,12 @@ void ass_shaper_cleanup(ASS_Shaper *shaper, TextInfo *text_info)
+@@ -1087,38 +1001,12 @@ void ass_shaper_cleanup(ASS_Shaper *shaper, TextInfo *text_info)
   */
  FriBidiStrIndex *ass_shaper_reorder(ASS_Shaper *shaper, TextInfo *text_info)
  {
@@ -219,7 +219,7 @@ index fa445da..f4ed761 100644
      return shaper->cmap;
  }
  
-@@ -1115,10 +1003,5 @@ FriBidiStrIndex *ass_shaper_get_reorder_map(ASS_Shaper *shaper)
+@@ -1136,10 +1024,5 @@ FriBidiStrIndex *ass_shaper_get_reorder_map(ASS_Shaper *shaper)
   */
  FriBidiParType ass_resolve_base_direction(int enc)
  {
@@ -232,7 +232,7 @@ index fa445da..f4ed761 100644
 +    return 0;
  }
 diff --git a/libass/ass_shaper.h b/libass/ass_shaper.h
-index b4694b0..4d396e1 100644
+index 06f868d..333252b 100644
 --- a/libass/ass_shaper.h
 +++ b/libass/ass_shaper.h
 @@ -21,14 +21,15 @@
@@ -254,4 +254,21 @@ index b4694b0..4d396e1 100644
 +typedef signed char FriBidiLevel;
  
  void ass_shaper_info(ASS_Library *lib);
- ASS_Shaper *ass_shaper_new(Cache *metrics_cache);
+ ASS_Shaper *ass_shaper_new(Cache *metrics_cache, Cache *face_size_metrics_cache);
+diff --git a/meson.build b/meson.build
+index 9eb7969..bc40a57 100644
+--- a/meson.build
++++ b/meson.build
+@@ -87,12 +87,6 @@ deps += dependency(
+     default_options: ['harfbuzz=disabled'],
+ )
+ 
+-deps += dependency(
+-    'fribidi',
+-    version: '>= 0.19.1',
+-    default_options: ['docs=false', 'tests=false'],
+-)
+-
+ harfbuzz_options = [
+     'tests=disabled',
+     'cairo=disabled',
