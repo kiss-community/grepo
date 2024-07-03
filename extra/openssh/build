@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export CFLAGS="$CFLAGS -Wno-error=incompatible-pointer-types"
+
 ./configure \
     --prefix=/usr \
     --datadir=/usr/share/openssh \
