@@ -1,0 +1,12 @@
+diff --git a/configure b/configure
+index 4f5353f..88c66f3 100755
+--- a/configure
++++ b/configure
+@@ -7540,6 +7540,7 @@ elif enabled gcc; then
+     check_cflags -Werror=return-type
+     check_cflags -Werror=vla
+     check_cflags -Wformat
++    check_cflags -Wno-error=incompatible-pointer-types
+     check_cflags -fdiagnostics-color=auto
+     enabled extra_warnings || check_disable_warning -Wno-maybe-uninitialized
+     if enabled x86_32; then
