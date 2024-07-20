@@ -1,4 +1,3 @@
 meson make
 python-glad make
 python-markupsafe make
-vulkan-headers make

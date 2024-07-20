@@ -1,0 +1,11 @@
+diff --git a/src/vulkan/meson.build b/src/vulkan/meson.build
+index 64c5572..b4bd46a 100644
+--- a/src/vulkan/meson.build
++++ b/src/vulkan/meson.build
+@@ -54,6 +54,4 @@ if vulkan_build.allowed()
+     build_deps += vulkan_loader
+     tests += 'vulkan.c'
+   endif
+-else
+-  sources += 'vulkan/stubs.c'
+ endif
