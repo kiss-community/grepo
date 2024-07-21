@@ -1,0 +1,30 @@
+diff --git a/include/netlink/attr.h b/include/netlink/attr.h
+index 3e3047f..789e8c2 100644
+--- a/include/netlink/attr.h
++++ b/include/netlink/attr.h
+@@ -45,6 +45,7 @@ enum {
+ 	NLA_FLAG,	/**< Flag */
+ 	NLA_MSECS,	/**< Micro seconds (64bit) */
+ 	NLA_NESTED,	/**< Nested attributes */
++	NLA_S8,
+ 	__NLA_TYPE_MAX,
+ };
+ 
+@@ -248,6 +249,17 @@ static inline int nla_put_addr(struct nl_msg *msg, int attrtype, struct nl_addr
+  * @name Integer Attributes
+  */
+ 
++/**
++ * Return value of 8 bit signed integer attribute.
++ * @arg nla             8 bit integer attribute
++ *
++ * @return Payload as 8 bit integer
++ */
++static inline int8_t nla_get_s8(const struct nlattr *nla)
++{
++	return *(const int8_t *) nla_data(nla);
++}
++
+ /**
+  * Add 8 bit integer attribute to netlink message.
+  * @arg msg		Netlink message.
