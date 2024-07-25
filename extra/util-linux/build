@@ -13,6 +13,7 @@ patch -p1 < posix.patch
     --enable-fsck \
     --enable-chfn-chsh \
     --disable-chfn-chsh-password \
+    --disable-liblastlog2 \
     --disable-makeinstall-chown \
     --disable-rpath \
     --without-udev \
