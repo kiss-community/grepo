@@ -1,4 +1,4 @@
-https://curl.haxx.se/download/curl-8.8.0.tar.xz
+https://curl.haxx.se/download/curl-8.9.0.tar.xz
 files/CURLINFO_ACTIVESOCKET.3 docs/libcurl/opts
 files/CURLINFO_APPCONNECT_TIME.3 docs/libcurl/opts
 files/CURLINFO_APPCONNECT_TIME_T.3 docs/libcurl/opts
@@ -357,6 +357,7 @@ files/CURLOPT_STREAM_WEIGHT.3 docs/libcurl/opts
 files/CURLOPT_SUPPRESS_CONNECT_HEADERS.3 docs/libcurl/opts
 files/CURLOPT_TCP_FASTOPEN.3 docs/libcurl/opts
 files/CURLOPT_TCP_KEEPALIVE.3 docs/libcurl/opts
+files/CURLOPT_TCP_KEEPCNT.3 docs/libcurl/opts
 files/CURLOPT_TCP_KEEPIDLE.3 docs/libcurl/opts
 files/CURLOPT_TCP_KEEPINTVL.3 docs/libcurl/opts
 files/CURLOPT_TCP_NODELAY.3 docs/libcurl/opts
