@@ -1,4 +1,4 @@
-https://curl.haxx.se/download/curl-8.9.0.tar.xz
+https://curl.haxx.se/download/curl-8.9.1.tar.xz
 files/CURLINFO_ACTIVESOCKET.3 docs/libcurl/opts
 files/CURLINFO_APPCONNECT_TIME.3 docs/libcurl/opts
 files/CURLINFO_APPCONNECT_TIME_T.3 docs/libcurl/opts
