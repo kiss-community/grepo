@@ -1,7 +1,5 @@
-Upstream vendors packaging, use system packaging instead
-
 diff --git a/setup.py b/setup.py
-index 78b124e..e5025c9 100644
+index 05c2d63..7a5efd2 100644
 --- a/setup.py
 +++ b/setup.py
 @@ -4,7 +4,7 @@
@@ -13,46 +11,24 @@ index 78b124e..e5025c9 100644
  
  package_data = \
  {'': ['*']}
-diff --git a/src/wheel/bdist_wheel.py b/src/wheel/bdist_wheel.py
-index 2f93c47..78cdd90 100644
---- a/src/wheel/bdist_wheel.py
-+++ b/src/wheel/bdist_wheel.py
-@@ -19,6 +19,7 @@ from email.policy import EmailPolicy
- from glob import iglob
- from shutil import rmtree
- from zipfile import ZIP_DEFLATED, ZIP_STORED
-+from packaging import tags
- 
- import setuptools
- from setuptools import Command
-@@ -27,8 +28,7 @@ from . import __version__ as wheel_version
- from .macosx_libfile import calculate_macosx_platform_tag
- from .metadata import pkginfo_to_metadata
- from .util import log
--from .vendored.packaging import tags
--from .vendored.packaging import version as _packaging_version
-+from packaging import version as _packaging_version
- from .wheelfile import WheelFile
- 
- 
 diff --git a/src/wheel/metadata.py b/src/wheel/metadata.py
-index b391c96..ffa1706 100644
+index b8098fa..3a17175 100644
 --- a/src/wheel/metadata.py
 +++ b/src/wheel/metadata.py
-@@ -12,7 +12,7 @@ from email.message import Message
+@@ -13,7 +13,7 @@ from email.message import Message
  from email.parser import Parser
- from typing import Iterator
+ from typing import Generator, Iterable, Iterator, Literal
  
 -from .vendored.packaging.requirements import Requirement
 +from packaging.requirements import Requirement
  
  
- def _nonblank(str):
+ def _nonblank(str: str) -> bool | Literal[""]:
 diff --git a/tests/test_bdist_wheel.py b/tests/test_bdist_wheel.py
-index d202469..95ea27d 100644
+index bb1457a..6e118ef 100644
 --- a/tests/test_bdist_wheel.py
 +++ b/tests/test_bdist_wheel.py
-@@ -20,7 +20,7 @@ from wheel.bdist_wheel import (
+@@ -22,7 +22,7 @@ from wheel._bdist_wheel import (
      remove_readonly,
      remove_readonly_exc,
  )
