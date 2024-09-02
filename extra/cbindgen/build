@@ -37,7 +37,7 @@ mkdir -p .cargo
 
 # Create the configuration file to tell cargo to look in the 'vendor' directory
 # for the already downloaded sources rather than crates.io (over network).
-cat <<EOF > .cargo/config
+cat <<EOF > .cargo/config.toml
 [source.crates-io]
 replace-with = "vendored-sources"
 
