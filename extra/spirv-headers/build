@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DSPIRV_HEADERS_ENABLE_TESTS=OFF \
+    -DSPIRV_HEADERS_ENABLE_INSTALL=ON
+
+cmake --build   build
+cmake --install build
