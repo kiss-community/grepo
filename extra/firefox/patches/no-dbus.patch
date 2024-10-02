@@ -12,7 +12,7 @@ index 4ac1408..0e84246 100644
              "nsGTKRemoteServer.cpp",
              "nsXRemoteClient.cpp",
 diff --git a/toolkit/components/remote/nsRemoteService.cpp b/toolkit/components/remote/nsRemoteService.cpp
-index 3e8e4b5..ee964b9 100644
+index 7eef237..9e252d1 100644
 --- a/toolkit/components/remote/nsRemoteService.cpp
 +++ b/toolkit/components/remote/nsRemoteService.cpp
 @@ -6,12 +6,14 @@
@@ -32,19 +32,19 @@ index 3e8e4b5..ee964b9 100644
  #  endif
  #elif defined(XP_WIN)
  #  include "nsWinRemoteServer.h"
-@@ -101,8 +103,10 @@ RemoteResult nsRemoteService::StartClient(const char* aStartupToken) {
+@@ -109,8 +111,10 @@ nsresult nsRemoteService::SendCommandLine(const nsACString& aProfile,
  #ifdef MOZ_WIDGET_GTK
  #  if defined(MOZ_ENABLE_DBUS)
-   client = MakeUnique<nsDBusRemoteClient>();
+   client = MakeUnique<nsDBusRemoteClient>(mStartupToken);
 -#  else
 +#  elif defined(MOZ_X11)
-   client = MakeUnique<nsXRemoteClient>();
+   client = MakeUnique<nsXRemoteClient>(mStartupToken);
 +#  else
-+  return REMOTE_NOT_FOUND;
++  return NS_ERROR_NOT_AVAILABLE;
  #  endif
  #elif defined(XP_WIN)
    client = MakeUnique<nsWinRemoteClient>();
-@@ -145,8 +149,10 @@ void nsRemoteService::StartupServer() {
+@@ -171,8 +175,10 @@ void nsRemoteService::StartupServer() {
  #ifdef MOZ_WIDGET_GTK
  #  if defined(MOZ_ENABLE_DBUS)
    mRemoteServer = MakeUnique<nsDBusRemoteServer>();
