@@ -12,3 +12,7 @@ NOTE: libcrypt files might be absent after updating to glibc 2.38, this is
       to restore alternatives to point to libxcrypt:
 
           `kiss a | grep libxcrypt | kiss a -`
+
+NOTE: gcc must be re-built after updating to glibc 2.40 to prevent
+      build failures:
+          https://inbox.sourceware.org/libc-help/871q2rmnpq.fsf@oldenburg.str.redhat.com/T/#t
