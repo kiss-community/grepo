@@ -10,8 +10,8 @@ export RUSTFLAGS="$RUSTFLAGS --remap-path-prefix=$PWD=."
 
 # Ignore checksums of files modified above.
 sed 's/\("files":{\)[^}]*/\1/' \
-    vendor/curl-sys/.cargo-checksum.json > _
-mv -f _ vendor/curl-sys/.cargo-checksum.json
+    vendor/curl-sys-0.4.72+curl-8.6.0/.cargo-checksum.json > _
+mv -f _ vendor/curl-sys-0.4.72+curl-8.6.0/.cargo-checksum.json
 
 cat > config.toml <<EOF
 [llvm]
@@ -38,7 +38,7 @@ EOF
 # This mimics the download process of rust's 'x.py'
 # bootstrap library to allow for the removal of the internet
 # connection requirement per build.
-mkdir -p "${cache_dir:=build/cache/2024-02-08}"
+mkdir -p "${cache_dir:=build/cache/2024-08-08}"
 
 for tarball in *.tar.xz\?no-extract; do
     mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"

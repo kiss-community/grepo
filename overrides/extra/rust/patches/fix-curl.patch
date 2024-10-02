@@ -1,7 +1,5 @@
-diff --git a/vendor/curl-sys/build.rs b/vendor/curl-sys/build.rs
-index 24475cc..3249440 100644
---- a/vendor/curl-sys/build.rs
-+++ b/vendor/curl-sys/build.rs
+--- a/vendor/curl-sys-0.4.72+curl-8.6.0/build.rs
++++ b/vendor/curl-sys-0.4.72+curl-8.6.0/build.rs
 @@ -111,6 +111,8 @@ fn main() {
          .include("curl/lib")
          .include("curl/include")
