@@ -1,18 +1,18 @@
 diff --git a/clang/lib/Driver/ToolChains/Gnu.cpp b/clang/lib/Driver/ToolChains/Gnu.cpp
-index e5e1b1d..7ee093f 100644
+index 543f396..24ee06b 100644
 --- a/clang/lib/Driver/ToolChains/Gnu.cpp
 +++ b/clang/lib/Driver/ToolChains/Gnu.cpp
-@@ -2538,8 +2538,7 @@ void Generic_GCC::GCCInstallationDetector::AddDefaultGCCPrefixes(
+@@ -2545,8 +2545,7 @@ void Generic_GCC::GCCInstallationDetector::AddDefaultGCCPrefixes(
+       // 64-bit compiler which defaults to "-m32", hence "powerpc64-suse-linux".
        "powerpc64-suse-linux", "powerpc-montavista-linuxspe"};
    static const char *const PPCLELibDirs[] = {"/lib32", "/lib"};
-   static const char *const PPCLETriples[] = {"powerpcle-linux-gnu",
--                                             "powerpcle-unknown-linux-gnu",
+-  static const char *const PPCLETriples[] = {"powerpcle-unknown-linux-gnu",
 -                                             "powerpcle-linux-musl"};
-+                                             "powerpcle-unknown-linux-gnu"};
++  static const char *const PPCLETriples[] = {"powerpcle-unknown-linux-gnu"};
  
    static const char *const PPC64LibDirs[] = {"/lib64", "/lib"};
-   static const char *const PPC64Triples[] = {
-@@ -2616,6 +2615,95 @@ void Generic_GCC::GCCInstallationDetector::AddDefaultGCCPrefixes(
+   static const char *const PPC64Triples[] = {"powerpc64-unknown-linux-gnu",
+@@ -2619,6 +2618,95 @@ void Generic_GCC::GCCInstallationDetector::AddDefaultGCCPrefixes(
      return;
    }
  
