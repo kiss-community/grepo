@@ -2,10 +2,7 @@
 
 patch -p1 < musl.patch
 
-# Build sometimes forces -Werror.
-export CFLAGS="$CFLAGS -Wno-error"
-
-sh ./configure \
+./configure \
     --prefix=/usr \
     --disable-symbol-versioning \
     --disable-debuginfod \

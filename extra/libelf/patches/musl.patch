@@ -1,8 +1,8 @@
 diff --git a/configure b/configure
-index 562d9f4..8c45cc1 100755
+index 66ac6b3..4cbe652 100755
 --- a/configure
 +++ b/configure
-@@ -8880,7 +8880,7 @@ LIBS="$saved_LIBS"
+@@ -9345,7 +9345,7 @@ LIBS="$saved_LIBS"
  case "$ac_cv_search_argp_parse" in
          no) { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
  printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
@@ -11,7 +11,7 @@ index 562d9f4..8c45cc1 100755
  See \`config.log' for more details" "$LINENO" 5; } ;;
          -l*) argp_LDADD="$ac_cv_search_argp_parse" ;;
          *) argp_LDADD= ;;
-@@ -8951,7 +8951,7 @@ LIBS="$saved_LIBS"
+@@ -9416,7 +9416,7 @@ LIBS="$saved_LIBS"
  case "$ac_cv_search_fts_close" in
          no) { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
  printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
@@ -20,7 +20,7 @@ index 562d9f4..8c45cc1 100755
  See \`config.log' for more details" "$LINENO" 5; } ;;
          -l*) fts_LIBS="$ac_cv_search_fts_close" ;;
          *) fts_LIBS= ;;
-@@ -9022,7 +9022,7 @@ LIBS="$saved_LIBS"
+@@ -9487,7 +9487,7 @@ LIBS="$saved_LIBS"
  case "$ac_cv_search__obstack_free" in
          no) { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
  printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
@@ -30,30 +30,28 @@ index 562d9f4..8c45cc1 100755
          -l*) obstack_LIBS="$ac_cv_search__obstack_free" ;;
          *) obstack_LIBS= ;;
 diff --git a/lib/Makefile.in b/lib/Makefile.in
-index e84bc45..1f3be35 100644
+index c559642..608013f 100644
 --- a/lib/Makefile.in
 +++ b/lib/Makefile.in
-@@ -117,8 +117,8 @@ libeu_a_AR = $(AR) $(ARFLAGS)
- libeu_a_LIBADD =
+@@ -118,7 +118,7 @@ libeu_a_LIBADD =
  am_libeu_a_OBJECTS = xasprintf.$(OBJEXT) xstrdup.$(OBJEXT) \
  	xstrndup.$(OBJEXT) xmalloc.$(OBJEXT) next_prime.$(OBJEXT) \
--	crc32.$(OBJEXT) crc32_file.$(OBJEXT) color.$(OBJEXT) \
--	error.$(OBJEXT) printversion.$(OBJEXT)
-+	crc32.$(OBJEXT) crc32_file.$(OBJEXT) \
+ 	crc32.$(OBJEXT) crc32_file.$(OBJEXT) eu-search.$(OBJEXT) \
+-	color.$(OBJEXT) error.$(OBJEXT) printversion.$(OBJEXT)
 +	error.$(OBJEXT)
  libeu_a_OBJECTS = $(am_libeu_a_OBJECTS)
  AM_V_P = $(am__v_P_@AM_V@)
  am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
-@@ -409,10 +409,10 @@ textrel_check = if $(READELF) -d $@ | grep -F -q TEXTREL; then $(textrel_found);
+@@ -424,10 +424,10 @@ textrel_check = if $(READELF) -d $@ | grep -F -q TEXTREL; then $(textrel_found);
  noinst_LIBRARIES = libeu.a
  libeu_a_SOURCES = xasprintf.c xstrdup.c xstrndup.c xmalloc.c next_prime.c \
- 		  crc32.c crc32_file.c \
+ 		  crc32.c crc32_file.c eu-search.c \
 -		  color.c error.c printversion.c
-+		  color.c
++		  error.c
  
  noinst_HEADERS = fixedsizehash.h libeu.h system.h dynamicsizehash.h list.h \
 -		 eu-config.h color.h printversion.h bpf.h \
 +		 eu-config.h bpf.h \
- 		 atomics.h stdatomic-fbsd.h dynamicsizehash_concurrent.h
+ 		 atomics.h stdatomic-fbsd.h dynamicsizehash_concurrent.h \
+ 		 eu-search.h locks.h
  
- EXTRA_DIST = dynamicsizehash.c dynamicsizehash_concurrent.c
