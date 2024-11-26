@@ -1,9 +1,9 @@
 diff --git a/Lib/ensurepip/__init__.py b/Lib/ensurepip/__init__.py
-index f28ab11..6627189 100644
+index c5350df..7886cb2 100644
 --- a/Lib/ensurepip/__init__.py
 +++ b/Lib/ensurepip/__init__.py
-@@ -180,7 +180,7 @@ def _bootstrap(*, root=None, upgrade=False, user=False,
-             additional_paths.append(filename)
+@@ -159,7 +159,7 @@ def _bootstrap(*, root=None, upgrade=False, user=False,
+             copy2(bundled_wheel_path, tmp_wheel_path)
  
          # Construct the arguments to be passed to the pip command
 -        args = ["install", "--no-cache-dir", "--no-index", "--find-links", tmpdir]
