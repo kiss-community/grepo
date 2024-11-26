@@ -12,12 +12,12 @@ index 4ac1408..0e84246 100644
              "nsGTKRemoteServer.cpp",
              "nsXRemoteClient.cpp",
 diff --git a/toolkit/components/remote/nsRemoteService.cpp b/toolkit/components/remote/nsRemoteService.cpp
-index 7eef237..9e252d1 100644
+index 46860f6..66ba453 100644
 --- a/toolkit/components/remote/nsRemoteService.cpp
 +++ b/toolkit/components/remote/nsRemoteService.cpp
-@@ -6,12 +6,14 @@
-  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+@@ -7,10 +7,10 @@
  
+ #include "nsRemoteClient.h"
  #ifdef MOZ_WIDGET_GTK
 -#  ifdef MOZ_ENABLE_DBUS
 +#  if defined(MOZ_ENABLE_DBUS)
@@ -27,12 +27,8 @@ index 7eef237..9e252d1 100644
 +#  elif defined(MOZ_X11)
  #    include "nsGTKRemoteServer.h"
  #    include "nsXRemoteClient.h"
-+#  else
-+#    include "nsRemoteClient.h"
  #  endif
- #elif defined(XP_WIN)
- #  include "nsWinRemoteServer.h"
-@@ -109,8 +111,10 @@ nsresult nsRemoteService::SendCommandLine(const nsACString& aProfile,
+@@ -198,8 +198,10 @@ nsresult nsRemoteService::SendCommandLine(const nsACString& aProfile,
  #ifdef MOZ_WIDGET_GTK
  #  if defined(MOZ_ENABLE_DBUS)
    client = MakeUnique<nsDBusRemoteClient>(mStartupToken);
@@ -44,7 +40,7 @@ index 7eef237..9e252d1 100644
  #  endif
  #elif defined(XP_WIN)
    client = MakeUnique<nsWinRemoteClient>();
-@@ -171,8 +175,10 @@ void nsRemoteService::StartupServer() {
+@@ -260,8 +262,10 @@ void nsRemoteService::StartupServer() {
  #ifdef MOZ_WIDGET_GTK
  #  if defined(MOZ_ENABLE_DBUS)
    mRemoteServer = MakeUnique<nsDBusRemoteServer>();
