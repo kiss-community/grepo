@@ -1,16 +1,16 @@
 diff --git a/meson.build b/meson.build
-index 18547c9..a853ca5 100644
+index 50ec14b..f45dd6a 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -202,7 +202,6 @@ endif
+@@ -200,7 +200,6 @@ endif
  pango_deps = []
  
  glib_req_version = '>= 2.62'
 -fribidi_req_version = '>= 1.0.6'
  libthai_req_version = '>= 0.1.9'
  harfbuzz_req_version = '>= 2.6.0'
- fontconfig_req_version = '>= 2.15.0'
-@@ -219,10 +218,6 @@ gobject_dep = dependency('gobject-2.0', version: glib_req_version)
+ fontconfig_req_version = '>= 2.13.0'
+@@ -217,10 +216,6 @@ gobject_dep = dependency('gobject-2.0', version: glib_req_version)
  gio_dep = dependency('gio-2.0', version: glib_req_version)
  pango_deps += [glib_dep, gobject_dep, gio_dep]
  
