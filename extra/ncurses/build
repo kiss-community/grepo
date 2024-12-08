@@ -30,5 +30,7 @@ done
 printf '%s\n' "INPUT(-lncursesw)" > "$1/usr/lib/libcursesw.so"
 ln -s libncurses.so "$1/usr/lib/libcurses.so"
 
-# Fix pkgconfig file.
-ln -s ncursesw.pc "$1/usr/lib/pkgconfig/ncurses.pc"
+# Fix pkgconfig files.
+for lib in ncurses form panel menu tinfo; do
+    ln -s "${lib}w.pc" "$1/usr/lib/pkgconfig/${lib}.pc"
+done
