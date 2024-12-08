@@ -1,1 +1,2 @@
 https://github.com/intel/intel-vaapi-driver/archive/2.4.1.tar.gz
+patches/wl_drm-optional.patch
