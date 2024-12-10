@@ -503,3 +503,4 @@ files/libcurl-url.3 docs/libcurl
 files/libcurl-ws.3 docs/libcurl
 files/libcurl.3 docs/libcurl
 files/mk-ca-bundle.1 docs
+patches/fix-http-dec-flag.patch
