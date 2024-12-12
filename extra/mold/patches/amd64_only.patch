@@ -1,59 +1,59 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index d6d1500..9e831f7 100644
+index aff8fc6..9790e28 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -304,12 +304,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
+@@ -310,14 +310,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
  # compiler instances. This is hacky but greatly reduces compile time
  # on a multicore machine.
  list(APPEND MOLD_ELF_TARGETS
--  X86_64 I386 ARM64 ARM32 RV32LE RV32BE RV64LE RV64BE PPC32 PPC64V1 PPC64V2
--  S390X SPARC64 M68K SH4 LOONGARCH32 LOONGARCH64)
+-  X86_64 I386 ARM64LE ARM64BE ARM32 RV32LE RV32BE RV64LE RV64BE PPC32
+-  PPC64V1 PPC64V2 S390X SPARC64 M68K SH4LE SH4BE LOONGARCH32 LOONGARCH64)
 +  X86_64)
  
  list(APPEND MOLD_ELF_TEMPLATE_FILES
+-  src/arch-arm64.cc
 -  src/arch-loongarch.cc
 -  src/arch-riscv.cc
+-  src/arch-sh4.cc
    src/cmdline.cc
+   src/filetype.cc
    src/gc-sections.cc
-   src/gdb-index.cc
-@@ -376,16 +373,6 @@ target_sources(mold PRIVATE
+@@ -385,14 +380,6 @@ target_sources(mold PRIVATE
    lib/perf.cc
    lib/random.cc
    lib/tar.cc
 -  src/arch-arm32.cc
--  src/arch-arm64.cc
 -  src/arch-i386.cc
 -  src/arch-m68k.cc
 -  src/arch-ppc32.cc
 -  src/arch-ppc64v1.cc
 -  src/arch-ppc64v2.cc
 -  src/arch-s390x.cc
--  src/arch-sh4.cc
 -  src/arch-sparc64.cc
    src/arch-x86-64.cc
    src/config.cc
    src/elf.cc
 diff --git a/src/main.cc b/src/main.cc
-index ce94043..2373218 100644
+index 4674b1c..b1ca4cb 100644
 --- a/src/main.cc
 +++ b/src/main.cc
-@@ -361,11 +361,6 @@ int mold_main(int argc, char **argv) {
+@@ -290,11 +290,6 @@ int mold_main(int argc, char **argv) {
    if (ctx.arg.emulation.empty())
      ctx.arg.emulation = detect_machine_type(ctx, file_args);
  
 -  // Redo if -m is not x86-64.
 -  if constexpr (is_x86_64<E>)
--    if (ctx.arg.emulation != X86_64::target_name)
+-    if (ctx.arg.emulation != X86_64::name)
 -      return redo_main(ctx, argc, argv);
 -
    Timer t_all(ctx, "all");
  
    install_signal_handler();
 diff --git a/src/mold.h b/src/mold.h
-index 322a0ea..9058295 100644
+index ce74a26..079c0a8 100644
 --- a/src/mold.h
 +++ b/src/mold.h
-@@ -1563,7 +1563,6 @@ std::vector<std::string> parse_nonpositional_args(Context<E> &ctx);
+@@ -1603,7 +1603,6 @@ std::vector<std::string> parse_nonpositional_args(Context<E> &ctx);
  // passes.cc
  //
  
@@ -62,10 +62,10 @@ index 322a0ea..9058295 100644
  template <typename E> void apply_exclude_libs(Context<E> &);
  template <typename E> void create_synthetic_sections(Context<E> &);
 diff --git a/src/passes.cc b/src/passes.cc
-index 807bb2b..0ef86a1 100644
+index aeac428..078f43a 100644
 --- a/src/passes.cc
 +++ b/src/passes.cc
-@@ -14,48 +14,6 @@
+@@ -14,52 +14,6 @@
  
  namespace mold {
  
@@ -76,37 +76,41 @@ index 807bb2b..0ef86a1 100644
 -int redo_main(Context<E> &ctx, int argc, char **argv) {
 -  std::string_view target = ctx.arg.emulation;
 -
--  if (target == I386::target_name)
+-  if (target == I386::name)
 -    return mold_main<I386>(argc, argv);
--  if (target == ARM64::target_name)
--    return mold_main<ARM64>(argc, argv);
--  if (target == ARM32::target_name)
+-  if (target == ARM64LE::name)
+-    return mold_main<ARM64LE>(argc, argv);
+-  if (target == ARM64BE::name)
+-    return mold_main<ARM64BE>(argc, argv);
+-  if (target == ARM32::name)
 -    return mold_main<ARM32>(argc, argv);
--  if (target == RV64LE::target_name)
+-  if (target == RV64LE::name)
 -    return mold_main<RV64LE>(argc, argv);
--  if (target == RV64BE::target_name)
+-  if (target == RV64BE::name)
 -    return mold_main<RV64BE>(argc, argv);
--  if (target == RV32LE::target_name)
+-  if (target == RV32LE::name)
 -    return mold_main<RV32LE>(argc, argv);
--  if (target == RV32BE::target_name)
+-  if (target == RV32BE::name)
 -    return mold_main<RV32BE>(argc, argv);
--  if (target == PPC32::target_name)
+-  if (target == PPC32::name)
 -    return mold_main<PPC32>(argc, argv);
--  if (target == PPC64V1::target_name)
+-  if (target == PPC64V1::name)
 -    return mold_main<PPC64V1>(argc, argv);
--  if (target == PPC64V2::target_name)
+-  if (target == PPC64V2::name)
 -    return mold_main<PPC64V2>(argc, argv);
--  if (target == S390X::target_name)
+-  if (target == S390X::name)
 -    return mold_main<S390X>(argc, argv);
--  if (target == SPARC64::target_name)
+-  if (target == SPARC64::name)
 -    return mold_main<SPARC64>(argc, argv);
--  if (target == M68K::target_name)
+-  if (target == M68K::name)
 -    return mold_main<M68K>(argc, argv);
--  if (target == SH4::target_name)
--    return mold_main<SH4>(argc, argv);
--  if (target == LOONGARCH32::target_name)
+-  if (target == SH4LE::name)
+-    return mold_main<SH4LE>(argc, argv);
+-  if (target == SH4BE::name)
+-    return mold_main<SH4BE>(argc, argv);
+-  if (target == LOONGARCH32::name)
 -    return mold_main<LOONGARCH32>(argc, argv);
--  if (target == LOONGARCH64::target_name)
+-  if (target == LOONGARCH64::name)
 -    return mold_main<LOONGARCH64>(argc, argv);
 -  unreachable();
 -}
@@ -114,7 +118,7 @@ index 807bb2b..0ef86a1 100644
  template <typename E>
  void apply_exclude_libs(Context<E> &ctx) {
    Timer t(ctx, "apply_exclude_libs");
-@@ -3210,7 +3168,6 @@ void show_stats(Context<E> &ctx) {
+@@ -3222,7 +3176,6 @@ void show_stats(Context<E> &ctx) {
  
  using E = MOLD_TARGET;
  
