@@ -1,3 +1,3 @@
-https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.5/llvm-19.1.5.src.tar.xz llvm
-https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.5/cmake-19.1.5.src.tar.xz cmake
+https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.6/llvm-19.1.6.src.tar.xz llvm
+https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.6/cmake-19.1.6.src.tar.xz cmake
 patches/musl-stack-size.patch
