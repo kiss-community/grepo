@@ -7,8 +7,6 @@
 sed 's/\(curl_LDADD =\)/\1 -all-static/' src/Makefile.in > _
 mv -f _ src/Makefile.in
 
-patch -p1 < fix-http-dec-flag.patch
-
 ./configure \
     ac_cv_path_PERL=true \
     --prefix=/usr \
