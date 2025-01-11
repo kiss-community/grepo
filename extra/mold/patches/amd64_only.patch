@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index aff8fc6..9790e28 100644
+index c7a6130..74096b4 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -310,14 +310,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -34,10 +34,10 @@ index aff8fc6..9790e28 100644
    src/config.cc
    src/elf.cc
 diff --git a/src/main.cc b/src/main.cc
-index 4674b1c..b1ca4cb 100644
+index 13a77ca..feb9e85 100644
 --- a/src/main.cc
 +++ b/src/main.cc
-@@ -290,11 +290,6 @@ int mold_main(int argc, char **argv) {
+@@ -286,11 +286,6 @@ int mold_main(int argc, char **argv) {
    if (ctx.arg.emulation.empty())
      ctx.arg.emulation = detect_machine_type(ctx, file_args);
  
@@ -50,10 +50,10 @@ index 4674b1c..b1ca4cb 100644
  
    install_signal_handler();
 diff --git a/src/mold.h b/src/mold.h
-index ce74a26..079c0a8 100644
+index 71add0e..f58c858 100644
 --- a/src/mold.h
 +++ b/src/mold.h
-@@ -1603,7 +1603,6 @@ std::vector<std::string> parse_nonpositional_args(Context<E> &ctx);
+@@ -1641,7 +1641,6 @@ std::vector<std::string> parse_nonpositional_args(Context<E> &ctx);
  // passes.cc
  //
  
@@ -62,10 +62,10 @@ index ce74a26..079c0a8 100644
  template <typename E> void apply_exclude_libs(Context<E> &);
  template <typename E> void create_synthetic_sections(Context<E> &);
 diff --git a/src/passes.cc b/src/passes.cc
-index aeac428..078f43a 100644
+index 5928682..31835b9 100644
 --- a/src/passes.cc
 +++ b/src/passes.cc
-@@ -14,52 +14,6 @@
+@@ -13,52 +13,6 @@
  
  namespace mold {
  
@@ -112,13 +112,13 @@ index aeac428..078f43a 100644
 -    return mold_main<LOONGARCH32>(argc, argv);
 -  if (target == LOONGARCH64::name)
 -    return mold_main<LOONGARCH64>(argc, argv);
--  unreachable();
+-  abort();
 -}
 -
  template <typename E>
  void apply_exclude_libs(Context<E> &ctx) {
    Timer t(ctx, "apply_exclude_libs");
-@@ -3222,7 +3176,6 @@ void show_stats(Context<E> &ctx) {
+@@ -3290,7 +3244,6 @@ void show_stats(Context<E> &ctx) {
  
  using E = MOLD_TARGET;
  
