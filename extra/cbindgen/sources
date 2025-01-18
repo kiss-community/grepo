@@ -1,4 +1,4 @@
-https://github.com/eqrion/cbindgen/archive/v0.27.0.tar.gz
+https://github.com/eqrion/cbindgen/archive/v0.28.0.tar.gz
 
 # This is a pre-generated list of crate dependencies. This list may
 # change between releases. This allows us to pre-cache each of the
@@ -10,7 +10,7 @@ https://static.crates.io/crates/anstyle-query/anstyle-query-1.1.1.crate vendor
 https://static.crates.io/crates/anstyle-wincon/anstyle-wincon-3.0.4.crate vendor
 https://static.crates.io/crates/autocfg/autocfg-1.3.0.crate vendor
 https://static.crates.io/crates/bitflags/bitflags-2.6.0.crate vendor
-https://static.crates.io/crates/cbindgen/cbindgen-0.27.0.crate vendor
+https://static.crates.io/crates/cbindgen/cbindgen-0.28.0.crate vendor
 https://static.crates.io/crates/cfg-if/cfg-if-1.0.0.crate vendor
 https://static.crates.io/crates/clap/clap-4.5.15.crate vendor
 https://static.crates.io/crates/clap_builder/clap_builder-4.5.15.crate vendor
@@ -50,7 +50,7 @@ https://static.crates.io/crates/serial_test/serial_test-2.0.0.crate vendor
 https://static.crates.io/crates/serial_test_derive/serial_test_derive-2.0.0.crate vendor
 https://static.crates.io/crates/smallvec/smallvec-1.13.2.crate vendor
 https://static.crates.io/crates/strsim/strsim-0.11.1.crate vendor
-https://static.crates.io/crates/syn/syn-2.0.72.crate vendor
+https://static.crates.io/crates/syn/syn-2.0.85.crate vendor
 https://static.crates.io/crates/tempfile/tempfile-3.12.0.crate vendor
 https://static.crates.io/crates/toml/toml-0.8.19.crate vendor
 https://static.crates.io/crates/toml_datetime/toml_datetime-0.6.8.crate vendor
