@@ -1,12 +1,11 @@
 diff --git a/util-linux/lsusb.c b/util-linux/lsusb.c
-index e27aa7f31..b7b7abb99 100644
+index 0a9e505..cc0333b 100644
 --- a/util-linux/lsusb.c
 +++ b/util-linux/lsusb.c
-@@ -15,7 +15,16 @@
- //config:	system and devices connected to them.
+@@ -15,6 +15,16 @@
  //config:
  //config:	This version uses sysfs (/sys/bus/usb/devices) only.
--
+ 
 +//config:
 +//config:config FEATURE_LSUSB_STRINGS
 +//config:	bool "Print vendor and product strings if they exist"
@@ -20,7 +19,7 @@ index e27aa7f31..b7b7abb99 100644
  //applet:IF_LSUSB(APPLET_NOEXEC(lsusb, lsusb, BB_DIR_USR_BIN, BB_SUID_DROP, lsusb))
  
  //kbuild:lib-$(CONFIG_LSUSB) += lsusb.o
-@@ -37,6 +46,16 @@ static int FAST_FUNC fileAction(
+@@ -52,6 +62,15 @@ static int FAST_FUNC fileAction(struct recursive_state *state UNUSED_PARAM,
  	int product_vid = 0, product_did = 0;
  	char *uevent_filename = concat_path_file(fileName, "/uevent");
  
@@ -33,16 +32,16 @@ index e27aa7f31..b7b7abb99 100644
 +	plen = open_read_close(concat_path_file(fileName, "/product"), product, sizeof(product));
 +	product[plen - 1] = '\0';
 +#endif
-+
  	parser = config_open2(uevent_filename, fopen_for_read);
  	free(uevent_filename);
  
-@@ -64,7 +83,12 @@ static int FAST_FUNC fileAction(
- 	config_close(parser);
+@@ -86,8 +105,13 @@ static int FAST_FUNC fileAction(struct recursive_state *state UNUSED_PARAM,
+ 			p = stpcpy(p, " ");
+ 		add_sysfs_prop(fileName, "/product", p, name + sizeof(name) - p);
  
- 	if (busnum) {
--		printf("Bus %s Device %s: ID %04x:%04x\n", busnum, devnum, product_vid, product_did);
-+		printf("Bus %s Device %s: ID %04x:%04x", busnum, devnum, product_vid, product_did);
+-		printf("Bus %s Device %s: ID %04x:%04x %s\n", busnum, devnum,
++		printf("Bus %s Device %s: ID %04x:%04x %s", busnum, devnum,
+ 		       product_vid, product_did, name);
 +#if ENABLE_FEATURE_LSUSB_STRINGS
 +		if(vlen) printf(" %s", vendor);
 +		if(plen) printf(" %s", product);
