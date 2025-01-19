@@ -1,19 +1,15 @@
 #!/bin/sh -e
 
-# Make the build system run /bin/true to generate
-# a dummy file so our pre-generated one is used.
-sed 's/fcobjshash\.h/fcjunk.h/' src/Makefile.in > _
-mv -f _ src/Makefile.in
+patch -p1 < no-gperf.patch
 
-./configure \
-    GPERF=/bin/true \
-    --prefix=/usr \
-    --localstatedir=/var \
-    --sysconfdir=/etc \
-    --with-xmldir=/etc/fonts \
-    --enable-static \
-    --disable-docs \
-    --disable-nls
+export DESTDIR="$1"
 
-make
-make DESTDIR="$1" install
+meson setup \
+    -Dprefix=/usr \
+    -Dxml-dir=/etc/fonts \
+    -Ddoc=disabled \
+    -Dnls=disabled \
+    output
+
+ninja -C output
+ninja -C output install

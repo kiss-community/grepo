@@ -1,0 +1,31 @@
+diff --git a/meson.build b/meson.build
+index 4439758..f320b9c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -444,9 +444,6 @@ if gperf.found()
+     error('unable to determine gperf len type')
+   endif
+ else
+-  # Fallback to subproject
+-  gperf = find_program('gperf')
+-  # assume if we are compiling from the wrap, the size is just size_t
+   gperf_len_type = 'size_t'
+ endif
+ 
+diff --git a/src/meson.build b/src/meson.build
+index 3c2950f..c3c3bde 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -37,12 +37,6 @@ fcobjshash_gperf = custom_target(
+   build_by_default: true,
+ )
+ 
+-fcobjshash_h = custom_target('fcobjshash.h',
+-  input: fcobjshash_gperf,
+-  output: 'fcobjshash.h',
+-  command: [gperf, '--pic', '-m', '100', '@INPUT@', '--output-file', '@OUTPUT@']
+-)
+-
+ # Define FcPublic appropriately for exports on windows
+ fc_c_shared_args = []
+ 
