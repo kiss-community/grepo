@@ -10,6 +10,7 @@ files/syslogd.run
 patches/CVE-2022-28391.patch
 patches/CVE-2023-42366.patch
 patches/adduser-no-setgid.patch
+patches/awk-fix-literal-backslash.patch
 patches/fsck-resolve-uuid.patch
 patches/init-use-baseinit.patch
 patches/lineedit-Handle-SIGWINCH-gracefully.patch

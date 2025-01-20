@@ -1,0 +1,19 @@
+diff --git a/editors/awk.c b/editors/awk.c
+index 64e752f4b..40f5ba7f7 100644
+--- a/editors/awk.c
++++ b/editors/awk.c
+@@ -2636,8 +2636,13 @@ static int awk_sub(node *rn, const char *repl, int nm, var *src, var *dest /*,in
+ 					resbuf = qrealloc(resbuf, residx + replen + n, &resbufsize);
+ 					memcpy(resbuf + residx, sp + pmatch[j].rm_so - start_ofs, n);
+ 					residx += n;
+-				} else
++				} else {
++/* '\\' and '&' following a backslash keep its original meaning, any other
++ * occurrence of a '\\' should be treated as literal */
++					if (bslash && c != '\\' && c != '&')
++						resbuf[residx++] = '\\';
+ 					resbuf[residx++] = c;
++				}
+ 				bslash = 0;
+ 			}
+ 		}
