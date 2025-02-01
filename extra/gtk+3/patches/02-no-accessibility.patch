@@ -1687,7 +1687,7 @@
  static GType
 --- a/gtk/gtkmessagedialog.c
 +++ b/gtk/gtkmessagedialog.c
-@@ -163,8 +163,6 @@
+@@ -163,8 +163,6 @@ gtk_message_dialog_class_init (GtkMessageDialogClass *class)
    
    widget_class->style_updated = gtk_message_dialog_style_updated;
  
@@ -1696,29 +1696,75 @@
    gobject_class->constructed = gtk_message_dialog_constructed;
    gobject_class->set_property = gtk_message_dialog_set_property;
    gobject_class->get_property = gtk_message_dialog_get_property;
-@@ -372,7 +370,6 @@
+@@ -369,45 +367,7 @@ setup_primary_label_font (GtkMessageDialog *dialog)
+ static void
+ update_accessible_name (GtkMessageDialog *dialog)
+ {
+-  AtkObject *atk_obj = gtk_widget_get_accessible (GTK_WIDGET (dialog));
+-  if (!GTK_IS_ACCESSIBLE (atk_obj))
+-    return;
+-
+-  const char *name = gtk_window_get_title (GTK_WINDOW (dialog));
+-  if (name && name[0])
+-  {
+-    atk_object_set_name (atk_obj, name);
+-    return;
+-  }
+-
+-  switch (dialog->priv->message_type)
+-  {
+-  case GTK_MESSAGE_INFO:
+-    name = _("Information");
+-    break;
+-
+-  case GTK_MESSAGE_QUESTION:
+-    name = _("Question");
+-    break;
+-
+-  case GTK_MESSAGE_WARNING:
+-    name = _("Warning");
+-    break;
+-
+-  case GTK_MESSAGE_ERROR:
+-    name = _("Error");
+-    break;
+-
+-  case GTK_MESSAGE_OTHER:
+-    break;
+-
+-  default:
+-    g_warning ("Unknown GtkMessageType %u", dialog->priv->message_type);
+-    break;
+-  }
+-
+-  if (name)
+-      atk_object_set_name (atk_obj, name);
++  return;
+ }
+ 
+ static void
+@@ -415,7 +375,6 @@ setup_type (GtkMessageDialog *dialog,
+ 	    GtkMessageType    type)
  {
    GtkMessageDialogPrivate *priv = dialog->priv;
-   const gchar *name = NULL;
 -  AtkObject *atk_obj;
  
    if (priv->message_type == type)
      return;
-@@ -403,14 +400,6 @@
-     default:
-       g_warning ("Unknown GtkMessageType %u", type);
-       break;
--    }
--
+@@ -423,13 +382,6 @@ setup_type (GtkMessageDialog *dialog,
+   priv->message_type = type;
+ 
+ 
 -  atk_obj = gtk_widget_get_accessible (GTK_WIDGET (dialog));
 -  if (GTK_IS_ACCESSIBLE (atk_obj))
 -    {
 -      atk_object_set_role (atk_obj, ATK_ROLE_ALERT);
--      if (name)
--        atk_object_set_name (atk_obj, name);
-     }
- 
+-      update_accessible_name (dialog);
+-    }
+-
    g_object_notify (G_OBJECT (dialog), "message-type");
+ }
+ 
 --- a/gtk/gtkmodelbutton.c
 +++ b/gtk/gtkmodelbutton.c
 @@ -248,16 +248,6 @@ gtk_model_button_update_state (GtkModelButton *button,
