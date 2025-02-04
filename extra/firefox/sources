@@ -1,7 +1,6 @@
-https://ftp.mozilla.org/pub/firefox/releases/134.0.2/source/firefox-134.0.2.source.tar.xz
+https://ftp.mozilla.org/pub/firefox/releases/135.0/source/firefox-135.0.source.tar.xz
 patches/fix-target-detection.patch
 patches/fix-vaapi.patch
-patches/gcc-14.patch
 patches/musl-sandbox.patch
 patches/no-atk.patch
 patches/no-dbus.patch
