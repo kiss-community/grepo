@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
-rm -rf flit_core/flit_core/vendor/
 python flit_core/build_dists.py
 
 python -m installer -d "$1" "flit_core/dist/flit_core-$2-py3-none-any.whl"
 
 rm -rf "$1"/usr/lib/python3*/site-packages/flit_core/tests
+rm -rf "$1"/usr/lib/python3*/site-packages/flit_core/vendor
