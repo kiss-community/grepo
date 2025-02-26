@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-gzip -dc "libpng-$2-apng.patch.gz" | patch -p1
+patch -p1 < apng.patch
 
 ./configure \
     --prefix=/usr
