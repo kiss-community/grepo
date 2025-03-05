@@ -1,6 +1,5 @@
-https://ftp.mozilla.org/pub/firefox/releases/135.0.1/source/firefox-135.0.1.source.tar.xz
+https://ftp.mozilla.org/pub/firefox/releases/136.0/source/firefox-136.0.source.tar.xz
 patches/fix-target-detection.patch
-patches/fix-vaapi.patch
 patches/musl-sandbox.patch
 patches/no-atk.patch
 patches/no-dbus.patch
