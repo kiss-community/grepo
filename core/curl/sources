@@ -1,4 +1,4 @@
-https://curl.haxx.se/download/curl-8.12.1.tar.xz
+https://curl.haxx.se/download/curl-8.13.0.tar.xz
 files/CURLINFO_ACTIVESOCKET.3 docs/libcurl/opts
 files/CURLINFO_APPCONNECT_TIME.3 docs/libcurl/opts
 files/CURLINFO_APPCONNECT_TIME_T.3 docs/libcurl/opts
@@ -386,6 +386,7 @@ files/CURLOPT_UNRESTRICTED_AUTH.3 docs/libcurl/opts
 files/CURLOPT_UPKEEP_INTERVAL_MS.3 docs/libcurl/opts
 files/CURLOPT_UPLOAD.3 docs/libcurl/opts
 files/CURLOPT_UPLOAD_BUFFERSIZE.3 docs/libcurl/opts
+files/CURLOPT_UPLOAD_FLAGS.3 docs/libcurl/opts
 files/CURLOPT_URL.3 docs/libcurl/opts
 files/CURLOPT_USERAGENT.3 docs/libcurl/opts
 files/CURLOPT_USERNAME.3 docs/libcurl/opts
