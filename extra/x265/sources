@@ -1,1 +1,2 @@
 https://bitbucket.org/multicoreware/x265_git/downloads/x265_4.0.tar.gz
+patches/cmake-4.patch

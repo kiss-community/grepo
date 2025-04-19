@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+sed 's/VERSION 2.8/VERSION 3.9...3.12/' apps/CMakeLists.txt > _
+mv -f _ apps/CMakeLists.txt
+
 export DESTDIR="$1"
 
 cmake -B build \
