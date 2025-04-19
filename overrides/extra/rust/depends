@@ -1,4 +1,3 @@
-cmake   make
 curl    make
 llvm
 openssl
