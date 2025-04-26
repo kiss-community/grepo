@@ -13,6 +13,7 @@ patches/adduser-no-setgid.patch
 patches/awk-fix-literal-backslash.patch
 patches/fsck-resolve-uuid.patch
 patches/init-use-baseinit.patch
+patches/kernel-6.8-tca.patch
 patches/lineedit-Handle-SIGWINCH-gracefully.patch
 patches/lsusb-vendor-product.patch
 patches/modprobe-kernel-version.patch

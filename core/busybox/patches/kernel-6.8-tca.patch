@@ -1,0 +1,43 @@
+diff --git a/networking/tc.c b/networking/tc.c
+index 3a79fd2..3020bfb 100644
+--- a/networking/tc.c
++++ b/networking/tc.c
+@@ -231,6 +231,7 @@ static int cbq_parse_opt(int argc, char **argv, struct nlmsghdr *n)
+ 	return 0;
+ }
+ #endif
++#ifdef TCA_CBQ_MAX
+ static int cbq_print_opt(struct rtattr *opt)
+ {
+ 	struct rtattr *tb[TCA_CBQ_MAX+1];
+@@ -322,6 +323,7 @@ static int cbq_print_opt(struct rtattr *opt)
+  done:
+ 	return 0;
+ }
++#endif
+ 
+ static FAST_FUNC int print_qdisc(
+ 		const struct sockaddr_nl *who UNUSED_PARAM,
+@@ -372,8 +374,10 @@ static FAST_FUNC int print_qdisc(
+ 		int qqq = index_in_strings(_q_, name);
+ 		if (qqq == 0) { /* pfifo_fast aka prio */
+ 			prio_print_opt(tb[TCA_OPTIONS]);
++#ifdef TCA_CBQ_MAX
+ 		} else if (qqq == 1) { /* class based queuing */
+ 			cbq_print_opt(tb[TCA_OPTIONS]);
++#endif
+ 		} else {
+ 			/* don't know how to print options for this qdisc */
+ 			printf("(options for %s)", name);
+@@ -442,9 +446,11 @@ static FAST_FUNC int print_class(
+ 		int qqq = index_in_strings(_q_, name);
+ 		if (qqq == 0) { /* pfifo_fast aka prio */
+ 			/* nothing. */ /*prio_print_opt(tb[TCA_OPTIONS]);*/
++#ifdef TCA_CBQ_MAX
+ 		} else if (qqq == 1) { /* class based queuing */
+ 			/* cbq_print_copt() is identical to cbq_print_opt(). */
+ 			cbq_print_opt(tb[TCA_OPTIONS]);
++#endif
+ 		} else {
+ 			/* don't know how to print options for this class */
+ 			printf("(options for %s)", name);
