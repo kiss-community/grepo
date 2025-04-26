@@ -1,39 +1,39 @@
 diff --git a/configure b/configure
-index 66ac6b3..4cbe652 100755
+index b8cc5fd..9776163 100755
 --- a/configure
 +++ b/configure
-@@ -9345,7 +9345,7 @@ LIBS="$saved_LIBS"
+@@ -9681,7 +9681,7 @@ LIBS="$saved_LIBS"
  case "$ac_cv_search_argp_parse" in
-         no) { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
- printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
+         no) { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+ printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 -as_fn_error $? "failed to find argp_parse
 +: $? "failed to find argp_parse
- See \`config.log' for more details" "$LINENO" 5; } ;;
+ See 'config.log' for more details" "$LINENO" 5; } ;;
          -l*) argp_LDADD="$ac_cv_search_argp_parse" ;;
          *) argp_LDADD= ;;
-@@ -9416,7 +9416,7 @@ LIBS="$saved_LIBS"
+@@ -9760,7 +9760,7 @@ LIBS="$saved_LIBS"
  case "$ac_cv_search_fts_close" in
-         no) { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
- printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
+         no) { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+ printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 -as_fn_error $? "failed to find fts_close
 +: $? "failed to find fts_close
- See \`config.log' for more details" "$LINENO" 5; } ;;
+ See 'config.log' for more details" "$LINENO" 5; } ;;
          -l*) fts_LIBS="$ac_cv_search_fts_close" ;;
          *) fts_LIBS= ;;
-@@ -9487,7 +9487,7 @@ LIBS="$saved_LIBS"
+@@ -9839,7 +9839,7 @@ LIBS="$saved_LIBS"
  case "$ac_cv_search__obstack_free" in
-         no) { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
- printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
+         no) { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+ printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 -as_fn_error $? "failed to find _obstack_free
 +: $? "failed to find _obstack_free
- See \`config.log' for more details" "$LINENO" 5; } ;;
+ See 'config.log' for more details" "$LINENO" 5; } ;;
          -l*) obstack_LIBS="$ac_cv_search__obstack_free" ;;
          *) obstack_LIBS= ;;
 diff --git a/lib/Makefile.in b/lib/Makefile.in
-index c559642..608013f 100644
+index d015ff8..72cd8b1 100644
 --- a/lib/Makefile.in
 +++ b/lib/Makefile.in
-@@ -118,7 +118,7 @@ libeu_a_LIBADD =
+@@ -121,7 +121,7 @@ libeu_a_LIBADD =
  am_libeu_a_OBJECTS = xasprintf.$(OBJEXT) xstrdup.$(OBJEXT) \
  	xstrndup.$(OBJEXT) xmalloc.$(OBJEXT) next_prime.$(OBJEXT) \
  	crc32.$(OBJEXT) crc32_file.$(OBJEXT) eu-search.$(OBJEXT) \
@@ -42,7 +42,7 @@ index c559642..608013f 100644
  libeu_a_OBJECTS = $(am_libeu_a_OBJECTS)
  AM_V_P = $(am__v_P_@AM_V@)
  am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
-@@ -424,10 +424,10 @@ textrel_check = if $(READELF) -d $@ | grep -F -q TEXTREL; then $(textrel_found);
+@@ -427,10 +427,10 @@ textrel_check = if $(READELF) -d $@ | grep -F -q TEXTREL; then $(textrel_found);
  noinst_LIBRARIES = libeu.a
  libeu_a_SOURCES = xasprintf.c xstrdup.c xstrndup.c xmalloc.c next_prime.c \
  		  crc32.c crc32_file.c eu-search.c \
@@ -52,6 +52,6 @@ index c559642..608013f 100644
  noinst_HEADERS = fixedsizehash.h libeu.h system.h dynamicsizehash.h list.h \
 -		 eu-config.h color.h printversion.h bpf.h \
 +		 eu-config.h bpf.h \
- 		 atomics.h stdatomic-fbsd.h dynamicsizehash_concurrent.h \
+ 		 dynamicsizehash_concurrent.h \
  		 eu-search.h locks.h
  
