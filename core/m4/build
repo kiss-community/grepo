@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -static"
+export CFLAGS="$CFLAGS -std=c17 -static"
 
 ./configure \
     --prefix=/usr

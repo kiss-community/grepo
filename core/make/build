@@ -1,7 +1,6 @@
 #!/bin/sh -e
 
-patch -p1 < musl-gcc-15.patch
-
+export CFLAGS="$CFLAGS -std=c17"
 export LDFLAGS="$LDFLAGS -static"
 
 ./configure \
