@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < musl-gcc-15.patch
+
 export LDFLAGS="$LDFLAGS -static"
 
 ./configure \
