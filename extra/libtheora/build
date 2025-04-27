@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export CFLAGS="$CFLAGS -std=gnu17"
+
 ./configure \
     --prefix=/usr
 
