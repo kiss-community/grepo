@@ -2,6 +2,8 @@
 
 patch -p1 < gcc-14.patch
 
+export CFLAGS="$CFLAGS -std=gnu17"
+
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
