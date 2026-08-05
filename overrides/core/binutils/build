@@ -25,7 +25,8 @@ export PATH="$PATH:$PWD"
     --disable-gprof \
     --disable-gprofng \
     --with-mmap \
-    --with-system-zlib
+    --with-system-zlib \
+    --without-zstd
 
 make configure-host
 make tooldir=/usr
