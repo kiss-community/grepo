@@ -1,3 +1,4 @@
-https://www.python.org/ftp/python/3.13.3/Python-3.13.3.tar.xz
+https://www.python.org/ftp/python/3.14.6/Python-3.14.6.tar.xz
+patches/openssl-4.patch
 patches/python3-always-pip.patch
 patches/python3-pyc-hash.patch
