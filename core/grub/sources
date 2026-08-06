@@ -1,5 +1,5 @@
-https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz grub-pc
-https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz grub-efi
+https://ftp.gnu.org/gnu/grub/grub-2.14.tar.xz grub-pc
+https://ftp.gnu.org/gnu/grub/grub-2.14.tar.xz grub-efi
 files/grub.default
 files/help2man
 patches/no-asorti.patch
