@@ -4,11 +4,15 @@
 sed 's/html man/man/' doc/Makefile.in > _
 mv -f _ doc/Makefile.in
 
+export CFLAGS="$CFLAGS -Wno-implicit-function-declaration -Wno-incompatible-pointer-types"
+export LDFLAGS="$LDFLAGS -Wl,--undefined-version"
+
 ./configure \
     ac_cv_lib_ncurses_initscr=no \
     ac_cv_lib_curses_initscr=no \
     --prefix=/usr \
     --enable-shared \
+    --disable-decoder \
     --disable-gtktest
 
 make
