@@ -43,6 +43,7 @@ export PKG_CONFIG_PATH="$DESTDIR/usr/lib/pkgconfig"
 
 # Point Harfbuzz to the Freetype files.
 export CPPFLAGS="$CPPFLAGS -I$DESTDIR/usr/include/freetype2"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DESTDIR/usr/lib" 
 
 build_freetype -Dharfbuzz=disabled
 build_harfbuzz
