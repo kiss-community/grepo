@@ -1,3 +1,13 @@
+/*
+ *  Copyright (c) 2026 The WebM project authors. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license
+ *  that can be found in the LICENSE file in the root of the source
+ *  tree. An additional intellectual property rights grant can be found
+ *  in the file PATENTS.  All contributing project authors may
+ *  be found in the AUTHORS file in the root of the source tree.
+ */
+
 // This file is generated. Do not edit.
 #ifndef VPX_DSP_RTCD_H_
 #define VPX_DSP_RTCD_H_
@@ -610,11 +620,13 @@ void vpx_sad4x8x4d_sse2(const uint8_t *src_ptr, int src_stride, const uint8_t *c
 unsigned int vpx_sad64x32_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 unsigned int vpx_sad64x32_sse2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 unsigned int vpx_sad64x32_avx2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
+unsigned int vpx_sad64x32_avx512(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 RTCD_EXTERN unsigned int (*vpx_sad64x32)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 
 unsigned int vpx_sad64x32_avg_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, const uint8_t *second_pred);
 unsigned int vpx_sad64x32_avg_sse2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, const uint8_t *second_pred);
 unsigned int vpx_sad64x32_avg_avx2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, const uint8_t *second_pred);
+unsigned int vpx_sad64x32_avg_avx512(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, const uint8_t *second_pred);
 RTCD_EXTERN unsigned int (*vpx_sad64x32_avg)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, const uint8_t *second_pred);
 
 void vpx_sad64x32x4d_c(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
@@ -624,11 +636,13 @@ void vpx_sad64x32x4d_sse2(const uint8_t *src_ptr, int src_stride, const uint8_t 
 unsigned int vpx_sad64x64_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 unsigned int vpx_sad64x64_sse2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 unsigned int vpx_sad64x64_avx2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
+unsigned int vpx_sad64x64_avx512(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 RTCD_EXTERN unsigned int (*vpx_sad64x64)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 
 unsigned int vpx_sad64x64_avg_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, const uint8_t *second_pred);
 unsigned int vpx_sad64x64_avg_sse2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, const uint8_t *second_pred);
 unsigned int vpx_sad64x64_avg_avx2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, const uint8_t *second_pred);
+unsigned int vpx_sad64x64_avg_avx512(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, const uint8_t *second_pred);
 RTCD_EXTERN unsigned int (*vpx_sad64x64_avg)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride, const uint8_t *second_pred);
 
 void vpx_sad64x64x4d_c(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
@@ -744,21 +758,25 @@ void vpx_sad_skip_4x8x4d_sse2(const uint8_t *src_ptr, int src_stride, const uint
 unsigned int vpx_sad_skip_64x32_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 unsigned int vpx_sad_skip_64x32_sse2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 unsigned int vpx_sad_skip_64x32_avx2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
+unsigned int vpx_sad_skip_64x32_avx512(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 RTCD_EXTERN unsigned int (*vpx_sad_skip_64x32)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 
 void vpx_sad_skip_64x32x4d_c(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 void vpx_sad_skip_64x32x4d_sse2(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 void vpx_sad_skip_64x32x4d_avx2(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
+void vpx_sad_skip_64x32x4d_avx512(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 RTCD_EXTERN void (*vpx_sad_skip_64x32x4d)(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 
 unsigned int vpx_sad_skip_64x64_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 unsigned int vpx_sad_skip_64x64_sse2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 unsigned int vpx_sad_skip_64x64_avx2(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
+unsigned int vpx_sad_skip_64x64_avx512(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 RTCD_EXTERN unsigned int (*vpx_sad_skip_64x64)(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
 
 void vpx_sad_skip_64x64x4d_c(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 void vpx_sad_skip_64x64x4d_sse2(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 void vpx_sad_skip_64x64x4d_avx2(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
+void vpx_sad_skip_64x64x4d_avx512(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 RTCD_EXTERN void (*vpx_sad_skip_64x64x4d)(const uint8_t *src_ptr, int src_stride, const uint8_t *const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 
 unsigned int vpx_sad_skip_8x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
@@ -1172,12 +1190,16 @@ static void setup_rtcd_internal(void)
     if (flags & HAS_AVX2) vpx_sad32x64_avg = vpx_sad32x64_avg_avx2;
     vpx_sad64x32 = vpx_sad64x32_sse2;
     if (flags & HAS_AVX2) vpx_sad64x32 = vpx_sad64x32_avx2;
+    if (flags & HAS_AVX512) vpx_sad64x32 = vpx_sad64x32_avx512;
     vpx_sad64x32_avg = vpx_sad64x32_avg_sse2;
     if (flags & HAS_AVX2) vpx_sad64x32_avg = vpx_sad64x32_avg_avx2;
+    if (flags & HAS_AVX512) vpx_sad64x32_avg = vpx_sad64x32_avg_avx512;
     vpx_sad64x64 = vpx_sad64x64_sse2;
     if (flags & HAS_AVX2) vpx_sad64x64 = vpx_sad64x64_avx2;
+    if (flags & HAS_AVX512) vpx_sad64x64 = vpx_sad64x64_avx512;
     vpx_sad64x64_avg = vpx_sad64x64_avg_sse2;
     if (flags & HAS_AVX2) vpx_sad64x64_avg = vpx_sad64x64_avg_avx2;
+    if (flags & HAS_AVX512) vpx_sad64x64_avg = vpx_sad64x64_avg_avx512;
     vpx_sad64x64x4d = vpx_sad64x64x4d_sse2;
     if (flags & HAS_AVX2) vpx_sad64x64x4d = vpx_sad64x64x4d_avx2;
     if (flags & HAS_AVX512) vpx_sad64x64x4d = vpx_sad64x64x4d_avx512;
@@ -1195,12 +1217,16 @@ static void setup_rtcd_internal(void)
     if (flags & HAS_AVX2) vpx_sad_skip_32x64x4d = vpx_sad_skip_32x64x4d_avx2;
     vpx_sad_skip_64x32 = vpx_sad_skip_64x32_sse2;
     if (flags & HAS_AVX2) vpx_sad_skip_64x32 = vpx_sad_skip_64x32_avx2;
+    if (flags & HAS_AVX512) vpx_sad_skip_64x32 = vpx_sad_skip_64x32_avx512;
     vpx_sad_skip_64x32x4d = vpx_sad_skip_64x32x4d_sse2;
     if (flags & HAS_AVX2) vpx_sad_skip_64x32x4d = vpx_sad_skip_64x32x4d_avx2;
+    if (flags & HAS_AVX512) vpx_sad_skip_64x32x4d = vpx_sad_skip_64x32x4d_avx512;
     vpx_sad_skip_64x64 = vpx_sad_skip_64x64_sse2;
     if (flags & HAS_AVX2) vpx_sad_skip_64x64 = vpx_sad_skip_64x64_avx2;
+    if (flags & HAS_AVX512) vpx_sad_skip_64x64 = vpx_sad_skip_64x64_avx512;
     vpx_sad_skip_64x64x4d = vpx_sad_skip_64x64x4d_sse2;
     if (flags & HAS_AVX2) vpx_sad_skip_64x64x4d = vpx_sad_skip_64x64x4d_avx2;
+    if (flags & HAS_AVX512) vpx_sad_skip_64x64x4d = vpx_sad_skip_64x64x4d_avx512;
     vpx_satd = vpx_satd_sse2;
     if (flags & HAS_AVX2) vpx_satd = vpx_satd_avx2;
     vpx_scaled_2d = vpx_scaled_2d_c;
@@ -1295,4 +1321,4 @@ static void setup_rtcd_internal(void)
 }  // extern "C"
 #endif
 
-#endif
+#endif  // VPX_DSP_RTCD_H_
