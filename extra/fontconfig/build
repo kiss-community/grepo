@@ -9,6 +9,7 @@ meson setup \
     -Dxml-dir=/etc/fonts \
     -Ddoc=disabled \
     -Dnls=disabled \
+    -Dtests=disabled \
     output
 
 ninja -C output
