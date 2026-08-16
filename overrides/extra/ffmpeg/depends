@@ -4,6 +4,7 @@ lame
 libass
 libdrm
 libogg
+libva
 libvorbis
 libvpx
 libwebp

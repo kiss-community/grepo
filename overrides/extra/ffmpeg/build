@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < gcc-14.patch
-
 ./configure \
     --cc="$CC" \
     --cxx="$CXX" \
