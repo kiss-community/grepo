@@ -7,6 +7,7 @@ meson setup \
     -Dsysconfdir=/etc \
     -Dmandir=/usr/share/man \
     -Ddebug=false \
+    -Dglycin=disabled \
     -Djpeg=enabled \
     -Dpng=enabled \
     -Dtiff=disabled \
