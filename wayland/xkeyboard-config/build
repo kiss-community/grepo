@@ -17,3 +17,7 @@ meson setup \
 
 ninja -C output
 ninja -C output install
+
+rm "$1/usr/share/X11/xkb/"
+mv "$1/usr/share/xkeyboard-config-2/" "$1/usr/share/X11/xkb/"
+ln -s X11/xkb "$1/usr/share/xkeyboard-config-2"
