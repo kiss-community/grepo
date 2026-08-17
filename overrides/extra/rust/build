@@ -88,10 +88,10 @@ case $libunwind_path in */*)
  
     mkdir -p libgcc 
  
-    printf 'INPUT(-lunwind)\n' > \ 
+    printf 'INPUT(-lunwind)\n' > \
         libgcc/libgcc_s.so 
  
-    ln -sf "$libunwind_path" \ 
+    ln -sf "$libunwind_path" \
         libgcc/libgcc_s.so.1 
  
     export \ 
