@@ -1,3 +1,1 @@
-https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.4/clang-20.1.4.src.tar.xz clang
-https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.4/cmake-20.1.4.src.tar.xz cmake
-patches/musl-targets.patch
+https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.8/llvm-project-22.1.8.src.tar.xz 
