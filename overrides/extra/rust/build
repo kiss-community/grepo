@@ -94,8 +94,8 @@ case $libunwind_path in */*)
     ln -sf "$libunwind_path" \
         libgcc/libgcc_s.so.1 
  
-    export \ 
-        LD_LIBRARY_PATH="$PWD/libgcc:$LD_LIBRARY_PATH" \ 
+    export \
+        LD_LIBRARY_PATH="$PWD/libgcc:$LD_LIBRARY_PATH" \
         LIBRARY_PATH="$PWD/libgcc:$LIBRARY_PATH" 
 esac 
 
