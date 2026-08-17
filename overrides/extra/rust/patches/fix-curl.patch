@@ -1,6 +1,34 @@
---- a/vendor/curl-sys-0.4.72+curl-8.6.0/build.rs
-+++ b/vendor/curl-sys-0.4.72+curl-8.6.0/build.rs
-@@ -111,6 +111,8 @@ fn main() {
+diff --git a/vendor/curl-sys-0.4.79+curl-8.12.0/build.rs b/vendor/curl-sys-0.4.79+curl-8.12.0/build.rs
+index 8315a20..98dedb4 100644
+--- a/vendor/curl-sys-0.4.79+curl-8.12.0/build.rs
++++ b/vendor/curl-sys-0.4.79+curl-8.12.0/build.rs
+@@ -117,6 +117,8 @@ fn main() {
+         .include("curl/lib")
+         .include("curl/include")
+         .define("BUILDING_LIBCURL", None)
++        .define("CURL_CA_BUNDLE", "\"/etc/ssl/cert.pem\"")
++        .define("CURL_CA_PATH", "\"/etc/ssl/certs\"")
+         .define("CURL_DISABLE_DICT", None)
+         .define("CURL_DISABLE_GOPHER", None)
+         .define("CURL_DISABLE_IMAP", None)
+diff --git a/vendor/curl-sys-0.4.87+curl-8.19.0/build.rs b/vendor/curl-sys-0.4.87+curl-8.19.0/build.rs
+index 4871272..a997d3f 100644
+--- a/vendor/curl-sys-0.4.87+curl-8.19.0/build.rs
++++ b/vendor/curl-sys-0.4.87+curl-8.19.0/build.rs
+@@ -106,6 +106,8 @@ fn main() {
+         .include("curl/lib")
+         .include("curl/include")
+         .define("BUILDING_LIBCURL", None)
++        .define("CURL_CA_BUNDLE", "\"/etc/ssl/cert.pem\"")
++        .define("CURL_CA_PATH", "\"/etc/ssl/certs\"")
+         .define("CURL_DISABLE_DICT", None)
+         .define("CURL_DISABLE_GOPHER", None)
+         .define("CURL_DISABLE_IMAP", None)
+diff --git a/vendor/curl-sys-0.4.88+curl-8.20.0/build.rs b/vendor/curl-sys-0.4.88+curl-8.20.0/build.rs
+index 0441955..8c1d23d 100644
+--- a/vendor/curl-sys-0.4.88+curl-8.20.0/build.rs
++++ b/vendor/curl-sys-0.4.88+curl-8.20.0/build.rs
+@@ -106,6 +106,8 @@ fn main() {
          .include("curl/lib")
          .include("curl/include")
          .define("BUILDING_LIBCURL", None)

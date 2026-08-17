@@ -1,0 +1,64 @@
+diff --git a/compiler/rustc_target/src/spec/base/linux_musl.rs b/compiler/rustc_target/src/spec/base/linux_musl.rs
+index 6d3124b..a9cf0f9 100644
+--- a/compiler/rustc_target/src/spec/base/linux_musl.rs
++++ b/compiler/rustc_target/src/spec/base/linux_musl.rs
+@@ -1,11 +1,8 @@
+-use crate::spec::{Env, LinkSelfContainedDefault, TargetOptions, base, crt_objects};
++use crate::spec::{base, Env, TargetOptions};
+ 
+ pub(crate) fn opts() -> TargetOptions {
+     TargetOptions {
+         env: Env::Musl,
+-        pre_link_objects_self_contained: crt_objects::pre_musl_self_contained(),
+-        post_link_objects_self_contained: crt_objects::post_musl_self_contained(),
+-        link_self_contained: LinkSelfContainedDefault::InferredForMusl,
+         ..base::linux::opts()
+     }
+ }
+diff --git a/compiler/rustc_target/src/spec/crt_objects.rs b/compiler/rustc_target/src/spec/crt_objects.rs
+index 2d84e78..0e6cb0f 100644
+--- a/compiler/rustc_target/src/spec/crt_objects.rs
++++ b/compiler/rustc_target/src/spec/crt_objects.rs
+@@ -62,28 +62,6 @@ pub(super) fn all(obj: &'static str) -> CrtObjects {
+     ])
+ }
+ 
+-pub(super) fn pre_musl_self_contained() -> CrtObjects {
+-    new(&[
+-        (LinkOutputKind::DynamicNoPicExe, &["crt1.o", "crti.o", "crtbegin.o"]),
+-        (LinkOutputKind::DynamicPicExe, &["Scrt1.o", "crti.o", "crtbeginS.o"]),
+-        (LinkOutputKind::StaticNoPicExe, &["crt1.o", "crti.o", "crtbegin.o"]),
+-        (LinkOutputKind::StaticPicExe, &["rcrt1.o", "crti.o", "crtbeginS.o"]),
+-        (LinkOutputKind::DynamicDylib, &["crti.o", "crtbeginS.o"]),
+-        (LinkOutputKind::StaticDylib, &["crti.o", "crtbeginS.o"]),
+-    ])
+-}
+-
+-pub(super) fn post_musl_self_contained() -> CrtObjects {
+-    new(&[
+-        (LinkOutputKind::DynamicNoPicExe, &["crtend.o", "crtn.o"]),
+-        (LinkOutputKind::DynamicPicExe, &["crtendS.o", "crtn.o"]),
+-        (LinkOutputKind::StaticNoPicExe, &["crtend.o", "crtn.o"]),
+-        (LinkOutputKind::StaticPicExe, &["crtendS.o", "crtn.o"]),
+-        (LinkOutputKind::DynamicDylib, &["crtendS.o", "crtn.o"]),
+-        (LinkOutputKind::StaticDylib, &["crtendS.o", "crtn.o"]),
+-    ])
+-}
+-
+ pub(super) fn pre_mingw_self_contained() -> CrtObjects {
+     new(&[
+         (LinkOutputKind::DynamicNoPicExe, &["crt2.o"]),
+diff --git a/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_musl.rs b/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_musl.rs
+index 8dcdc5b..25f53d6 100644
+--- a/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_musl.rs
++++ b/compiler/rustc_target/src/spec/targets/x86_64_unknown_linux_musl.rs
+@@ -14,8 +14,7 @@ pub(crate) fn target() -> Target {
+         | SanitizerSet::MEMORY
+         | SanitizerSet::THREAD;
+     base.supports_xray = true;
+-    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
+-    base.crt_static_default = true;
++    base.crt_static_default = false;
+ 
+     Target {
+         llvm_target: "x86_64-unknown-linux-musl".into(),

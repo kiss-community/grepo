@@ -2,20 +2,30 @@
 
 export DESTDIR="$1"
 
-patch -p1 < fix-curl.patch
+for p in *.patch; do 
+    patch -p1 < "$p" 
+done 
 
 # Instruct the compiler to trim absolute paths in resulting binaries and instead
 # change them to relative paths ($PWD/... ./...).
 export RUSTFLAGS="$RUSTFLAGS --remap-path-prefix=$PWD=."
 
-# Ignore checksums of files modified above.
 sed 's/\("files":{\)[^}]*/\1/' \
-    vendor/curl-sys-0.4.72+curl-8.6.0/.cargo-checksum.json > _
-mv -f _ vendor/curl-sys-0.4.72+curl-8.6.0/.cargo-checksum.json
+    vendor/curl-sys-0.4.79+curl-8.12.0/.cargo-checksum.json > _ 
+mv -f _ vendor/curl-sys-0.4.79+curl-8.12.0/.cargo-checksum.json 
+ 
+sed 's/\("files":{\)[^}]*/\1/' \
+    vendor/curl-sys-0.4.87+curl-8.19.0/.cargo-checksum.json > _ 
+mv -f _ vendor/curl-sys-0.4.87+curl-8.19.0/.cargo-checksum.json 
+ 
+sed 's/\("files":{\)[^}]*/\1/' \
+    vendor/curl-sys-0.4.88+curl-8.20.0/.cargo-checksum.json > _ 
+mv -f _ vendor/curl-sys-0.4.88+curl-8.20.0/.cargo-checksum.json 
 
-cat > config.toml <<EOF
+cat > config.toml <<EOF 
 [llvm]
 link-shared = true
+download-ci-llvm = false 
 
 [build]
 build     = "x86_64-unknown-linux-gnu"
@@ -33,18 +43,6 @@ tools          = [ "cargo", "rustfmt" ]
 sanitizers     = false
 profiler       = false
 full-bootstrap = false
-EOF
-
-# This mimics the download process of rust's 'x.py'
-# bootstrap library to allow for the removal of the internet
-# connection requirement per build.
-mkdir -p "${cache_dir:=build/cache/2024-08-08}"
-
-for tarball in *.tar.xz\?no-extract; do
-    mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}"
-done
-
-cat >> config.toml <<EOF
 
 [install]
 prefix = "/usr"
@@ -71,6 +69,35 @@ jemalloc          = false
 rpath             = false
 dist-src          = false
 EOF
+
+# This mimics the download process of rust's 'x.py' 
+# bootstrap library to allow for the removal of the internet 
+# connection requirement per build. 
+mkdir -p "${cache_dir:=build/cache/2026-05-28}" 
+ 
+for tarball in *.tar.xz\?no-extract; do 
+    mv -f "$tarball" "$cache_dir/${tarball%%\?no-extract}" 
+done 
+
+# Workaround to get Rust to build in llvm-only environments. 
+# libgcc_s.so is needed for Rust's bootstrap binaries, on llvm-only systems 
+# this library does not exist. This hack creates it as alias to libunwind. 
+libunwind_path=$("$CC" -print-file-name=libunwind.so) 
+case $libunwind_path in */*) 
+    printf 'llvm-libunwind = "system"\n' >> config.toml 
+ 
+    mkdir -p libgcc 
+ 
+    printf 'INPUT(-lunwind)\n' > \ 
+        libgcc/libgcc_s.so 
+ 
+    ln -sf "$libunwind_path" \ 
+        libgcc/libgcc_s.so.1 
+ 
+    export \ 
+        LD_LIBRARY_PATH="$PWD/libgcc:$LD_LIBRARY_PATH" \ 
+        LIBRARY_PATH="$PWD/libgcc:$LIBRARY_PATH" 
+esac 
 
 python x.py build -j "$(grep -scF 'core id' /proc/cpuinfo)"
 python x.py install
