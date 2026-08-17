@@ -1,3 +1,4 @@
 cmake make
 llvm
+spirv-headers make
 spirv-tools
