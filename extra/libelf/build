@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-patch -p1 < musl.patch
+export LDFLAGS="$LDFLAGS -Wl,--undefined-version"
 
 ./configure \
     --prefix=/usr \
