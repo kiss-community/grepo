@@ -1,8 +1,8 @@
 diff --git a/widget/gtk/nsWindow.cpp b/widget/gtk/nsWindow.cpp
-index b77fadc..520305a 100644
+index d3a93cd..91b3ca0 100644
 --- a/widget/gtk/nsWindow.cpp
 +++ b/widget/gtk/nsWindow.cpp
-@@ -659,9 +659,11 @@ void nsWindow::Destroy() {
+@@ -726,9 +726,11 @@ void nsWindow::Destroy() {
    // We need to detach accessible object here because mContainer is a custom
    // widget and doesn't call gtk_widget_real_destroy() from destroy handler
    // as regular widgets.
@@ -12,5 +12,5 @@ index b77fadc..520305a 100644
    }
 +#endif
  
-   gtk_widget_destroy(mShell);
-   mShell = nullptr;
+   // Owned by WaylandSurface or it's X11 ID,
+   // just drop the reference here.

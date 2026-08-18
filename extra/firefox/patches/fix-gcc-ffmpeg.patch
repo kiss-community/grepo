@@ -1,0 +1,20 @@
+# Shuffle -Wno-incompatible-pointer-types from clang-only to match with gcc as well.
+#
+# <+sam_> I'd expect that to fail with clang too, but I think only with >=22 (https://github.com/llvm/llvm-project/issues/74605)
+
+diff '--color=auto' -Naur a/media/ffvpx/ffvpxcommon.mozbuild b/media/ffvpx/ffvpxcommon.mozbuild
+--- a/media/ffvpx/ffvpxcommon.mozbuild	2026-04-20 19:12:06.303537185 +0300
++++ b/media/ffvpx/ffvpxcommon.mozbuild	2026-04-20 19:13:00.046200239 +0300
+@@ -35,11 +35,11 @@
+     '-Wno-unused-function',
+     # XXX This does not seem to have any effect on some versions of GCC.
+     '-Wno-deprecated-declarations',
++     '-Wno-incompatible-pointer-types',
+ ]
+ if CONFIG['CC_TYPE'] in ('clang', 'clang-cl'):
+     CFLAGS += [
+         '-Wno-absolute-value',
+-        '-Wno-incompatible-pointer-types',
+         '-Wno-string-conversion',
+         '-Wno-visibility',
+     ]

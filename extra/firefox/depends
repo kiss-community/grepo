@@ -27,6 +27,7 @@ pango
 pixman
 pkgconf       make
 python        make
+python-mako   make
 rust          make
 wayland
 wayland-protocols make

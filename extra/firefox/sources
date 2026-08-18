@@ -1,6 +1,6 @@
-https://ftp.mozilla.org/pub/firefox/releases/138.0.1/source/firefox-138.0.1.source.tar.xz
+https://ftp.mozilla.org/pub/firefox/releases/153.0.3/source/firefox-153.0.3.source.tar.xz
+patches/fix-gcc-ffmpeg.patch
 patches/fix-target-detection.patch
-patches/musl-sandbox.patch
 patches/no-atk.patch
 patches/no-dbus.patch
 patches/no-fribidi.patch
