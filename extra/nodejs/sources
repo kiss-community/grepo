@@ -1,1 +1,3 @@
-https://nodejs.org/download/release/v23.11.0/node-v23.11.0.tar.xz
+https://nodejs.org/download/release/v26.7.0/node-v26.7.0.tar.xz
+patches/libc++-malloc.patch
+patches/no-libatomic.patch
