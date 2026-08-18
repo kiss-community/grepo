@@ -1,4 +1,3 @@
-https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_110_RTM/src/nss-3.110.tar.gz
+https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_127_RTM/src/nss-3.127.tar.gz
 files/certdata.sh nss/lib/ckfw/builtins
-files/generated.hash
 patches/no-perl.patch
