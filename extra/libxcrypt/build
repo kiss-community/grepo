@@ -1,8 +1,13 @@
 #!/bin/sh -e
 
+# crypt has been dropped from glibc and it's
+# necessary for cyrus-sasl. It must be enabled
+# here with "--enable-obsolete-apci=glibc"
+
 ./configure \
     --prefix=/usr \
-    --disable-werror
+    --disable-werror \
+    --enable-obsolete-api=glibc
 
 make
 make DESTDIR="$1" install
