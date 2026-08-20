@@ -8,7 +8,8 @@ cmake -B build \
     -DCMAKE_BUILD_TYPE=Release \
     -DREDIS_STORAGE_BACKEND=OFF \
     -DENABLE_TESTING=OFF \
-    -DZSTD_LIBRARY=/usr/lib/libzstd.a
+    -DZSTD_LIBRARY=/usr/lib/libzstd.a \
+    -DXXHASH_LIBRARY=/usr/lib/libxxhash.a
 
 cmake --build   build
 cmake --install build

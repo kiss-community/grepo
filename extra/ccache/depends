@@ -1,2 +1,3 @@
-cmake make
-zstd  make
+cmake  make
+xxhash make
+zstd   make
