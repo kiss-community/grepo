@@ -1,5 +1,32 @@
+diff --git a/tools/all_errnos b/tools/all_errnos
+index de4fbf0..9e5dce4 100755
+--- a/tools/all_errnos
++++ b/tools/all_errnos
+@@ -1,9 +1,8 @@
+-#!/bin/bash
++#!/bin/sh
+ 
+ # Derived from all_syscalls.
+ 
+ set -e
+-set -o pipefail
+ 
+ SED="$1"
+ shift
+@@ -13,9 +12,9 @@ ERRNO_INCLUDES="
+ #include <sys/errno.h>
+ "
+ 
+-trap 'rm -f $OUTPUT $OUTPUT.deps' ERR
++trap '[ $? -eq 0 ] || rm -f $OUTPUT $OUTPUT.deps' EXIT
+ 
+-"$@" -MD -MF "$OUTPUT.deps" <<< "$ERRNO_INCLUDES" -dM -E - \
++echo "$ERRNO_INCLUDES" | "$@" -MD -MF "$OUTPUT.deps" -dM -E - \
+ 	| "$SED" -n -e 's/^[ \t]*#define[ \t]*E\([^ ]*\).*$/UL_ERRNO("E\1", E\1)/p' \
+ 	| sort \
+ 	> "$OUTPUT"
 diff --git a/tools/all_syscalls b/tools/all_syscalls
-index eccb0d0..3d7a34f 100755
+index d1a84e0..343e9c7 100755
 --- a/tools/all_syscalls
 +++ b/tools/all_syscalls
 @@ -1,7 +1,6 @@
@@ -11,7 +38,7 @@ index eccb0d0..3d7a34f 100755
  
  SED="$1"
  shift
-@@ -10,9 +9,9 @@ SYSCALL_INCLUDES="
+@@ -11,9 +10,9 @@ SYSCALL_INCLUDES="
  #include <sys/syscall.h>
  "
  
