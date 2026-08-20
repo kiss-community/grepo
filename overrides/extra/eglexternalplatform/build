@@ -1,6 +1,11 @@
 #!/bin/sh -e
 
-mkdir -p "$1/usr/include/EGL" "$1/usr/lib/pkgconfig"
+export DESTDIR="$1"
 
-cp interface/* "$1/usr/include/EGL/"
-cp ./*.pc "$1/usr/lib/pkgconfig/"
+meson setup \
+    -Dprefix=/usr \
+    -Dincludedir=include/EGL \
+    build
+
+ninja -C build
+ninja -C build install
