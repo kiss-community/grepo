@@ -1,4 +1,7 @@
 python
+python-flit-core make
 python-gpep517 make
 python-markupsafe
+python-installer make
+python-setuptools make
 python-wheel make
