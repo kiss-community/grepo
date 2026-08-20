@@ -1,9 +1,5 @@
-the previous default of 0, 1 causes opt-1 bytecode to also be generated,
-which is not used without passing `-O` to `python3` anyway, and doubles
-the size of the resulting package
-
 diff --git a/installer/__main__.py b/installer/__main__.py
-index 51014b9..2a389e8 100644
+index b7a7445..7bc62a3 100644
 --- a/installer/__main__.py
 +++ b/installer/__main__.py
 @@ -36,7 +36,7 @@ def _get_main_parser() -> argparse.ArgumentParser:
@@ -15,12 +11,12 @@ index 51014b9..2a389e8 100644
      )
      parser.add_argument(
          "--no-compile-bytecode",
-@@ -81,7 +81,7 @@ def _main(cli_args: Sequence[str], program: Optional[str] = None) -> None:
+@@ -94,7 +94,7 @@ def _main(cli_args: Sequence[str], program: str | None = None) -> None:
      if args.no_compile_bytecode:
          bytecode_levels = []
      elif not bytecode_levels:
 -        bytecode_levels = [0, 1]
 +        bytecode_levels = [0]
  
-     with WheelFile.open(args.wheel) as source:
-         destination = SchemeDictionaryDestination(
+     for wheel in args.wheel:
+         with WheelFile.open(wheel) as source:
