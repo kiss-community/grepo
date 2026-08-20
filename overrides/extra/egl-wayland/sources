@@ -1,2 +1,1 @@
-https://github.com/NVIDIA/egl-wayland/archive/refs/tags/1.1.11.tar.gz
-patches/0001-Destroy-all-created-wayland-object-in-terminateDispl.patch
+https://github.com/NVIDIA/egl-wayland/archive/refs/tags/1.1.21.tar.gz

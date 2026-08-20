@@ -2,11 +2,9 @@
 
 export DESTDIR="$1"
 
-patch -p1 < 0001-Destroy-all-created-wayland-object-in-terminateDispl.patch
-
-meson \
-    --prefix=/usr \
-    . output
+meson setup \
+    -Dprefix=/usr \
+    output
 
 ninja -C output
 ninja -C output install
