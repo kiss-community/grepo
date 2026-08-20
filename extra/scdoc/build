@@ -1,4 +1,7 @@
 #!/bin/sh -e
 
+sed 's/-Werror//' Makefile > _
+mv -f _ Makefile
+
 make PREFIX=/usr
 make PREFIX=/usr DESTDIR="$1" install
