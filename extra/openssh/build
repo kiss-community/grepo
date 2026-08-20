@@ -12,7 +12,6 @@
     --with-mantype=doc \
     --without-rpath \
     --disable-strip \
-    --with-ssl-engine \
     --with-pid-dir=/run \
     --disable-wtmp \
     --disable-utmp \
