@@ -6,6 +6,7 @@ meson setup \
     -Dprefix=/usr \
     -Dbuildtype=release \
     -Dime=false \
+    -Dwerror=false \
     output
 
 ninja -C output
