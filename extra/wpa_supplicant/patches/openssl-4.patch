@@ -1,0 +1,64 @@
+diff --git a/src/crypto/tls_openssl.c b/src/crypto/tls_openssl.c
+index 17283f9..c82e65f 100644
+--- a/src/crypto/tls_openssl.c
++++ b/src/crypto/tls_openssl.c
+@@ -1854,8 +1854,8 @@ static int tls_match_altsubject_component(X509 *cert, int type,
+ 		gen = sk_GENERAL_NAME_value(ext, i);
+ 		if (gen->type != type)
+ 			continue;
+-		if (os_strlen((char *) gen->d.ia5->data) == len &&
+-		    os_memcmp(value, gen->d.ia5->data, len) == 0)
++		if (os_strlen((char *) ASN1_STRING_get0_data(gen->d.ia5)) == len &&
++		    os_memcmp(value, ASN1_STRING_get0_data(gen->d.ia5), len) == 0)
+ 			found++;
+ 	}
+ 
+@@ -2176,10 +2176,10 @@ static int tls_match_suffix_helper(X509 *cert, const char *match,
+ 			continue;
+ 		dns_name++;
+ 		wpa_hexdump_ascii(MSG_DEBUG, "TLS: Certificate dNSName",
+-				  gen->d.dNSName->data,
+-				  gen->d.dNSName->length);
+-		if (domain_suffix_match(gen->d.dNSName->data,
+-					gen->d.dNSName->length,
++				  ASN1_STRING_get0_data(gen->d.dNSName),
++				  ASN1_STRING_length(gen->d.dNSName));
++		if (domain_suffix_match(ASN1_STRING_get0_data(gen->d.dNSName),
++					ASN1_STRING_length(gen->d.dNSName),
+ 					match, match_len, full) == 1) {
+ 			wpa_printf(MSG_DEBUG, "TLS: %s in dNSName found",
+ 				   full ? "Match" : "Suffix match");
+@@ -2210,8 +2210,10 @@ static int tls_match_suffix_helper(X509 *cert, const char *match,
+ 		if (cn == NULL)
+ 			continue;
+ 		wpa_hexdump_ascii(MSG_DEBUG, "TLS: Certificate commonName",
+-				  cn->data, cn->length);
+-		if (domain_suffix_match(cn->data, cn->length,
++				  ASN1_STRING_get0_data(cn),
++				  ASN1_STRING_length(cn));
++		if (domain_suffix_match(ASN1_STRING_get0_data(cn),
++					ASN1_STRING_length(cn),
+ 					match, match_len, full) == 1) {
+ 			wpa_printf(MSG_DEBUG, "TLS: %s in commonName found",
+ 				   full ? "Match" : "Suffix match");
+@@ -2420,7 +2422,7 @@ static void openssl_tls_cert_event(struct tls_connection *conn,
+ 		    gen->type != GEN_URI)
+ 			continue;
+ 
+-		pos = os_malloc(10 + gen->d.ia5->length + 1);
++		pos = os_malloc(10 + ASN1_STRING_length(gen->d.ia5) + 1);
+ 		if (pos == NULL)
+ 			break;
+ 		altsubject[num_altsubject++] = pos;
+@@ -2440,8 +2442,9 @@ static void openssl_tls_cert_event(struct tls_connection *conn,
+ 			break;
+ 		}
+ 
+-		os_memcpy(pos, gen->d.ia5->data, gen->d.ia5->length);
+-		pos += gen->d.ia5->length;
++		os_memcpy(pos, ASN1_STRING_get0_data(gen->d.ia5),
++		          ASN1_STRING_length(gen->d.ia5));
++		pos += ASN1_STRING_length(gen->d.ia5);
+ 		*pos = '\0';
+ 	}
+ 	sk_GENERAL_NAME_pop_free(ext, GENERAL_NAME_free);
