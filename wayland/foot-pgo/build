@@ -26,6 +26,7 @@ meson setup \
     -Dprefix=/usr \
     -Dbuildtype=release \
     -Dime=false \
+    -Dwerror=false \
     ../..
 
 # Generate PGO data.
