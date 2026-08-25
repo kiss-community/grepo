@@ -24,10 +24,10 @@ index 4871272..a997d3f 100644
          .define("CURL_DISABLE_DICT", None)
          .define("CURL_DISABLE_GOPHER", None)
          .define("CURL_DISABLE_IMAP", None)
-diff --git a/vendor/curl-sys-0.4.88+curl-8.20.0/build.rs b/vendor/curl-sys-0.4.88+curl-8.20.0/build.rs
-index 0441955..8c1d23d 100644
---- a/vendor/curl-sys-0.4.88+curl-8.20.0/build.rs
-+++ b/vendor/curl-sys-0.4.88+curl-8.20.0/build.rs
+diff --git a/vendor/curl-sys-0.4.90+curl-8.21.0/build.rs b/vendor/curl-sys-0.4.90+curl-8.21.0/build.rs
+index 5ae0ed8..46f0298 100644
+--- a/vendor/curl-sys-0.4.90+curl-8.21.0/build.rs
++++ b/vendor/curl-sys-0.4.90+curl-8.21.0/build.rs
 @@ -106,6 +106,8 @@ fn main() {
          .include("curl/lib")
          .include("curl/include")
