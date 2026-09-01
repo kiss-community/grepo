@@ -46,5 +46,5 @@ export CPPFLAGS="$CPPFLAGS -I$DESTDIR/usr/include/freetype2"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DESTDIR/usr/lib" 
 
 build_freetype -Dharfbuzz=disabled
-build_harfbuzz
+CXXFLAGS="$CXXFLAGS -fno-exceptions" build_harfbuzz
 build_freetype -Dharfbuzz=enabled --reconfigure
