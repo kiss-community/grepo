@@ -1,4 +1,4 @@
-https://ftp.mozilla.org/pub/firefox/releases/154.0.1/source/firefox-154.0.1.source.tar.xz
+https://ftp.mozilla.org/pub/firefox/releases/155.0/source/firefox-155.0.source.tar.xz
 patches/fix-gcc-ffmpeg.patch
 patches/fix-target-detection.patch
 patches/no-atk.patch
