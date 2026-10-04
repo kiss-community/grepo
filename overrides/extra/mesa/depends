@@ -1,7 +1,6 @@
 bison make
 expat
 flex make
-libclc make
 libdrm
 libelf
 libglvnd
@@ -10,6 +9,7 @@ m4 make
 meson make
 pkgconf make
 python-mako make
+python-setuptools make
 python-yaml make
 spirv-llvm-translator make
 wayland
