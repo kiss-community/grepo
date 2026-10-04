@@ -1,0 +1,11 @@
+diff --git a/third_party/parakeet.cpp/src/backend.hpp b/third_party/parakeet.cpp/src/backend.hpp
+index d534ec9..f17ec23 100644
+--- a/third_party/parakeet.cpp/src/backend.hpp
++++ b/third_party/parakeet.cpp/src/backend.hpp
+@@ -1,5 +1,6 @@
+ #pragma once
+ #include <cstddef>
++#include <cstdint>
+ #include <functional>
+ #include <string>
+ #include <vector>
