@@ -19,7 +19,7 @@ cmake -B build \
     -DLLVM_INCLUDE_TESTS=OFF \
     -DLLVM_ENABLE_TERMINFO=OFF \
     -DLLVM_ENABLE_LIBXML2=OFF \
-    -Wno-dev
+    -Wno-author
 
 cmake --build   build
 cmake --install build
