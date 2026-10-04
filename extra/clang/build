@@ -14,7 +14,7 @@ cmake -B build \
     -DCLANG_INCLUDE_DOCS=OFF \
     -DCLANG_INCLUDE_TESTS=OFF \
     -DLIBCLANG_BUILD_STATIC=ON \
-    -Wno-dev
+    -Wno-author
 
 cmake --build   build
 cmake --install build
