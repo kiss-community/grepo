@@ -1,4 +1,0 @@
-clang make
-cmake make
-llvm make
-python make
