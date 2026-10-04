@@ -1,14 +1,8 @@
-commit 77fdabaebe1db7ac3af8f7ab6ec75e143982b4d4
-Author: q66 <q66@chimera-linux.org>
-Date:   Fri Apr 21 18:47:37 2023 +0200
-
-    drop -latomic (none in pure-llvm env)
-
 diff --git a/node.gyp b/node.gyp
-index f092c332..ddbd8085 100644
+index 52f421f..ccafd6e 100644
 --- a/node.gyp
 +++ b/node.gyp
-@@ -505,9 +505,6 @@
+@@ -578,9 +578,6 @@
            '-Wl,-bnoerrmsg',
          ],
        }],
@@ -19,10 +13,10 @@ index f092c332..ddbd8085 100644
    },
  
 diff --git a/tools/v8_gypfiles/v8.gyp b/tools/v8_gypfiles/v8.gyp
-index 4ed21761..b00c158b 100644
+index 819dffb..bb3c494 100644
 --- a/tools/v8_gypfiles/v8.gyp
 +++ b/tools/v8_gypfiles/v8.gyp
-@@ -1084,14 +1084,6 @@
+@@ -1401,14 +1401,6 @@
          ['v8_postmortem_support', {
            'dependencies': ['postmortem-metadata#target'],
          }],
@@ -34,6 +28,6 @@ index 4ed21761..b00c158b 100644
 -            'libraries': ['-latomic', ],
 -          },
 -        }],
-       ],
-     },  # v8_base_without_compiler
-     {
+         ['node_shared_abseil=="false"', {
+           'dependencies': ['abseil.gyp:abseil'],
+         }],
