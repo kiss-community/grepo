@@ -1,3 +1,2 @@
-https://nodejs.org/download/release/v26.10.0/node-v26.10.0.tar.xz
-patches/libc++-malloc.patch
+https://nodejs.org/download/release/v26.11.1/node-v26.11.1.tar.xz
 patches/no-libatomic.patch
