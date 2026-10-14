@@ -1,0 +1,25 @@
+diff --git a/deps/LIEF/third-party/frozen/include/frozen/map.h b/deps/LIEF/third-party/frozen/include/frozen/map.h
+index cb3e3a28..841d8dc3 100644
+--- a/deps/LIEF/third-party/frozen/include/frozen/map.h
++++ b/deps/LIEF/third-party/frozen/include/frozen/map.h
+@@ -29,6 +29,7 @@
+ #include "frozen/bits/mpl.h"
+ #include "frozen/bits/version.h"
+ 
++#include <functional>
+ #include <iterator>
+ #include <utility>
+ 
+diff --git a/deps/LIEF/third-party/frozen/include/frozen/set.h b/deps/LIEF/third-party/frozen/include/frozen/set.h
+index edf1ad17..0d748555 100644
+--- a/deps/LIEF/third-party/frozen/include/frozen/set.h
++++ b/deps/LIEF/third-party/frozen/include/frozen/set.h
+@@ -28,6 +28,7 @@
+ #include "frozen/bits/version.h"
+ #include "frozen/bits/defines.h"
+ 
++#include <functional>
+ #include <iterator>
+ #include <utility>
+ 
+

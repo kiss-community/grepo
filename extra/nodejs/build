@@ -7,6 +7,9 @@ case $("$CC" -print-file-name=libatomic.so) in */*) ;; *)
     patch -p1 < no-libatomic.patch
 esac
 
+# Missing include for libc++ 
+patch -p1 < fix-lief-libc++.patch 
+
 ./configure \
     --shared-zlib \
     --shared-openssl \
