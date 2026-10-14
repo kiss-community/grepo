@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < openssl-4.patch
-
 CFLAGS="$CFLAGS $(pkg-config --cflags libnl-tiny)"
 export CFLAGS
 
