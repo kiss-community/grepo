@@ -1,3 +1,3 @@
-https://nodejs.org/download/release/v26.11.1/node-v26.11.1.tar.xz
+https://nodejs.org/download/release/v26.12.0/node-v26.12.0.tar.xz
 patches/fix-lief-libc++.patch 
 patches/no-libatomic.patch
