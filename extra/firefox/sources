@@ -1,5 +1,4 @@
-https://ftp.mozilla.org/pub/firefox/releases/158.0.1/source/firefox-158.0.1.source.tar.xz
-patches/fix-audio_thread_priority-musl.patch
+https://ftp.mozilla.org/pub/firefox/releases/159.0/source/firefox-159.0.source.tar.xz
 patches/fix-gcc-ffmpeg.patch
 patches/fix-musl-parakeet.patch
 patches/fix-musl-redefined-prctl_mm_map.patch
