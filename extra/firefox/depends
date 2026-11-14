@@ -28,6 +28,7 @@ pixman
 pkgconf       make
 python        make
 python-mako   make
+python-yaml   make
 rust          make
 wayland
 wayland-protocols make
