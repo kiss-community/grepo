@@ -1,18 +1,8 @@
-NOTE: The official and community repositories have been shifted to b3sum
-      checksums. Running `kiss U` should be enough to complete the transition.
+NOTE: Perl will very likely be readded to this repository. Maintaining
+      patches and providing generated files is far more cumbersome than
+      just maintaining a perl package.
 
-NOTE: sha256 checksums have been preserved for `b3sum` and `kiss` to allow
-      updating old systems. In order to rebuild them, they must temporarily be
-      forked with `kiss fork` and `kiss checksum` and rebuilt until their
-      checksums are updated to b3sum checksums.
-
-NOTE: libcrypt files might be absent after updating to glibc 2.38, this is
-      caused by alternatives being created when installing libxcrypt on
-      older glibc, so either rebuild libcrypt, or run the following command
-      to restore alternatives to point to libxcrypt:
-
-          `kiss a | grep libxcrypt | kiss a -`
-
-NOTE: gcc must be re-built after updating to glibc 2.40 to prevent
-      build failures:
-          https://inbox.sourceware.org/libc-help/871q2rmnpq.fsf@oldenburg.str.redhat.com/T/#t
+NOTE: OpenSSL has been updated to 4.0. Anything compiled against its
+      libraries will need to be rebuilt, and may need to be patched.
+      Everything in this repository has been versioned accordingly, but
+      other repositories may need manual intervention.
